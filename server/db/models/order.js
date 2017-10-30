@@ -15,7 +15,23 @@ const Order = db.define('order', {
     allowNull: false,
     validate: { isEmail: true },
   },
+  orderDate: {
+    type: Sequelize.DATE
+  },
+  sessionId: {
+    type: Sequelize.STRING
+    // is this a string? or int? what is session? who am I? what is this?
+  }
+}, {
+  getterMethods: {
+    totalPrice() {
+      return this.items.reduce((a, b) => a + b.price);
+    }
+  }
 });
+
+// totalPrice needs eager loading to load item objects
+// address should be setter method from multiple form fields
 
 module.exports = Order;
 
