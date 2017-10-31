@@ -1,12 +1,13 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import ProductCell from './ProductCell';
+import {fetchProducts} from '../reducers/productReducer';
 
 const Products = props => {
 
   const changeCategory = event => {
-    this.props.categoryProducts = props.allProducts.filter(product => {
-      return product.category === event.target.value;
+    props.categoryProducts = props.allProducts.filter(product => {
+      return product.categoryId === event.target.value;
     });
   };
 
@@ -15,11 +16,15 @@ const Products = props => {
       <div id="filter-bar">
         <h4>Category</h4>
         <form onSubmit={changeCategory}>
-          <select>
-            <option value="default">Choose a category</option>
-            <option value="1">Category 1</option>
-            <option value="2">Category 2</option>
-            <option value="3">Category 3</option>
+        <select>
+          <option value="default">Choose a category</option>
+            {
+              props.allCategories.map(category => {
+                return (
+                  <option key={category.id} value={category.id}>{category.name}</option>
+                );
+              })
+            }
           </select>
           <input type="submit" value="filter" />
         </form>
@@ -27,7 +32,7 @@ const Products = props => {
 
       <div>
         {
-          this.props.categoryProducts.map(product => {
+          props.categoryProducts.map(product => {
             return (
               <ProductCell key={product.id} product={product} />
             );
@@ -44,8 +49,14 @@ const Products = props => {
 const mapState = (state) => {
   return {
     allProducts: state.allProducts,
-    categoryProducts: state.categoryProducts,
+    // categoryProducts: state.categoryProducts,
   };
 };
 
-export default connect(mapState)(Products);
+const mapDispatch = dispatch => ({
+  fetchProducts: () => {
+    dispatch(fetchProducts());
+  }
+});
+
+export default connect(mapState, mapDispatch)(Products);

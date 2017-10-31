@@ -6,5 +6,5 @@
 export {default as Main} from './main';
 export {default as UserHome} from './user-home';
 export {Login, Signup} from './auth-form';
-export {Products} from './Products';
-export {ProductCell} from './ProductCell';
+export {default as Products} from './Products';
+export {default as ProductCell} from './ProductCell';
