@@ -19,7 +19,10 @@ Order.belongsTo(User);
 
 Review.belongsTo(User);
 Review.belongsTo(Product);
-User.hasMany(Review);
+User.hasMany(Review, {
+  onDelete: 'cascade',
+  hooks: true,
+});
 Product.hasMany(Review);
 
 /**
@@ -33,5 +36,5 @@ module.exports = {
   Order,
   Category,
   Product,
-  Review
+  Review,
 };

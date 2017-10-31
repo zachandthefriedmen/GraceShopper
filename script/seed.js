@@ -10,7 +10,7 @@
  * Now that you've got the main idea, check it out in practice below!
  */
 const db = require('../server/db');
-const {User, Order} = require('../server/db/models');
+const {User, Order, Category, Product, Review} = require('../server/db/models');
 
 async function seed () {
   await db.sync({force: true});
@@ -56,9 +56,57 @@ async function seed () {
       address: 'Chili Thor, 123 Bark Boulevard, Chicago, IL 60607'
     }),
   ]);
-  // orders[0].setUser(1);
-  // orders[1].setUser(2);
+  await orders[0].setUser(1);
+  await orders[1].setUser(2);
   console.log(`seeded ${orders.length} orders`);
+
+  const categories = await Promise.all([
+    Category.create({ name: 'leashes' }),
+    Category.create({ name: 'treats' }),
+  ]);
+  console.log(`seeded ${categories.length} orders`);
+
+  const products = await Promise.all([
+    Product.create({
+      name: 'Super Duper Leash',
+      price: 36.95,
+      images: ['https://img.chewy.com/is/catalog/67364_MAIN._AC_SL1500_V1477926503_.jpg',
+        'https://img.chewy.com/is/catalog/104017_MAIN._AC_SL1500_V1477485456_.jpg'],
+      description: 'This is the coolest leash you have EVER seen! It also will never break.',
+      rating: 2.3,
+      available: true,
+    }),
+    Product.create({
+      name: 'Delicious Bone',
+      price: 4.99,
+      images: ['https://s7d1.scene7.com/is/image/PETCO/2178937-right-1',
+        'https://www.bestbullysticks.com/content/images/thumbs/0005502_monster-dog-bone-14-18-inches.jpeg'],
+      description: "This bone is HUGE. We're talkin' MASSIVE. It's literally a femur.",
+      rating: 4.7,
+      available: false,
+     }),
+  ]);
+  await products[0].addCategory(1);
+  await products[1].addCategory(2);
+  console.log(`seeded ${products.length} orders`);
+
+  const reviews = await Promise.all([
+    Review.create({
+      stars: 5,
+      title: 'This leash will never break',
+      body: "I bought this leash and it hasn't broken. So it'll never break! 5 stars",
+    }),
+    Review.create({
+      stars: 2,
+      title: 'This bone broke',
+      body: "My dog chewed on this bone and it broke within 2 weeks. It's garbage.",
+     }),
+  ]);
+  await reviews[0].setUser(1);
+  await reviews[0].setProduct(1);
+  await reviews[1].setUser(2);
+  await reviews[1].setProduct(2);
+  console.log(`seeded ${reviews.length} orders`);
 
   console.log(`seeded successfully`);
 }
