@@ -15,11 +15,15 @@ const User = db.define('user', {
     type: Sequelize.STRING,
     unique: true,
     allowNull: false,
+    validate: { isEmail: true },
   },
-  orderHistory: {
-    type: Sequelize.ARRAY(Sequelize.INT),
-    defaultValue: [],
-  },
+
+  // replace this with association table
+
+  // orderHistory: {
+  //   type: Sequelize.ARRAY(Sequelize.INT),
+  //   defaultValue: [],
+  // },
   password: {
     type: Sequelize.STRING
   },

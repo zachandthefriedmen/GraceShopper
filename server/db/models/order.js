@@ -3,8 +3,9 @@ const db = require('../db');
 
 const Order = db.define('order', {
   items: {
-    type: Sequelize.ARRAY(Sequelize.INT),
+    type: Sequelize.ARRAY(Sequelize.JSON),
     defaultValue: [],
+    // [{productId: 1, qty: 2, price: 4.65}]
   },
   status: {
     type: Sequelize.ENUM('open', 'created', 'processing', 'cancelled', 'completed')
@@ -20,12 +21,18 @@ const Order = db.define('order', {
   },
   sessionId: {
     type: Sequelize.STRING
-    // is this a string? or int? what is session? who am I? what is this?
+  },
+  address: {
+    type: Sequelize.STRING,
+    allowNull: false
   }
 }, {
   getterMethods: {
     totalPrice() {
-      return this.items.reduce((a, b) => a + b.price);
+      return this.items.reduce((a, b) => a + (b.price * b.qty), 0).toFixed(2);
+    },
+    totalQuantity () {
+      return this.items.reduce((a, b) => a + b.qty, 0);
     }
   }
 });
