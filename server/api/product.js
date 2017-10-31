@@ -8,14 +8,14 @@ router.get('/', async (req, res, next) => {
 });
 
 router.get('/:id', async (req, res, next) => {
-  try { res.json(await Product.findById(req.params.id)); }
+  try { res.json(await Product.findById(req.params.id,
+    { include: [Category] })); }
   catch (err) { next(err); }
 });
 
 router.put('/:id', async (req, res, next) => {
   try {
-    const product = await Product.findById(req.params.id,
-      { include: [Category] });
+    const product = await Product.findById(req.params.id);
     product.update(req.body);
     res.sendStatus(202);
   }
