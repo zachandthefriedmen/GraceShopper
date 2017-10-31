@@ -15,15 +15,14 @@ const Order = db.define('order', {
     allowNull: false,
     validate: { isEmail: true },
   },
-  orderDate: {
-    type: Sequelize.DATE
-  },
+  orderDate: { type: Sequelize.DATE },
   sessionId: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
+    allowNull: false,
   },
   address: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
   }
 }, {
   getterMethods: {
