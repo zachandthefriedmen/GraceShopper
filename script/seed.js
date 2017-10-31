@@ -32,6 +32,13 @@ async function seed () {
       email: 'murphy@email.com',
       password: '123',
       admin: false,
+    }),
+    User.create({
+      firstName: 'Marty',
+      lastName: 'Feelgood',
+      email: 'marty@feel.good',
+      password: '123',
+      admin: false,
     })
   ]);
   // Wowzers! We can even `await` on the right-hand side of the assignment operator
