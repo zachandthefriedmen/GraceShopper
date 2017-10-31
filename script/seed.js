@@ -56,6 +56,8 @@ async function seed () {
       address: 'Chili Thor, 123 Bark Boulevard, Chicago, IL 60607'
     }),
   ]);
+  // orders[0].setUser(1);
+  // orders[1].setUser(2);
   console.log(`seeded ${orders.length} orders`);
 
   console.log(`seeded successfully`);

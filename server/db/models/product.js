@@ -15,7 +15,7 @@ const Product = db.define('product', {
   description: Sequelize.TEXT,
   rating: Sequelize.FLOAT,
   available: {
-    type: Sequelize.BOOL,
+    type: Sequelize.BOOLEAN,
     allowNull: false,
   }
 }, {
