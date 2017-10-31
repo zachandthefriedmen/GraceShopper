@@ -8,30 +8,34 @@ const initialState = {
 //ACTION TYPES
 const GET_ALL_PRODUCTS = 'GET_ALL_PRODUCTS';
 const GET_PRODUCT = 'GET_PRODUCT';
-const EDIT_PRODUCT = 'EDIT_PRODUCT';
+const PUT_PRODUCT = 'PUT_PRODUCT';
+const POST_PRODUCT = 'POST_PRODUCT';
 
 //ACTION CREATORS
-const getAllProducts = products => ({ type: GET_ALL_PRODUCTS, products });
-const getProduct = product => ({ type: GET_PRODUCT, product });
-const editProduct = product => ({ type: EDIT_PRODUCT, product });
+const getAllProducts = allProducts => ({ type: GET_ALL_PRODUCTS, allProducts });
+const getProduct = id => ({ type: GET_PRODUCT, id });
+const putProduct = product => ({ type: PUT_PRODUCT, product });
+const postProduct = product => ({ type: POST_PRODUCT, product });
 
 //REDUCERS
 export default function (state = initialState, action) {
   switch (action.type) {
     case GET_ALL_PRODUCTS:
-      return Object.assign({}, state, { allProducts: action.allProducts });
+      return action.allProducts;
 
     case GET_PRODUCT:
-      return Object.assign({}, state, { singleProduct: action.singleProduct });
+      return action.singleProduct;
 
-    case EDIT_PRODUCT:
-      return Object.assign({}, state, { allProducts: state.allProducts.map(
-        product => {
-          if (product.id === action.product.id) {
-            return action.product;
+    case PUT_PRODUCT:
+      return state.allProducts.map(product => {
+          if (product.id === action.singleProduct.id) {
+            return action.singleProduct;
           }
         }
-      )});
+      );
+
+    case POST_PRODUCT:
+      return [...state.allProducts, action.singleProduct];
 
     default:
       return state;
@@ -39,3 +43,30 @@ export default function (state = initialState, action) {
 }
 
 //THUNKS
+export const fetchProducts = () => dispatch => {
+  axios.get('/api/products')
+    .then(res => res.data)
+    .then(products => dispatch(getAllProducts(products))
+    .catch(err => console.error('Fetching products unsuccessful: ', err)));
+  };
+
+export const fetchProduct = id => dispatch => {
+  axios.get(`/api/products/${id}`)
+    .then(res => res.data)
+    .then(product => dispatch(getProduct(product))
+    .catch(err => console.error('Fetching product unsuccessful: ', err)));
+};
+
+export const editProduct = (id, singleProduct) => dispatch => {
+  axios.put(`/api/products/${id}`, singleProduct)
+    .then(res => res.data)
+    .then(product => dispatch(putProduct(product))
+    .catch(err => console.error('Editing product unsuccessful: ', err)));
+};
+
+export const createProduct = singleProduct => dispatch => {
+  axios.post('/api/products', singleProduct)
+    .then(res => res.data)
+    .then(product => dispatch(postProduct(product))
+    .catch(err => console.error('Creating product unsuccessful: ', err)));
+};
