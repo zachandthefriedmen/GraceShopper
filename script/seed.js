@@ -10,10 +10,10 @@
  * Now that you've got the main idea, check it out in practice below!
  */
 const db = require('../server/db');
-const {User, Order, Category, Product, Review} = require('../server/db/models');
+const { User, Order, Category, Product, Review } = require('../server/db/models');
 
-async function seed () {
-  await db.sync({force: true});
+async function seed() {
+  await db.sync({ force: true });
   console.log('db synced!');
   // Whoa! Because we `await` the promise that db.sync returns, the next line will not be
   // executed until that promise resolves!
@@ -47,19 +47,21 @@ async function seed () {
 
   const orders = await Promise.all([
     Order.create({
-      items: [{productId: 1, qty: 2, price: 4.65},
-              {productId: 2, qty: 154, price: 0.99}],
+      items: [{ productId: 1, qty: 2, price: 4.65 },
+      { productId: 2, qty: 154, price: 0.99 }],
       status: 'open',
       email: 'bento@dogs.woof',
       orderDate: new Date(),
+      sessionId: 'new session',
       address: 'Bento Thor, 123 Dog Street, Chicago, IL 60608'
     }),
     Order.create({
-      items: [{productId: 4, qty: 4, price: 4.00},
-              {productId: 24, qty: 1, price: 1900.99}],
+      items: [{ productId: 4, qty: 4, price: 4.00 },
+      { productId: 24, qty: 1, price: 1900.99 }],
       status: 'completed',
       email: 'chili@dogs.woof',
       orderDate: new Date(),
+      sessionId: 'new session',
       address: 'Chili Thor, 123 Bark Boulevard, Chicago, IL 60607'
     }),
   ]);
@@ -71,7 +73,7 @@ async function seed () {
     Category.create({ name: 'leashes' }),
     Category.create({ name: 'treats' }),
   ]);
-  console.log(`seeded ${categories.length} orders`);
+  console.log(`seeded ${categories.length} categories`);
 
   const products = await Promise.all([
     Product.create({
@@ -91,11 +93,11 @@ async function seed () {
       description: "This bone is HUGE. We're talkin' MASSIVE. It's literally a femur.",
       rating: 4.7,
       available: false,
-     }),
+    }),
   ]);
   await products[0].addCategory(1);
   await products[1].addCategory(2);
-  console.log(`seeded ${products.length} orders`);
+  console.log(`seeded ${products.length} products`);
 
   const reviews = await Promise.all([
     Review.create({
@@ -107,13 +109,13 @@ async function seed () {
       stars: 2,
       title: 'This bone broke',
       body: "My dog chewed on this bone and it broke within 2 weeks. It's garbage.",
-     }),
+    }),
   ]);
   await reviews[0].setUser(1);
   await reviews[0].setProduct(1);
   await reviews[1].setUser(2);
   await reviews[1].setProduct(2);
-  console.log(`seeded ${reviews.length} orders`);
+  console.log(`seeded ${reviews.length} reviews`);
 
   console.log(`seeded successfully`);
 }
