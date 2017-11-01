@@ -73,7 +73,7 @@ async function seed() {
     Category.create({ name: 'leashes' }),
     Category.create({ name: 'treats' }),
   ]);
-  console.log(`seeded ${categories.length} orders`);
+  console.log(`seeded ${categories.length} categories`);
 
   const products = await Promise.all([
     Product.create({
@@ -97,7 +97,7 @@ async function seed() {
   ]);
   await products[0].addCategory(1);
   await products[1].addCategory(2);
-  console.log(`seeded ${products.length} orders`);
+  console.log(`seeded ${products.length} products`);
 
   const reviews = await Promise.all([
     Review.create({
@@ -115,7 +115,7 @@ async function seed() {
   await reviews[0].setProduct(1);
   await reviews[1].setUser(2);
   await reviews[1].setProduct(2);
-  console.log(`seeded ${reviews.length} orders`);
+  console.log(`seeded ${reviews.length} reviews`);
 
   console.log(`seeded successfully`);
 }
