@@ -5,10 +5,12 @@ import {fetchProducts} from '../reducers/productReducer';
 
 const Products = props => {
 
+  const allProducts = [ {id: 1, name: 'Leash', price: 4.95, description: 'This is the coolest leash you have EVER seen! It also will never break.', image: ['https://img.chewy.com/is/catalog/67364_MAIN._AC_SL1500_V1477926503_.jpg','https://img.chewy.com/is/catalog/104017_MAIN._AC_SL1500_V1477485456_.jpg']}, {id: 2, name: 'Bone', price: 0.95, description: 'This is a bone.', image: ['https://img.chewy.com/is/catalog/67364_MAIN._AC_SL1500_V1477926503_.jpg','https://img.chewy.com/is/catalog/104017_MAIN._AC_SL1500_V1477485456_.jpg']} ];
+
   const changeCategory = event => {
-    props.categoryProducts = props.allProducts.filter(product => {
-      return product.categoryId === event.target.value;
-    });
+    // props.categoryProducts = props.allProducts.filter(product => {
+    //   return product.categoryId === event.target.value;
+    // });
   };
 
   return (
@@ -19,11 +21,11 @@ const Products = props => {
         <select>
           <option value="default">Choose a category</option>
             {
-              props.allCategories.map(category => {
-                return (
-                  <option key={category.id} value={category.id}>{category.name}</option>
-                );
-              })
+              // props.allCategories.map(category => {
+              //   return (
+              //     <option key={category.id} value={category.id}>{category.name}</option>
+              //   );
+              // })
             }
           </select>
           <input type="submit" value="filter" />
@@ -32,7 +34,7 @@ const Products = props => {
 
       <div>
         {
-          props.categoryProducts.map(product => {
+          allProducts.map(product => {
             return (
               <ProductCell key={product.id} product={product} />
             );
@@ -49,7 +51,6 @@ const Products = props => {
 const mapState = (state) => {
   return {
     allProducts: state.allProducts,
-    // categoryProducts: state.categoryProducts,
   };
 };
 
