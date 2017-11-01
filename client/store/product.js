@@ -36,7 +36,7 @@ export default function reducer(products = [], action) {
 }
 
 /* ------------   THUNK CREATORS     ------------------ */
-export const fetchProducts = async dispatch => {
+export const fetchProducts = () => async dispatch => {
   try { dispatch(getProducts(await axios.get('/api/product/'))); }
   catch (err) { console.error('Fetching products unsuccessful', err); }
 };

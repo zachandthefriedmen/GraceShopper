@@ -1,3 +1,10 @@
+/*
+
+NEEDS TO BE MERGED INTO user.js REDUCER FILE
+
+*/
+
+
 import axios from 'axios';
 
 /* -----------------    ACTION TYPES ------------------ */
