@@ -17,13 +17,6 @@ const User = db.define('user', {
     allowNull: false,
     validate: { isEmail: true },
   },
-
-  // replace this with association table
-
-  // orderHistory: {
-  //   type: Sequelize.ARRAY(Sequelize.INT),
-  //   defaultValue: [],
-  // },
   password: {
     type: Sequelize.STRING
   },

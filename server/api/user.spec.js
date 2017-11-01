@@ -11,7 +11,7 @@ describe('User routes', () => {
     return db.sync({force: true})
   })
 
-  describe('/api/users/', () => {
+  describe('/api/user/', () => {
     const codysEmail = 'cody@puppybook.com'
 
     beforeEach(() => {
@@ -20,9 +20,9 @@ describe('User routes', () => {
       })
     })
 
-    it('GET /api/users', () => {
+    it('GET /api/user', () => {
       return request(app)
-        .get('/api/users')
+        .get('/api/user')
         .expect(200)
         .then(res => {
           expect(res.body).to.be.an('array')
