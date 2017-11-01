@@ -11,7 +11,8 @@ const PUT_PRODUCT = 'PUT_PRODUCT';
 
 const getProducts = products => ({ type: GET_PRODUCTS, products });
 const postProduct = product => ({ type: POST_PRODUCT, product });
-const deleteProduct = id => ({ type: DELETE_PRODUCT, id });
+// we don't want to delete products at the moment, keeping code in case we want to re-implement
+// const deleteProduct = id => ({ type: DELETE_PRODUCT, id }); 
 const putProduct = product => ({ type: POST_PRODUCT, product });
 
 /* ------------       REDUCERS     ------------------ */
@@ -24,8 +25,9 @@ export default function reducer(products = [], action) {
     case POST_PRODUCT:
       return [...products, action.product];
 
-    case DELETE_PRODUCT:
-      return products.filter(product => product.id !== action.id);
+      // we don't want to delete products at the moment, keeping code in case we want to re-implement
+    // case DELETE_PRODUCT:
+    //   return products.filter(product => product.id !== action.id);
 
     case PUT_PRODUCT:
       return products.map(product => (action.product.id === product.id ? action.product : product));
@@ -46,12 +48,13 @@ export const createProduct = product => async dispatch => {
   catch (err) { console.error('Posting product unsuccessful', err); }
 };
 
-export const removeProduct = id => async dispatch => {
-  // Optimistic
-  dispatch(deleteProduct(id));
-  try { await axios.delete(`api/product/${id}`); }
-  catch (err) { console.error('Deleting product unsuccessful', err); }
-};
+// we don't want to delete products at the moment, keeping code in case we want to re-implement
+// export const removeProduct = id => async dispatch => {
+//   // Optimistic
+//   dispatch(deleteProduct(id));
+//   try { await axios.delete(`api/product/${id}`); }
+//   catch (err) { console.error('Deleting product unsuccessful', err); }
+// };
 
 export const editProduct = (id, product) => async dispatch => {
   try { dispatch(putProduct(await axios.put(`api/product/${id}`, product))); }
