@@ -9,51 +9,51 @@ const PUT_ORDER = 'PUT_ORDER';
 
 /* ------------   ACTION CREATORS     ------------------ */
 
-const getOrders = products => ({ type: GET_ORDERS, products });
-const postOrder = product => ({ type: POST_ORDER, product });
+const getOrders = orders => ({ type: GET_ORDERS, orders });
+const postOrder = order => ({ type: POST_ORDER, order });
 const deleteOrder = id => ({ type: DELETE_ORDER, id }); 
-const putOrder = product => ({ type: POST_ORDER, product });
+const putOrder = order => ({ type: POST_ORDER, order });
 
 /* ------------       REDUCERS     ------------------ */
-export default function reducer(products = [], action) {
+export default function reducer(orders = [], action) {
   switch (action.type) {
 
     case GET_ORDERS:
-      return action.products;
+      return action.orders;
 
     case POST_ORDER:
-      return [...products, action.product];
+      return [...orders, action.order];
 
     case DELETE_ORDER:
-      return products.filter(product => product.id !== action.id);
+      return orders.filter(order => order.id !== action.id);
 
     case PUT_ORDER:
-      return products.map(product => (action.product.id === product.id ? action.product : product));
+      return orders.map(order => (action.order.id === order.id ? action.order : order));
 
     default:
-      return products;
+      return orders;
   }
 }
 
 /* ------------   THUNK CREATORS     ------------------ */
 export const fetchOrders = () => async dispatch => {
-  try { dispatch(getOrders(await axios.get('/api/product/'))); }
-  catch (err) { console.error('Fetching products unsuccessful', err); }
+  try { dispatch(getOrders(await axios.get('/api/order/'))); }
+  catch (err) { console.error('Fetching orders unsuccessful', err); }
 };
 
-export const createOrder = product => async dispatch => {
-  try { dispatch(postOrder(await axios.post('api/product/', product))); }
-  catch (err) { console.error('Posting product unsuccessful', err); }
+export const createOrder = order => async dispatch => {
+  try { dispatch(postOrder(await axios.post('api/order/', order))); }
+  catch (err) { console.error('Posting order unsuccessful', err); }
 };
 
 export const removeOrder = id => async dispatch => {
   // Optimistic
   dispatch(deleteOrder(id));
-  try { await axios.delete(`api/product/${id}`); }
-  catch (err) { console.error('Deleting product unsuccessful', err); }
+  try { await axios.delete(`api/order/${id}`); }
+  catch (err) { console.error('Deleting order unsuccessful', err); }
 };
 
-export const editOrder = (id, product) => async dispatch => {
-  try { dispatch(putOrder(await axios.put(`api/product/${id}`, product))); }
+export const editOrder = (id, order) => async dispatch => {
+  try { dispatch(putOrder(await axios.put(`api/order/${id}`, order))); }
   catch (err) { console.error('Updating student unsuccessful', err); }
 };
