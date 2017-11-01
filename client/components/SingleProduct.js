@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
  * COMPONENT
  */
 export const SingleProduct = (props) => {
+  // Leftover code from user-home.js (component this was based off of) in case someone else needs it later
+  // const {email} = props
 
   //Dummy data from Products
   const allProducts = [{ id: 1, name: 'Leash', price: 4.95, description: 'This is the coolest leash you have EVER seen! It also will never break.', image: 'https://www.placecage.com/200/300' }, { id: 2, name: 'Bone', price: 0.95, description: 'This is a bone.', image: 'https://www.placecage.com/g/200/300' }];
@@ -44,7 +46,17 @@ export const SingleProduct = (props) => {
  */
 const mapState = (state) => {
   return {
-  };
-};
+    // Leftover code from boilerplate user-home.js
+    // email: state.user.email
+  }
+}
 
 export default connect(mapState)(SingleProduct);
+
+/**
+ * PROP TYPES
+ */
+// Leftover code from user-home.js
+// UserHome.propTypes = {
+//   email: PropTypes.string
+// }
