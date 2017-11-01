@@ -3,13 +3,16 @@ import axios from 'axios';
 /* -----------------    ACTION TYPES ------------------ */
 
 const GET_PRODUCTS = 'GET_PRODUCTS';
+const GET_PRODUCT = 'GET_PRODUCT';
 const POST_PRODUCT = 'POST_PRODUCT';
-const DELETE_PRODUCT = 'DELETE_PRODUCT';
+// we don't want to delete products at the moment, keeping code in case we want to re-implement
+// const DELETE_PRODUCT = 'DELETE_PRODUCT';
 const PUT_PRODUCT = 'PUT_PRODUCT';
 
 /* ------------   ACTION CREATORS     ------------------ */
 
 const getProducts = products => ({ type: GET_PRODUCTS, products });
+const getProduct = products => ({ type: GET_PRODUCT, products });
 const postProduct = product => ({ type: POST_PRODUCT, product });
 // we don't want to delete products at the moment, keeping code in case we want to re-implement
 // const deleteProduct = id => ({ type: DELETE_PRODUCT, id }); 
@@ -21,6 +24,9 @@ export default function reducer(products = [], action) {
 
     case GET_PRODUCTS:
       return action.products;
+
+    case GET_PRODUCT:
+      return action.product;
 
     case POST_PRODUCT:
       return [...products, action.product];
@@ -41,6 +47,11 @@ export default function reducer(products = [], action) {
 export const fetchProducts = () => async dispatch => {
   try { dispatch(getProducts(await axios.get('/api/product/'))); }
   catch (err) { console.error('Fetching products unsuccessful', err); }
+};
+
+export const fetchProduct = (id) => async dispatch => {
+  try { dispatch(getProduct(await axios.get(`/api/product/${id}`))); }
+  catch (err) { console.error('Fetching product unsuccessful', err); }
 };
 
 export const createProduct = product => async dispatch => {
