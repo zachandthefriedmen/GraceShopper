@@ -48,7 +48,7 @@ describe('thunk creators', () => {
         .then(() => {
           const actions = store.getActions();
           expect(actions[0].type).to.be.equal('GET_PRODUCTS');
-          expect(actions[0].user).to.be.deep.equal(fakeProducts);
+          expect(actions[0].products).to.be.deep.equal(fakeProducts);
         });
     });
   });

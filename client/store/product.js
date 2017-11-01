@@ -41,19 +41,19 @@ export const fetchProducts = () => async dispatch => {
   catch (err) { console.error('Fetching products unsuccessful', err); }
 };
 
-export const createProduct = async (product, dispatch) => {
+export const createProduct = product => async dispatch => {
   try { dispatch(postProduct(await axios.post('api/product/', product))); }
   catch (err) { console.error('Posting product unsuccessful', err); }
 };
 
-export const removeProduct = async (id, dispatch) => {
+export const removeProduct = id => async dispatch => {
   // Optimistic
   dispatch(deleteProduct(id));
   try { await axios.delete(`api/product/${id}`); }
   catch (err) { console.error('Deleting product unsuccessful', err); }
 };
 
-export const editProduct = async (id, product, dispatch) => {
+export const editProduct = (id, product) => async dispatch => {
   try { dispatch(putProduct(await axios.put(`api/product/${id}`, product))); }
   catch (err) { console.error('Updating student unsuccessful', err); }
 };
