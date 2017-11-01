@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import ProductCell from './ProductCell';
-import {fetchProducts} from '../reducers/productReducer';
+import {fetchProducts} from '../store';
 
 const Products = props => {
 
