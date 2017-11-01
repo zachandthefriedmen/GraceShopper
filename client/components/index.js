@@ -9,4 +9,5 @@ export {Login, Signup} from './auth-form';
 export {default as Products} from './Products';
 export {default as ProductCell} from './ProductCell';
 export {default as SingleProduct} from './SingleProduct';
+export {default as Cart} from './Cart';
 export {default as LandingPage} from './LandingPage';
