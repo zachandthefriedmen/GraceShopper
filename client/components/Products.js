@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import ProductCell from './ProductCell';
 import {fetchProducts} from '../store';
 
+
 const Products = props => {
 
   const allProducts = [ {id: 1, name: 'Leash', price: 4.95, description: 'This is the coolest leash you have EVER seen! It also will never break.', image: 'https://www.placecage.com/200/300'}, {id: 2, name: 'Bone', price: 0.95, description: 'This is a bone.', image: 'https://www.placecage.com/g/200/300'} ];
