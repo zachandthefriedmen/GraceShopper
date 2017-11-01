@@ -5,7 +5,7 @@ const CartCell = ({ product }) => {
 
   return (
     <div id="cart-item">
-      {/* Link around everything but delete button, leading to corresponding SingleProduct page */}
+      {/* Link around each items name, leading to corresponding SingleProduct page */}
       <Link to={`/products/${product.id}`}>
         <h4>{product.name}</h4>
       </Link>
