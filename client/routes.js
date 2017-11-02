@@ -1,22 +1,22 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {Router} from 'react-router'
-import {Route, Switch} from 'react-router-dom'
-import PropTypes from 'prop-types'
-import history from './history'
-import {Main, Login, Signup, UserHome, Products, SingleProduct, LandingPage, Cart} from './components'
-import {me} from './store'
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {Router} from 'react-router';
+import {Route, Switch} from 'react-router-dom';
+import PropTypes from 'prop-types';
+import history from './history';
+import {Main, Login, Signup, UserHome, Products, SingleProduct, LandingPage, Cart, AccountView} from './components';
+import {me} from './store';
 
 /**
  * COMPONENT
  */
 class Routes extends Component {
   componentDidMount () {
-    this.props.loadInitialData()
+    this.props.loadInitialData();
   }
 
   render () {
-    const {isLoggedIn} = this.props
+    const {isLoggedIn} = this.props;
 
     return (
       <Router history={history}>
@@ -29,6 +29,8 @@ class Routes extends Component {
             <Route exact path="/products" component={Products} />
             <Route path="/cart" component={Cart} />
             <Route path="/products/:id" component={SingleProduct} />
+            {/* We need to implement the user id into the url for account view */}
+            <Route path="/user/:id" component={AccountView} />
             {
               isLoggedIn &&
                 <Switch>
@@ -41,7 +43,7 @@ class Routes extends Component {
           </Switch>
         </Main>
       </Router>
-    )
+    );
   }
 }
 
@@ -53,18 +55,18 @@ const mapState = (state) => {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
     isLoggedIn: !!state.user.id
-  }
-}
+  };
+};
 
 const mapDispatch = (dispatch) => {
   return {
     loadInitialData () {
-      dispatch(me())
+      dispatch(me());
     }
-  }
-}
+  };
+};
 
-export default connect(mapState, mapDispatch)(Routes)
+export default connect(mapState, mapDispatch)(Routes);
 
 /**
  * PROP TYPES
@@ -72,4 +74,4 @@ export default connect(mapState, mapDispatch)(Routes)
 Routes.propTypes = {
   loadInitialData: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired
-}
+};
