@@ -11,27 +11,36 @@ export const SingleProduct = (props) => {
 
   //Dummy data from Products
   const allProducts = [{ id: 1, name: 'Leash', price: 4.95, description: 'This is the coolest leash you have EVER seen! It also will never break.', image: 'https://www.placecage.com/200/300' }, { id: 2, name: 'Bone', price: 0.95, description: 'This is a bone.', image: 'https://www.placecage.com/g/200/300' }];
-  const allReviews = [{ id: 1, stars: 5, title: 'This bone broke', body: 'This is the coolest leash you have EVER seen! It also will never break.' }, { id: 1, stars: 5, title: 'This bone broke', body: 'This is the coolest leash you have EVER seen! It also will never break.' }];
+  const allReviews = [{ id: 1, stars: 5, title: 'This bone broke', body: 'This is the coolest leash you have EVER seen! It also will never break.' },
+                      { id: 2, stars: 5, title: 'This bone broke', body: 'This is the coolest leash you have EVER seen! It also will never break.' },
+                      { id: 2, stars: 5, title: 'This bone broke', body: 'This is the coolest leash you have EVER seen! It also will never break.' },
+                      { id: 2, stars: 5, title: 'This bone broke', body: 'This is the coolest leash you have EVER seen! It also will never break.' },
+                      { id: 2, stars: 5, title: 'This bone broke', body: 'This is the coolest leash you have EVER seen! It also will never break.' },
+                    ];
+                      
 
   return (
-    <div>
-      <div className="LeftText">
-        <h3>Product</h3>
-        <p>Price</p>
-        <button>Cart</button>
-        <p>Rating</p>
-        <p>Category</p>
+    <div className="container">
+      <div className="row">
+        <div id="LeftText" className="jumbotron col-md-5">
+          <h1 className="display-3">Product</h1>
+          <p className="lead">Rating</p>
+          <p className="lead">Price</p>
+          <button className="btn btn-primary">Add To Cart</button>
+          <hr className="my-2" />
+          <p>Category</p>
+          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+        </div>
+        <div className="col-md-7">
+          <img src="http://www.placecage.com/500/600" />
+        </div>
       </div>
-      <div>
-        <img src="http://www.placecage.com/300/300" />
-      </div>
-      <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-      <div>
+      <div className="row">
         {allReviews.map(review => {
           return (
-            <div key={review.id}>
+            <div key={review.id} className="col-md-4">
               <h2>{review.title}</h2>
-              <h3>{review.stars}</h3>
+              <h5 className="text-warning">{review.stars}</h5>
               <p>{review.body}</p>
             </div>
           );
