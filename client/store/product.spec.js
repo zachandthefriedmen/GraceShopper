@@ -45,7 +45,7 @@ describe('Product thunk creators', () => {
         .then(() => {
           const actions = store.getActions();
           expect(actions[0].type).to.be.equal('GET_PRODUCT');
-          expect(actions[0].products).to.be.deep.equal(fakeProduct); // why products and not product???
+          expect(actions[0].product).to.be.deep.equal(fakeProduct); // why products and not product???
         });
     });
   });
@@ -63,17 +63,17 @@ describe('Product thunk creators', () => {
     });
   });
 
-  // code copied from user.spec.js left as example
+  describe('editProduct', () => {
+    it('eventually dispatches the PUT_PRODUCT action', () => {
+      const fakeProduct = { id: 1, name: 'product1' };
+      mockAxios.onPut(`/api/product/${fakeProduct.id}`).replyOnce(204, fakeProduct);
+      return store.dispatch(editProduct(fakeProduct.id, fakeProduct))
+        .then(() => {
+          const actions = store.getActions();
+          expect(actions[0].type).to.be.equal('PUT_PRODUCT');
+          expect(actions[0].product).to.be.deep.equal(fakeProduct);
+        });
+    });
+  });
 
-  // describe('logout', () => {
-  //   it('logout: eventually dispatches the REMOVE_USER action', () => {
-  //     mockAxios.onPost('/auth/logout').replyOnce(204);
-  //     return store.dispatch(logout())
-  //       .then(() => {
-  //         const actions = store.getActions();
-  //         expect(actions[0].type).to.be.equal('REMOVE_USER');
-  //         expect(history.location.pathname).to.be.equal('/login');
-  //       });
-  //   });
-  // });
 });

@@ -12,7 +12,7 @@ const PUT_PRODUCT = 'PUT_PRODUCT';
 /* ------------   ACTION CREATORS     ------------------ */
 
 const getProducts = products => ({ type: GET_PRODUCTS, products });
-const getProduct = products => ({ type: GET_PRODUCT, products });
+const getProduct = product => ({ type: GET_PRODUCT, product });
 const postProduct = product => ({ type: POST_PRODUCT, product });
 // we don't want to delete products at the moment, keeping code in case we want to re-implement
 // const deleteProduct = id => ({ type: DELETE_PRODUCT, id });
