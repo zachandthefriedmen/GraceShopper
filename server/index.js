@@ -55,9 +55,8 @@ const createApp = () => {
   app.use(passport.initialize());
   app.use(passport.session());
 
-  // new cart middleware
+  // order middleware
   app.use(async (req, res, next) => {
-    console.log('req.cookies', req.cookies);
     if (req.cookies && req.cookies.orderId) { return next(); }
     const newOrder = await Order.create();
     res.cookie('orderId', newOrder.id);
