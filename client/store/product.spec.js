@@ -1,9 +1,8 @@
 /* global describe beforeEach afterEach it */
 
 import { expect } from 'chai';
-import { fetchProducts, createProduct, editProduct, removeProduct } from './product';
-import axios from 'axios';
-import MockAdapter from 'axios-mock-adapter';
+import { fetchProducts, fetchProduct, createProduct, editProduct } from './product';
+import {mockAxios} from './index.spec';
 import configureMockStore from 'redux-mock-store';
 import thunkMiddleware from 'redux-thunk';
 import history from '../history';
@@ -13,34 +12,17 @@ const mockStore = configureMockStore(middlewares);
 
 describe('Product thunk creators', () => {
   let store;
-  let mockAxios;
 
   const initialState = { products: [] };
 
   beforeEach(() => {
-    mockAxios = new MockAdapter(axios);
     store = mockStore(initialState);
   });
 
   afterEach(() => {
-    mockAxios.restore();
+    mockAxios.reset();
     store.clearActions();
   });
-
-  // code copied from user.spec.js left as example
-
-  // describe('me', () => {
-  //   it('eventually dispatches the GET USER action', () => {
-  //     const fakeUser = {email: 'Cody'};
-  //     mockAxios.onGet('/auth/me').replyOnce(200, fakeUser);
-  //     return store.dispatch(me())
-  //       .then(() => {
-  //         const actions = store.getActions();
-  //         expect(actions[0].type).to.be.equal('GET_USER');
-  //         expect(actions[0].user).to.be.deep.equal(fakeUser);
-  //       });
-  //   });
-  // });
 
   describe('fetchProducts', () => {
     it('eventually dispatches the GET_PRODUCTS action', () => {
@@ -55,17 +37,43 @@ describe('Product thunk creators', () => {
     });
   });
 
-  // code copied from user.spec.js left as example
+  describe('fetchProduct', () => {
+    it('eventually dispatches the GET_PRODUCT action', () => {
+      const fakeProduct = { id: 1, name: 'product1' };
+      mockAxios.onGet(`/api/product/${fakeProduct.id}`).replyOnce(200, fakeProduct);
+      return store.dispatch(fetchProduct(fakeProduct.id))
+        .then(() => {
+          const actions = store.getActions();
+          expect(actions[0].type).to.be.equal('GET_PRODUCT');
+          expect(actions[0].product).to.be.deep.equal(fakeProduct); // why products and not product???
+        });
+    });
+  });
 
-  // describe('logout', () => {
-  //   it('logout: eventually dispatches the REMOVE_USER action', () => {
-  //     mockAxios.onPost('/auth/logout').replyOnce(204);
-  //     return store.dispatch(logout())
-  //       .then(() => {
-  //         const actions = store.getActions();
-  //         expect(actions[0].type).to.be.equal('REMOVE_USER');
-  //         expect(history.location.pathname).to.be.equal('/login');
-  //       });
-  //   });
-  // });
+  describe('createProduct', () => {
+    it('eventually dispatches the POST_PRODUCT action', () => {
+      const fakeProduct = { name: 'product1' };
+      mockAxios.onPost('/api/product').replyOnce(200, fakeProduct);
+      return store.dispatch(createProduct(fakeProduct))
+        .then(() => {
+          const actions = store.getActions();
+          expect(actions[0].type).to.be.equal('POST_PRODUCT');
+          expect(actions[0].product).to.be.deep.equal(fakeProduct);
+        });
+    });
+  });
+
+  describe('editProduct', () => {
+    it('eventually dispatches the PUT_PRODUCT action', () => {
+      const fakeProduct = { id: 1, name: 'product1' };
+      mockAxios.onPut(`/api/product/${fakeProduct.id}`).replyOnce(204, fakeProduct);
+      return store.dispatch(editProduct(fakeProduct.id, fakeProduct))
+        .then(() => {
+          const actions = store.getActions();
+          expect(actions[0].type).to.be.equal('PUT_PRODUCT');
+          expect(actions[0].product).to.be.deep.equal(fakeProduct);
+        });
+    });
+  });
+
 });

@@ -31,6 +31,20 @@ router.get('/:id', async (req, res, next) => {
   catch (err) { next(err); }
 });
 
+router.get('/product/:id', async (req, res, next) => {
+  try { res.json(await Review.findAll({
+    where: {
+      productId: req.params.id
+    },
+    include:
+    [{
+      model: User,
+      attributes: ['id', 'email', 'firstName', 'lastName', 'admin']
+    }]
+  })); }
+  catch (err) { next(err); }
+});
+
 router.put('/:id', async (req, res, next) => {
   try {
     const review = await Review.findById(req.params.id);

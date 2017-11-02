@@ -11,3 +11,4 @@ export {default as ProductCell} from './ProductCell';
 export {default as SingleProduct} from './SingleProduct';
 export {default as Cart} from './Cart';
 export {default as LandingPage} from './LandingPage';
+export {default as AccountView} from './AccountView';
