@@ -15,7 +15,7 @@ const getProducts = products => ({ type: GET_PRODUCTS, products });
 const getProduct = products => ({ type: GET_PRODUCT, products });
 const postProduct = product => ({ type: POST_PRODUCT, product });
 // we don't want to delete products at the moment, keeping code in case we want to re-implement
-// const deleteProduct = id => ({ type: DELETE_PRODUCT, id }); 
+// const deleteProduct = id => ({ type: DELETE_PRODUCT, id });
 const putProduct = product => ({ type: POST_PRODUCT, product });
 
 /* ------------       REDUCERS     ------------------ */
@@ -45,7 +45,10 @@ export default function reducer(products = [], action) {
 
 /* ------------   THUNK CREATORS     ------------------ */
 export const fetchProducts = () => async dispatch => {
-  try { dispatch(getProducts(await axios.get('/api/product/'))); }
+  try {
+    const res = await axios.get('/api/product');
+    dispatch(getProducts(res.data));
+  }
   catch (err) { console.error('Fetching products unsuccessful', err); }
 };
 
@@ -55,7 +58,10 @@ export const fetchProduct = (id) => async dispatch => {
 };
 
 export const createProduct = product => async dispatch => {
-  try { dispatch(postProduct(await axios.post('api/product/', product))); }
+  try {
+    const res = await axios.post('api/product/', product);
+    dispatch(postProduct(res.data));
+  }
   catch (err) { console.error('Posting product unsuccessful', err); }
 };
 
@@ -68,6 +74,9 @@ export const createProduct = product => async dispatch => {
 // };
 
 export const editProduct = (id, product) => async dispatch => {
-  try { dispatch(putProduct(await axios.put(`api/product/${id}`, product))); }
-  catch (err) { console.error('Updating student unsuccessful', err); }
+  try {
+    const res = await axios.put(`api/product/${id}`, product);
+    dispatch(putProduct(res.data));
+  }
+  catch (err) { console.error('Updating product unsuccessful', err); }
 };

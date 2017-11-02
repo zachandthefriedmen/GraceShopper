@@ -1,7 +1,7 @@
 /* global describe beforeEach afterEach it */
 
-import {expect} from 'chai';
-import {fetchProducts, createProduct, editProduct, removeProduct} from './product';
+import { expect } from 'chai';
+import { fetchProducts, createProduct, editProduct, removeProduct } from './product';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import configureMockStore from 'redux-mock-store';
@@ -15,7 +15,7 @@ describe('thunk creators', () => {
   let store;
   let mockAxios;
 
-  const initialState = {products: []};
+  const initialState = { products: [] };
 
   beforeEach(() => {
     mockAxios = new MockAdapter(axios);
@@ -26,6 +26,8 @@ describe('thunk creators', () => {
     mockAxios.restore();
     store.clearActions();
   });
+
+  // code copied from user.spec.js left as example
 
   // describe('me', () => {
   //   it('eventually dispatches the GET USER action', () => {
@@ -42,7 +44,7 @@ describe('thunk creators', () => {
 
   describe('fetchProducts', () => {
     it('eventually dispatches the GET_PRODUCTS action', () => {
-      const fakeProducts = [{ name: 'product1' }, { name: 'product2'}];
+      const fakeProducts = [{ name: 'product1' }, { name: 'product2' }];
       mockAxios.onGet('/api/product').replyOnce(200, fakeProducts);
       return store.dispatch(fetchProducts())
         .then(() => {
@@ -52,6 +54,8 @@ describe('thunk creators', () => {
         });
     });
   });
+
+  // code copied from user.spec.js left as example
 
   // describe('logout', () => {
   //   it('logout: eventually dispatches the REMOVE_USER action', () => {
