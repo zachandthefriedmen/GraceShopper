@@ -21,19 +21,22 @@ class Products extends Component {
     super(props);
     this.state = {
       nameFilter: '',
-      categoryFilter: 0,
+      allCategories: [],
     };
     this.changeCategory = this.changeCategory.bind(this);
   }
 
   componentWillMount() {
     this.props.fetchProductData();
+  }
 
+  componentDidMount() {
+    this.setState({ allCategories: this.props.category });
   }
 
   changeCategory = event => {
     // Old code for filtering out products according to the selected category
-    this.props.fetchSelectedCategory(event.target.value)
+    this.props.fetchSelectedCategory(event.target.value);
     this.setState({ categoryFilter: event.target.value });
   };
   
@@ -45,6 +48,8 @@ class Products extends Component {
   // shownProducts = this.state.categoryFilter === 0 ? this.props.category.products : this.props.product
 
   render() {
+    if (!this.state.allCategories.length) return <div/>;
+
     return (
       <div className="container">
         <div id="filter-bar" className="row card">
@@ -55,7 +60,7 @@ class Products extends Component {
               <option value="default">Choose a category</option>
               {
                 // Old text mapping out the list of category options inside of select input field
-                this.props.category.map(category => {
+                this.state.allCategories.map(category => {
                   return (
                     <option key={category.id} value={category.id}>{category.name}</option>
                   );
