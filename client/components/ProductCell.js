@@ -6,7 +6,7 @@ const ProductCell = ({ product }) => {
   return (
     <div className="col-md-3">
       <Link to={`/products/${product.id}`}>
-        <img src={product.image} />
+        <img src={product.images[0]} />
         <h2>{product.name}</h2>
         <h3>{product.price}</h3>
       </Link>
