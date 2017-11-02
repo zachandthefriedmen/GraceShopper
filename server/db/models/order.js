@@ -11,19 +11,12 @@ const Order = db.define('order', {
   },
   email: {
     type: Sequelize.STRING,
+    allowNull: true,
     unique: true,
-    allowNull: false,
     validate: { isEmail: true },
   },
   orderDate: { type: Sequelize.DATE },
-  sessionId: {
-    type: Sequelize.STRING,
-    allowNull: false,
-  },
-  address: {
-    type: Sequelize.STRING,
-    allowNull: false,
-  }
+  address: { type: Sequelize.STRING }
 }, {
   getterMethods: {
     totalPrice() {

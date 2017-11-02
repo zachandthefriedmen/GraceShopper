@@ -37,7 +37,11 @@ router.put('/:id', async (req, res, next) => {
 });
 
 router.post('/', async (req, res, next) => {
-  try { res.json(await Order.create(req.body)); }
+  try {
+    const order = await Order.create(req.body);
+    req.session.cookie.orderId = order.id;
+    res.json(order);
+  }
   catch (err) { next(err); }
 });
 
