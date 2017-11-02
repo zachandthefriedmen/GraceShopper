@@ -3,7 +3,7 @@ const { Category, Product } = require('../db/models');
 module.exports = router;
 
 router.get('/', async (req, res, next) => {
-  try { res.json(await Category.findAll()); }
+  try { res.json(await Category.findAll({include: [Product]})); }
   catch (err) { next(err); }
 });
 
