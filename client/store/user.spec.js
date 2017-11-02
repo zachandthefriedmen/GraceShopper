@@ -11,7 +11,7 @@ import history from '../history';
 const middlewares = [thunkMiddleware];
 const mockStore = configureMockStore(middlewares);
 
-describe('thunk creators', () => {
+describe('User thunk creators', () => {
   let store;
   let mockAxios;
 
@@ -28,7 +28,7 @@ describe('thunk creators', () => {
   });
 
   describe('me', () => {
-    it('eventually dispatches the GET USER action', () => {
+    it('eventually dispatches the GET_USER action', () => {
       const fakeUser = {email: 'Cody'};
       mockAxios.onGet('/auth/me').replyOnce(200, fakeUser);
       return store.dispatch(me())
