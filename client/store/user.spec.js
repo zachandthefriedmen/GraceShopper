@@ -20,7 +20,7 @@ describe('User thunk creators', () => {
   });
 
   afterEach(() => {
-    mockAxios.restore();
+    mockAxios.reset();
     store.clearActions();
   });
 

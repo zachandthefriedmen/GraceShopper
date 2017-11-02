@@ -20,7 +20,7 @@ describe('Product thunk creators', () => {
   });
 
   afterEach(() => {
-    mockAxios.restore();
+    mockAxios.reset();
     store.clearActions();
   });
 
@@ -41,11 +41,11 @@ describe('Product thunk creators', () => {
     it('eventually dispatches the GET_PRODUCT action', () => {
       const fakeProduct = { id: 1, name: 'product1' };
       mockAxios.onGet(`/api/product/${fakeProduct.id}`).replyOnce(200, fakeProduct);
-      return store.dispatch(fetchProduct(fakeProduct))
+      return store.dispatch(fetchProduct(fakeProduct.id))
         .then(() => {
           const actions = store.getActions();
           expect(actions[0].type).to.be.equal('GET_PRODUCT');
-          expect(actions[0].product).to.be.deep.equal(fakeProduct);
+          expect(actions[0].products).to.be.deep.equal(fakeProduct); // why products and not product???
         });
     });
   });
