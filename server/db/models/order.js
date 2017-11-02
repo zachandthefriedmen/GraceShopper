@@ -7,7 +7,7 @@ const Order = db.define('order', {
     defaultValue: [],
   },
   status: {
-    type: Sequelize.ENUM('open', 'created', 'processing', 'cancelled', 'completed')
+    type: Sequelize.ENUM('open', 'created', 'processing', 'cancelled', 'completed', 'merged')
   },
   email: {
     type: Sequelize.STRING,
