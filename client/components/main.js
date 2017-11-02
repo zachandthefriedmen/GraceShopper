@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import { logout } from '../store';
+import Footer from './Footer';
 
 /**
  * COMPONENT
@@ -16,7 +17,7 @@ const Main = (props) => {
   return (
     <div>
       <div className="navbar navbar-expand-lg navbar-light bg-light">
-        <h1 className="navbar-brand">BENTO'S BAZAAR</h1>
+        <a href="/" className="navbar-brand">BENTO'S BAZAAR</a>
         {/* Can probably be refactored later on, menu doesn't collapse when window.width < 990 */}
         {
           isLoggedIn
@@ -40,6 +41,7 @@ const Main = (props) => {
       </div>
       <hr />
       {children}
+      <Footer />
     </div>
   );
 };
