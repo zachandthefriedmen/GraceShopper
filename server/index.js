@@ -5,13 +5,14 @@ const bodyParser = require('body-parser');
 const compression = require('compression');
 const session = require('express-session');
 const passport = require('passport');
+const cookieParser = require('cookie-parser');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const db = require('./db');
-const sessionStore = new SequelizeStore({db});
+const sessionStore = new SequelizeStore({ db });
 const PORT = process.env.PORT || 8080;
 const app = express();
 const socketio = require('socket.io');
-const {Order} = require('./db/models');
+const { Order } = require('./db/models');
 module.exports = app;
 
 /**
@@ -43,8 +44,10 @@ const createApp = () => {
   app.use(compression());
 
   // session middleware with passport
+  const secret = process.env.SESSION_SECRET || 'my favorite dog is Bento and Chili';
+  app.use(cookieParser(secret));
   app.use(session({
-    secret: process.env.SESSION_SECRET || 'my best friend is Cody',
+    secret: secret,
     store: sessionStore,
     resave: false,
     saveUninitialized: false,
@@ -76,16 +79,16 @@ const createApp = () => {
   // static file-serving middleware
   app.use(express.static(path.join(__dirname, '..', 'public')))
 
-  // any remaining requests with an extension (.js, .css, etc.) send 404
-  .use((req, res, next) => {
-    if (path.extname(req.path).length) {
-      const err = new Error('Not found');
-      err.status = 404;
-      next(err);
-    } else {
-      next();
-    }
-  });
+    // any remaining requests with an extension (.js, .css, etc.) send 404
+    .use((req, res, next) => {
+      if (path.extname(req.path).length) {
+        const err = new Error('Not found');
+        err.status = 404;
+        next(err);
+      } else {
+        next();
+      }
+    });
 
   // sends index.html
   app.use('*', (req, res) => {
