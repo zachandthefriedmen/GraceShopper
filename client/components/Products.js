@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ProductCell from './ProductCell';
-import { fetchProducts, fetchCategories } from '../store';
+import { fetchProducts } from '../store';
 
 // const allProducts = [{ id: 1, name: 'Leash', price: 4.95, description: 'This is the coolest leash you have EVER seen! It also will never break.', image: 'https://www.placecage.com/200/300' },
 //                      { id: 2, name: 'Bone', price: 0.95, description: 'This is a bone.', image: 'https://www.placecage.com/g/200/300' },
@@ -15,13 +15,14 @@ import { fetchProducts, fetchCategories } from '../store';
 
 // const categories = [{id: 1, name: 'leash'}, {id: 2, name: 'treats'}];
 
-
-
 class Products extends Component {
 
   constructor(props) {
     super(props);
-    this.changeCategory = this.changeCategory.bind(this)
+    this.state = {
+      nameFilter: '',
+    };
+    this.changeCategory = this.changeCategory.bind(this);
   }
 
   componentWillMount() {
@@ -34,6 +35,11 @@ class Products extends Component {
     //     return product.categoryId === event.target.value;
     //   });
   };
+  
+  changeNameFilter = event => {
+    this.setState({ nameFilter: event.target.value });
+    console.log("State", this.state);
+  }
 
   render() {
     return (
@@ -41,6 +47,7 @@ class Products extends Component {
         <div id="filter-bar" className="row card">
           <h4 className="col-md-2">Category</h4>
           <form onSubmit={this.changeCategory} className="col-md-6">
+            <input type="text" name="nameFilter" placeholder="search..." onChange={this.changeNameFilter} />
             <select>
               <option value="default">Choose a category</option>
               {
@@ -58,11 +65,15 @@ class Products extends Component {
 
         <div className="row">
           {
-            this.props.product.map(product => {
-              return (
-                <ProductCell key={product.id} product={product} />
-              );
-            })
+            this.props.product
+              .filter(item => {
+                return item.name.includes(this.state.nameFilter);
+              })
+              .map(product => {
+                return (
+                  <ProductCell key={product.id} product={product} />
+                );
+              })
           }
         </div>
       </div>
