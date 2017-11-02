@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const GET_REVIEWS = 'GET_REVIEWS';
 const GET_REVIEW = 'GET_REVIEW';
-const GET_ITEM_REVIEWS = 'GET_ITEM_REVIEWS';
+const GET_PRODUCT_REVIEWS = 'GET_PRODUCT_REVIEWS';
 const POST_REVIEW = 'POST_REVIEW';
 const DELETE_REVIEW = 'DELETE_REVIEW';
 const PUT_REVIEW = 'PUT_REVIEW';
@@ -13,8 +13,7 @@ const PUT_REVIEW = 'PUT_REVIEW';
 
 const getReviews = reviews => ({ type: GET_REVIEWS, reviews });
 const getReview = review => ({ type: GET_REVIEW, review });
-const getItemReviews = itemId => ({ type: GET_REVIEWS, itemId });
-
+const getProductReviews = reviews => ({ type: GET_PRODUCT_REVIEWS, reviews });
 const postReview = review => ({ type: POST_REVIEW, review });
 const deleteReview = id => ({ type: DELETE_REVIEW, id });
 const putReview = review => ({ type: PUT_REVIEW, review });
@@ -22,27 +21,27 @@ const putReview = review => ({ type: PUT_REVIEW, review });
 /* ------------       REDUCERS     ------------------ */
 export default function reducer(reviews = [], action) {
   switch (action.type) {
-    
+
     case GET_REVIEWS:
-    return action.reviews;
-    
-    case GET_ITEM_REVIEWS:
+      return action.reviews;
+
+    case GET_PRODUCT_REVIEWS:
       return action.reviews;
 
     case GET_REVIEW:
-    return action.review;
-    
+      return action.review;
+
     case POST_REVIEW:
-    return [...reviews, action.review];
-    
+      return [...reviews, action.review];
+
     case PUT_REVIEW:
-    return reviews.map(review => (action.review.id === review.id ? action.review : review));
-    
+      return reviews.map(review => (action.review.id === review.id ? action.review : review));
+
     case DELETE_REVIEW:
-    return reviews.filter(review => review.id !== action.id);
-    
+      return reviews.filter(review => review.id !== action.id);
+
     default:
-    return reviews;
+      return reviews;
   }
 }
 
@@ -65,8 +64,12 @@ export const fetchReview = id => async dispatch => {
 //
 // IN PROGRESS thunk for retreiving reviews related to singular item
 //
-export const fetchReviewsforItem = (itemId) => async dispatch => {
-  try { dispatch(getItemReviews(await axios.get(/*'/api/review/item/itemId'???? needs a route?*/))); }
+export const fetchReviewsForProduct = (productId) => async dispatch => {
+  try {
+    dispatch(getProductReviews(
+      (await axios.get(`/api/review/product/${productId}`)).data
+    ));
+  }
   catch (err) { console.error('Fetching reviews unsuccessful', err); }
 };
 
