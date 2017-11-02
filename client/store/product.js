@@ -16,7 +16,7 @@ const getProduct = products => ({ type: GET_PRODUCT, products });
 const postProduct = product => ({ type: POST_PRODUCT, product });
 // we don't want to delete products at the moment, keeping code in case we want to re-implement
 // const deleteProduct = id => ({ type: DELETE_PRODUCT, id });
-const putProduct = product => ({ type: POST_PRODUCT, product });
+const putProduct = product => ({ type: PUT_PRODUCT, product });
 
 /* ------------       REDUCERS     ------------------ */
 export default function reducer(products = [], action) {
@@ -31,12 +31,12 @@ export default function reducer(products = [], action) {
     case POST_PRODUCT:
       return [...products, action.product];
 
-      // we don't want to delete products at the moment, keeping code in case we want to re-implement
-    // case DELETE_PRODUCT:
-    //   return products.filter(product => product.id !== action.id);
-
     case PUT_PRODUCT:
       return products.map(product => (action.product.id === product.id ? action.product : product));
+
+    // we don't want to delete products at the moment, keeping code in case we want to re-implement
+    // case DELETE_PRODUCT:
+    //   return products.filter(product => product.id !== action.id);
 
     default:
       return products;
@@ -46,23 +46,32 @@ export default function reducer(products = [], action) {
 /* ------------   THUNK CREATORS     ------------------ */
 export const fetchProducts = () => async dispatch => {
   try {
-    const res = await axios.get('/api/product');
-    dispatch(getProducts(res.data));
+    dispatch(getProducts((await axios.get('/api/product')).data));
   }
   catch (err) { console.error('Fetching products unsuccessful', err); }
 };
 
-export const fetchProduct = (id) => async dispatch => {
-  try { dispatch(getProduct(await axios.get(`/api/product/${id}`))); }
+export const fetchProduct = id => async dispatch => {
+  try {
+    const res = await axios.get(`/api/product/${id}`);
+    dispatch(getProduct(res.data));
+  }
   catch (err) { console.error('Fetching product unsuccessful', err); }
 };
 
 export const createProduct = product => async dispatch => {
   try {
-    const res = await axios.post('api/product/', product);
-    dispatch(postProduct(res.data));
+    dispatch(postProduct((await axios.post('api/product', product)).data));
   }
   catch (err) { console.error('Posting product unsuccessful', err); }
+};
+
+export const editProduct = (id, product) => async dispatch => {
+  try {
+    const res = await axios.put(`api/product/${id}`, product);
+    dispatch(putProduct(res.data));
+  }
+  catch (err) { console.error('Updating product unsuccessful', err); }
 };
 
 // we don't want to delete products at the moment, keeping code in case we want to re-implement
@@ -73,10 +82,3 @@ export const createProduct = product => async dispatch => {
 //   catch (err) { console.error('Deleting product unsuccessful', err); }
 // };
 
-export const editProduct = (id, product) => async dispatch => {
-  try {
-    const res = await axios.put(`api/product/${id}`, product);
-    dispatch(putProduct(res.data));
-  }
-  catch (err) { console.error('Updating product unsuccessful', err); }
-};

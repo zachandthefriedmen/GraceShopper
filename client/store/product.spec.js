@@ -1,9 +1,8 @@
 /* global describe beforeEach afterEach it */
 
 import { expect } from 'chai';
-import { fetchProducts, createProduct, editProduct, removeProduct } from './product';
-import axios from 'axios';
-import MockAdapter from 'axios-mock-adapter';
+import { fetchProducts, fetchProduct, createProduct, editProduct } from './product';
+import {mockAxios} from './index.spec';
 import configureMockStore from 'redux-mock-store';
 import thunkMiddleware from 'redux-thunk';
 import history from '../history';
@@ -13,12 +12,10 @@ const mockStore = configureMockStore(middlewares);
 
 describe('Product thunk creators', () => {
   let store;
-  let mockAxios;
 
   const initialState = { products: [] };
 
   beforeEach(() => {
-    mockAxios = new MockAdapter(axios);
     store = mockStore(initialState);
   });
 
@@ -26,21 +23,6 @@ describe('Product thunk creators', () => {
     mockAxios.restore();
     store.clearActions();
   });
-
-  // code copied from user.spec.js left as example
-
-  // describe('me', () => {
-  //   it('eventually dispatches the GET USER action', () => {
-  //     const fakeUser = {email: 'Cody'};
-  //     mockAxios.onGet('/auth/me').replyOnce(200, fakeUser);
-  //     return store.dispatch(me())
-  //       .then(() => {
-  //         const actions = store.getActions();
-  //         expect(actions[0].type).to.be.equal('GET_USER');
-  //         expect(actions[0].user).to.be.deep.equal(fakeUser);
-  //       });
-  //   });
-  // });
 
   describe('fetchProducts', () => {
     it('eventually dispatches the GET_PRODUCTS action', () => {
@@ -51,6 +33,32 @@ describe('Product thunk creators', () => {
           const actions = store.getActions();
           expect(actions[0].type).to.be.equal('GET_PRODUCTS');
           expect(actions[0].products).to.be.deep.equal(fakeProducts);
+        });
+    });
+  });
+
+  describe('fetchProduct', () => {
+    it('eventually dispatches the GET_PRODUCT action', () => {
+      const fakeProduct = { id: 1, name: 'product1' };
+      mockAxios.onGet(`/api/product/${fakeProduct.id}`).replyOnce(200, fakeProduct);
+      return store.dispatch(fetchProduct(fakeProduct))
+        .then(() => {
+          const actions = store.getActions();
+          expect(actions[0].type).to.be.equal('GET_PRODUCT');
+          expect(actions[0].product).to.be.deep.equal(fakeProduct);
+        });
+    });
+  });
+
+  describe('createProduct', () => {
+    it('eventually dispatches the POST_PRODUCT action', () => {
+      const fakeProduct = { name: 'product1' };
+      mockAxios.onPost('/api/product').replyOnce(200, fakeProduct);
+      return store.dispatch(createProduct(fakeProduct))
+        .then(() => {
+          const actions = store.getActions();
+          expect(actions[0].type).to.be.equal('POST_PRODUCT');
+          expect(actions[0].product).to.be.deep.equal(fakeProduct);
         });
     });
   });
