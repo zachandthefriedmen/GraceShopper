@@ -40,35 +40,25 @@ describe('Category routes', () => {
         });
     });
 
-    /* put and post tests aren't currently working, but the actual api routes work when making requests via postman on running server. will figure out syntax when I have internet and fix tests */
-
-    xit('PUT /api/category/:id', () => {
+    it('PUT /api/category/:id', () => {
       return request(app)
-        .put(`/api/category/${treats.id}`, (req, res) => {
-
-        })
+        .put(`/api/category/${treats.id}`)
+        .send({ name: 'balls' })
         .expect(202)
         .then(res => {
           expect(res.body).to.be.an('object');
-          expect(res.body.email).to.be.equal(treats.email);
-          expect(res.body.lastName).to.be.equal('Doggo');
+          expect(res.body.name).to.be.equal('balls');
         });
     });
 
-    xit('POST /api/category/', () => {
-      const newCategory = {
-        firstName: 'Rheya',
-        lastName: 'Thor',
-        email: 'rheya@little.dog',
-      };
-
+    it('POST /api/category/', () => {
       return request(app)
-        .post('/api/category', newCategory)
+        .post('/api/category')
+        .send({ name: 'leashes' })
         .expect(200)
         .then(res => {
           expect(res.body).to.be.an('object');
-          expect(res.body.email).to.be.equal(treats.email);
-          expect(res.body.lastName).to.be.equal('Doggo');
+          expect(res.body.name).to.be.equal('leashes');
         });
     });
 

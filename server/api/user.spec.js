@@ -49,13 +49,10 @@ describe('User routes', () => {
         });
     });
 
-    /* put and post tests aren't currently working, but the actual api routes work when making requests via postman on running server. will figure out syntax when I have internet and fix tests */
-
-    xit('PUT /api/user/:id', () => {
+    it('PUT /api/user/:id', () => {
       return request(app)
-        .put(`/api/user/${bento.id}`, (req, res) => {
-
-        })
+        .put(`/api/user/${bento.id}`)
+        .send({ lastName: 'Doggo' })
         .expect(202)
         .then(res => {
           expect(res.body).to.be.an('object');
@@ -64,20 +61,19 @@ describe('User routes', () => {
         });
     });
 
-    xit('POST /api/user/', () => {
-      const newUser = {
-        firstName: 'Rheya',
-        lastName: 'Thor',
-        email: 'rheya@little.dog',
-      };
-
+    it('POST /api/user/', () => {
       return request(app)
-        .post('/api/user', newUser)
+        .post('/api/user')
+        .send({
+          firstName: 'Rheya',
+          lastName: 'Thor',
+          email: 'rheya@little.dog',
+        })
         .expect(200)
         .then(res => {
           expect(res.body).to.be.an('object');
-          expect(res.body.email).to.be.equal(bento.email);
-          expect(res.body.lastName).to.be.equal('Doggo');
+          expect(res.body.email).to.be.equal('rheya@little.dog');
+          expect(res.body.firstName).to.be.equal('Rheya');
         });
     });
 

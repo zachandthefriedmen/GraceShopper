@@ -40,35 +40,27 @@ describe('Order routes', () => {
         });
     });
 
-    /* put and post tests aren't currently working, but the actual api routes work when making requests via postman on running server. will figure out syntax when I have internet and fix tests */
-
-    xit('PUT /api/order/:id', () => {
+    it('PUT /api/order/:id', () => {
       return request(app)
-        .put(`/api/order/${order1.id}`, (req, res) => {
-
-        })
+        .put(`/api/order/${order1.id}`)
+        .send({ status: 'processing' })
         .expect(202)
         .then(res => {
           expect(res.body).to.be.an('object');
+          expect(res.body.status).to.be.equal('processing');
           expect(res.body.email).to.be.equal(order1.email);
-          expect(res.body.lastName).to.be.equal('Doggo');
         });
     });
 
-    xit('POST /api/order/', () => {
-      const newOrder = {
-        firstName: 'Rheya',
-        lastName: 'Thor',
-        email: 'rheya@little.dog',
-      };
-
+    it('POST /api/order/', () => {
       return request(app)
-        .post('/api/order', newOrder)
+        .post('/api/order')
+        .send({ status: 'completed', email: 'rheya@little.dog'})
         .expect(200)
         .then(res => {
           expect(res.body).to.be.an('object');
-          expect(res.body.email).to.be.equal(order1.email);
-          expect(res.body.lastName).to.be.equal('Doggo');
+          expect(res.body.email).to.be.equal('rheya@little.dog');
+          expect(res.body.status).to.be.equal('completed');
         });
     });
 

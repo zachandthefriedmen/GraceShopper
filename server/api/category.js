@@ -23,8 +23,8 @@ router.get('/:id', async (req, res, next) => {
 router.put('/:id', async (req, res, next) => {
   try {
     const category = await Category.findById(req.params.id);
-    category.update(req.body);
-    res.sendStatus(202);
+    await category.update(req.body);
+    res.status(202).json(category);
   }
   catch (err) { next(err); }
 });
