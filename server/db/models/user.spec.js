@@ -11,7 +11,7 @@ describe('User model', () => {
 
   describe('instanceMethods', () => {
     describe('correctPassword', () => {
-      let cody;
+      let bento;
 
       beforeEach(() => {
         return User.create({
@@ -21,16 +21,16 @@ describe('User model', () => {
           password: 'bones',
         })
           .then(user => {
-            cody = user;
+            bento = user;
           });
       });
 
       it('returns true if the password is correct', () => {
-        expect(cody.correctPassword('bones')).to.be.equal(true);
+        expect(bento.correctPassword('bones')).to.be.equal(true);
       });
 
       it('returns false if the password is incorrect', () => {
-        expect(cody.correctPassword('bonez')).to.be.equal(false);
+        expect(bento.correctPassword('bonez')).to.be.equal(false);
       });
     }); // end describe('correctPassword')
   }); // end describe('instanceMethods')
