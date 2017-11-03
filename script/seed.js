@@ -10,7 +10,7 @@
  * Now that you've got the main idea, check it out in practice below!
  */
 const db = require('../server/db');
-const { User, Order, Category, Product, Review } = require('../server/db/models');
+const { User, Order, Category, Product, Review, OrderProduct } = require('../server/db/models');
 
 async function seed() {
   await db.sync({ force: true });
@@ -47,8 +47,6 @@ async function seed() {
 
   const orders = await Promise.all([
     Order.create({
-      items: [{ productId: 1, qty: 2, price: 4.65 },
-      { productId: 2, qty: 154, price: 0.99 }],
       status: 'open',
       email: 'bento@dogs.woof',
       orderDate: new Date(),
@@ -56,8 +54,6 @@ async function seed() {
       address: 'Bento Thor, 123 Dog Street, Chicago, IL 60608'
     }),
     Order.create({
-      items: [{ productId: 4, qty: 4, price: 4.00 },
-      { productId: 24, qty: 1, price: 1900.99 }],
       status: 'completed',
       email: 'chili@dogs.woof',
       orderDate: new Date(),
@@ -98,6 +94,37 @@ async function seed() {
   await products[0].addCategory(1);
   await products[1].addCategory(2);
   console.log(`seeded ${products.length} products`);
+
+  const orderProducts = await Promise.all([
+    OrderProduct.create({
+      quantity: 2,
+      price: 4.65,
+      productId: 1,
+      orderId: 1,
+    }),
+    OrderProduct.create({
+      quantity: 154,
+      price: 0.99,
+      productId: 2,
+      orderId: 1,
+    }),
+    OrderProduct.create({
+      quantity: 4,
+      price: 4.00,
+      productId: 2,
+      orderId: 2,
+    }),
+    OrderProduct.create({
+      quantity: 1,
+      price: 1900.99,
+      productId: 1,
+      orderId: 2,
+    }),
+
+  ]);
+  console.log('creating product/order associations');
+
+  console.log(`seeded ${orderProducts.length} order-products`);
 
   const reviews = await Promise.all([
     Review.create({

@@ -2,10 +2,6 @@ const Sequelize = require('sequelize');
 const db = require('../db');
 
 const Order = db.define('order', {
-  items: {
-    type: Sequelize.ARRAY(Sequelize.JSON),
-    defaultValue: [],
-  },
   status: {
     type: Sequelize.ENUM('open', 'created', 'processing', 'cancelled', 'completed', 'merged')
   },
@@ -17,16 +13,21 @@ const Order = db.define('order', {
   },
   orderDate: { type: Sequelize.DATE },
   address: { type: Sequelize.STRING }
-}, {
-  getterMethods: {
-    totalPrice() {
-      return this.items.reduce((a, b) => a + (b.price * b.qty), 0).toFixed(2);
-    },
-    totalQuantity () {
-      return this.items.reduce((a, b) => a + b.qty, 0);
-    }
-  }
-});
+},
+  //
+  // Commenting out getterMethods ideally to have this work done on front end. Retaining code for regression.
+  //
+  //  {
+  //   getterMethods: {
+  //     totalPrice() {
+  //       return this.items.reduce((a, b) => a + (b.price * b.qty), 0).toFixed(2);
+  //     },
+  //     totalQuantity () {
+  //       return this.items.reduce((a, b) => a + b.qty, 0);
+  //     }
+  //   }
+  // }
+);
 
 module.exports = Order;
 
