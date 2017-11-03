@@ -4,91 +4,82 @@ const { expect } = require('chai');
 const request = require('supertest');
 const db = require('../db');
 const app = require('../index');
-const { User } = require('../db/models');
+const { Order } = require('../db/models');
 
-describe('User routes', () => {
+describe('Order routes', () => {
   beforeEach(() => {
     return db.sync({ force: true });
   });
 
-  describe('/api/user/', () => {
-    let bento, chili;
+  describe('/api/order/', () => {
+    let order1, order2;
 
     beforeEach(async () => {
-      bento = await User.create({
-        firstName: 'Bento',
-        lastName: 'Thor',
-        email: 'bento@puppy.dog',
-      });
-      chili = await User.create({
-        firstName: 'Chili',
-        lastName: 'Thor',
-        email: 'chili@big.dog',
-      });
+      order1 = await Order.create({ status: 'open', email: 'bento@puppy.dog' });
+      order2 = await Order.create({ status: 'cancelled', email: 'chili@big.dog' });
     });
 
-    it('GET /api/user', () => {
+    it('GET /api/order', () => {
       return request(app)
-        .get('/api/user')
+        .get('/api/order')
         .expect(200)
         .then(res => {
           expect(res.body).to.be.an('array');
-          expect(res.body[0].email).to.be.equal(bento.email);
-          expect(res.body[1].email).to.be.equal(chili.email);
+          expect(res.body[0].status).to.be.equal(order1.status);
+          expect(res.body[1].email).to.be.equal(order2.email);
         });
     });
 
-    it('GET /api/user/:id', () => {
+    it('GET /api/order/:id', () => {
       return request(app)
-        .get(`/api/user/${bento.id}`)
+        .get(`/api/order/${order1.id}`)
         .expect(200)
         .then(res => {
           expect(res.body).to.be.an('object');
-          expect(res.body.email).to.be.equal(bento.email);
-          expect(res.body.password).to.be.equal(undefined);
+          expect(res.body.email).to.be.equal(order1.email);
         });
     });
 
     /* put and post tests aren't currently working, but the actual api routes work when making requests via postman on running server. will figure out syntax when I have internet and fix tests */
 
-    xit('PUT /api/user/:id', () => {
+    xit('PUT /api/order/:id', () => {
       return request(app)
-        .put(`/api/user/${bento.id}`, (req, res) => {
+        .put(`/api/order/${order1.id}`, (req, res) => {
 
         })
         .expect(202)
         .then(res => {
           expect(res.body).to.be.an('object');
-          expect(res.body.email).to.be.equal(bento.email);
+          expect(res.body.email).to.be.equal(order1.email);
           expect(res.body.lastName).to.be.equal('Doggo');
         });
     });
 
-    xit('POST /api/user/', () => {
-      const newUser = {
+    xit('POST /api/order/', () => {
+      const newOrder = {
         firstName: 'Rheya',
         lastName: 'Thor',
         email: 'rheya@little.dog',
       };
 
       return request(app)
-        .post('/api/user', newUser)
+        .post('/api/order', newOrder)
         .expect(200)
         .then(res => {
           expect(res.body).to.be.an('object');
-          expect(res.body.email).to.be.equal(bento.email);
+          expect(res.body.email).to.be.equal(order1.email);
           expect(res.body.lastName).to.be.equal('Doggo');
         });
     });
 
-    it('DELETE /api/user/:id', () => {
+    it('DELETE /api/order/:id', () => {
       return request(app)
-        .delete(`/api/user/${chili.id}`)
+        .delete(`/api/order/${order2.id}`)
         .expect(204)
         .then(async res => {
-          const notChili = await User.find({ where: { firstName: 'Chili' } });
-          expect(notChili).to.equal(null);
+          const notOrder2 = await Order.find({ where: { email: 'chili@big.dog' } });
+          expect(notOrder2).to.equal(null);
         });
     });
-  }); // end describe('/api/users')
-}); // end describe('User routes')
+  }); // end describe('/api/orders')
+}); // end describe('Order routes')

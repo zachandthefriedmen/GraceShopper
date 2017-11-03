@@ -4,91 +4,82 @@ const { expect } = require('chai');
 const request = require('supertest');
 const db = require('../db');
 const app = require('../index');
-const { User } = require('../db/models');
+const { Category } = require('../db/models');
 
-describe('User routes', () => {
+describe('Category routes', () => {
   beforeEach(() => {
     return db.sync({ force: true });
   });
 
-  describe('/api/user/', () => {
-    let bento, chili;
+  describe('/api/category/', () => {
+    let treats, toys;
 
     beforeEach(async () => {
-      bento = await User.create({
-        firstName: 'Bento',
-        lastName: 'Thor',
-        email: 'bento@puppy.dog',
-      });
-      chili = await User.create({
-        firstName: 'Chili',
-        lastName: 'Thor',
-        email: 'chili@big.dog',
-      });
+      treats = await Category.create({ name: 'treats' });
+      toys = await Category.create({ name: 'toys' });
     });
 
-    it('GET /api/user', () => {
+    it('GET /api/category', () => {
       return request(app)
-        .get('/api/user')
+        .get('/api/category')
         .expect(200)
         .then(res => {
           expect(res.body).to.be.an('array');
-          expect(res.body[0].email).to.be.equal(bento.email);
-          expect(res.body[1].email).to.be.equal(chili.email);
+          expect(res.body[1].id).to.be.equal(treats.id);
+          expect(res.body[0].name).to.be.equal(toys.name);
         });
     });
 
-    it('GET /api/user/:id', () => {
+    it('GET /api/category/:id', () => {
       return request(app)
-        .get(`/api/user/${bento.id}`)
+        .get(`/api/category/${treats.id}`)
         .expect(200)
         .then(res => {
           expect(res.body).to.be.an('object');
-          expect(res.body.email).to.be.equal(bento.email);
-          expect(res.body.password).to.be.equal(undefined);
+          expect(res.body.name).to.be.equal(treats.name);
         });
     });
 
     /* put and post tests aren't currently working, but the actual api routes work when making requests via postman on running server. will figure out syntax when I have internet and fix tests */
 
-    xit('PUT /api/user/:id', () => {
+    xit('PUT /api/category/:id', () => {
       return request(app)
-        .put(`/api/user/${bento.id}`, (req, res) => {
+        .put(`/api/category/${treats.id}`, (req, res) => {
 
         })
         .expect(202)
         .then(res => {
           expect(res.body).to.be.an('object');
-          expect(res.body.email).to.be.equal(bento.email);
+          expect(res.body.email).to.be.equal(treats.email);
           expect(res.body.lastName).to.be.equal('Doggo');
         });
     });
 
-    xit('POST /api/user/', () => {
-      const newUser = {
+    xit('POST /api/category/', () => {
+      const newCategory = {
         firstName: 'Rheya',
         lastName: 'Thor',
         email: 'rheya@little.dog',
       };
 
       return request(app)
-        .post('/api/user', newUser)
+        .post('/api/category', newCategory)
         .expect(200)
         .then(res => {
           expect(res.body).to.be.an('object');
-          expect(res.body.email).to.be.equal(bento.email);
+          expect(res.body.email).to.be.equal(treats.email);
           expect(res.body.lastName).to.be.equal('Doggo');
         });
     });
 
-    it('DELETE /api/user/:id', () => {
+    it('DELETE /api/category/:id', () => {
       return request(app)
-        .delete(`/api/user/${chili.id}`)
+        .delete(`/api/category/${toys.id}`)
         .expect(204)
         .then(async res => {
-          const notChili = await User.find({ where: { firstName: 'Chili' } });
-          expect(notChili).to.equal(null);
+          const notToys = await Category.find({ where: { name: 'toys' }});
+          expect(notToys).to.equal(null);
         });
     });
-  }); // end describe('/api/users')
-}); // end describe('User routes')
+  }); // end describe('/api/categorys')
+}); // end describe('Category routes')
