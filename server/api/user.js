@@ -25,9 +25,9 @@ router.get('/:id', async (req, res, next) => {
 
 router.put('/:id', async (req, res, next) => {
   try {
-    const user = await User.findById(req.params.id);
-    user.update(req.body);
-    res.sendStatus(202);
+    let user = await User.findById(req.params.id);
+    await user.update(req.body);
+    res.status(202).json(user);
   }
   catch (err) { next(err); }
 });
