@@ -64,12 +64,12 @@ const createApp = () => {
   });
 
   // session logging middleware
-  app.use((req, res, next) => {
-    console.log('session', req.session);
-    console.log('session id', req.session.id);
-    console.log('req.cookies', req.cookies);
-    next();
-  });
+  // app.use((req, res, next) => {
+  //   console.log('session', req.session);
+  //   console.log('session id', req.session.id);
+  //   console.log('req.cookies', req.cookies);
+  //   next();
+  // });
 
   // auth and api routes
   app.use('/auth', require('./auth'));
