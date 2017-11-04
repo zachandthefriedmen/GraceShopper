@@ -23,12 +23,26 @@ router.get('/:id', async (req, res, next) => {
         attributes: ['id', 'email', 'firstName', 'lastName', 'admin']
       }]
     });
+    
     // THE PROBLEM HERE IS ASYNC ISSUES. NOT MODIFYING orderProducts before sending response!!
-    let orderProducts = await OrderProduct.findAll({ where: { orderId: req.params.id }});
+
+
+
+    //essential find for orderProdcuts for both Promise.all approach and async await approach
+    let orderProducts = await OrderProduct.findAll({ where: { orderId: req.params.id } });
+
+    //WIP TESTING PROMISE.ALL APPROACH
+    //let productsArray = Promise.all(orderProducts.map(product => Product.findById(product.dataValues.productId)));
+
+
+    //current logic, that works but is not blocking
     orderProducts.forEach(async product => {
       let productInfo = await Product.findById(product.dataValues.productId);
       product.dataValues.productId = productInfo;
     });
+
+
+
     //MAP version... working maybe?? testing above with forEach first.
     // orderProducts.map(async product => {
     //   let newProduct = product;
@@ -36,8 +50,10 @@ router.get('/:id', async (req, res, next) => {
     //   newProduct.productId = productInfo;
     //   return newProduct;
     // });
+
+
     console.log('ORDER PRODUCTS BEFORE RESPONSE: ', orderProducts);
-    res.json({orderInfo, orderProducts});
+    res.json({ orderInfo, productsArray });
   }
   catch (err) { next(err); }
 });
