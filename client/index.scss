@@ -28,3 +28,13 @@ body {
     display: inline-block;
   }
 }
+
+footer {
+  text-align: center;
+  float: none;
+
+  ul {
+    padding: 0px;
+    list-style: none;
+  }
+}

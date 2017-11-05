@@ -10,17 +10,19 @@ export const Footer = (props) => {
   // const {email} = props;
 
   return (
-    <div>
+    <footer>
       <a href="/">
         <img src="http://www.placecage.com/50/50" />
       </a>
-      <p>Brought to you by:</p>
-      <p>Zachary Friedman</p>
-      <p>Matthew Thor</p>
-      <p>Rick Polidoro</p>
-      <p>Benjamin Odisho</p>
-      <p>&copy;</p>
-    </div>
+      <ul>
+      <li><b>Brought to you by:</b></li>
+      <li>Zachary Friedman</li>
+      <li>Matthew Thor</li>
+      <li>Rick Polidoro</li>
+      <li>Benjamin Odisho</li>
+      <li>&copy;</li>
+      </ul>
+    </footer>
   )
 }
 
