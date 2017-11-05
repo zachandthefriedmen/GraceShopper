@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Order, User, OrderProduct } = require('../db/models');
+const { Order, User, OrderProduct, Product } = require('../db/models');
 module.exports = router;
 
 router.get('/', async (req, res, next) => {
@@ -17,14 +17,30 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
   try {
-    let orderInfo = await Order.findById(req.params.id, {
+    let order = await Order.findById(req.params.id, {
       include: [{
         model: User,
         attributes: ['id', 'email', 'firstName', 'lastName', 'admin']
       }]
     });
-    let orderProducts = await OrderProduct.findAll({ where: { orderId: req.params.id } });
-    res.json({orderInfo, orderProducts});
+
+    let orderProducts = await order.getProducts();
+
+    // THE PROBLEM HERE IS ASYNC ISSUES. NOT MODIFYING orderProducts before sending response!!
+    // let orderProducts = await OrderProduct.findAll({ where: { orderId: req.params.id }});
+    // orderProducts.forEach(async product => {
+    //   let productInfo = await Product.findById(product.dataValues.productId);
+    //   product.dataValues.productId = productInfo;
+    // });
+    //MAP version... working maybe?? testing above with forEach first.
+    // orderProducts.map(async product => {
+    //   let newProduct = product;
+    //   let productInfo = await Product.findById(product.productId);
+    //   newProduct.productId = productInfo;
+    //   return newProduct;
+    // });O
+    // console.log('ORDER PRODUCTS BEFORE RESPONSE: ', orderProducts);
+    res.json({order, orderProducts});
   }
   catch (err) { next(err); }
 });

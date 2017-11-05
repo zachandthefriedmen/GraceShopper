@@ -93,6 +93,7 @@ async function seed() {
   ]);
   await products[0].addCategory(1);
   await products[1].addCategory(2);
+  // await orders[0].addProducts([products[0], products[1]]); // typical order association but not able to save price and qty... moving to creating with model below
   console.log(`seeded ${products.length} products`);
 
   const orderProducts = await Promise.all([
