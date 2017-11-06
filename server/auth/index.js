@@ -23,7 +23,7 @@ router.post('/signup', (req, res, next) => {
     })
     .catch(err => {
       if (err.name === 'SequelizeUniqueConstraintError') {
-        res.status(401).send('User already exists')
+        res.status(401).send('User already exists. If you signed up with Google, please use that account to log in.')
       } else {
         next(err)
       }
