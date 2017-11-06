@@ -54,14 +54,6 @@ router.put('/:id', async (req, res, next) => {
   catch (err) { next(err); }
 });
 
-router.get('/user/:id', async (req, res, next) => {
-  try {
-    res.json(await Order.findAll({
-      where: { userId: req.params.id }
-    }));
-  }
-  catch (err) { next(err); }
-});
 
 router.post('/', async (req, res, next) => {
   try {
