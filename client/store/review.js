@@ -75,7 +75,7 @@ export const fetchReviewsForProduct = (productId) => async dispatch => {
 
 export const createReview = review => async dispatch => {
   try {
-    dispatch(postReview((await axios.post('api/review', review)).data));
+    dispatch(postReview((await axios.post('/api/review', review)).data));
   }
   catch (err) { console.error('Posting review unsuccessful', err); }
 };

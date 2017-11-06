@@ -18,6 +18,7 @@ class SingleProduct extends Component {
 
   submitReview(event) {
     event.preventDefault();
+    console.log(typeof event.target.stars.value);
     let reviewObject = {
       stars: +event.target.stars.value,
       title: event.target.title.value,
@@ -25,7 +26,7 @@ class SingleProduct extends Component {
       userId: +this.props.user.id,
       productId: +this.props.match.params.id,
     };
-    console.log(reviewObject);
+    this.props.createNewReview(reviewObject);
     event.target.stars.value = 5;
     event.target.title.value = '';
     event.target.body.value = '';
