@@ -4,6 +4,7 @@ import axios from 'axios';
 
 const GET_ORDERS = 'GET_ORDERS';
 const GET_ORDER = 'GET_ORDER';
+const GET_ORDERS_FOR_USER = 'GET_ORDER_FOR_USER';
 const POST_ORDER = 'POST_ORDER';
 const DELETE_ORDER = 'DELETE_ORDER';
 const PUT_ORDER = 'PUT_ORDER';
@@ -12,6 +13,7 @@ const PUT_ORDER = 'PUT_ORDER';
 
 const getOrders = orders => ({ type: GET_ORDERS, orders });
 const getOrder = order => ({ type: GET_ORDER, order });
+const getOrdersForUser = orders => ({ type: GET_ORDERS_FOR_USER, orders });
 const postOrder = order => ({ type: POST_ORDER, order });
 const deleteOrder = id => ({ type: DELETE_ORDER, id });
 const putOrder = order => ({ type: PUT_ORDER, order });
@@ -25,6 +27,9 @@ export default function reducer(orders = [], action) {
 
     case GET_ORDER:
       return action.order;
+
+    case GET_ORDERS_FOR_USER:
+      return action.orders;
 
     case POST_ORDER:
       return [...orders, action.order];
@@ -54,6 +59,15 @@ export const fetchOrder = id => async dispatch => {
     dispatch(getOrder(res.data));
   }
   catch (err) { console.error('Fetching order unsuccessful', err); }
+};
+
+export const fetchOrdersForUser = id => async dispatch => {
+  try {
+    const res = await axios.get(`/api/user/${id}/orders`);
+    console.log('fetchOrdersForUser', res.data);
+    dispatch(getOrdersForUser(res.data));
+  }
+  catch (err) { console.error('Fetching orders unsuccessful', err); }
 };
 
 export const createOrder = order => async dispatch => {
