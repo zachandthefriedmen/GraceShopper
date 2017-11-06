@@ -11,7 +11,7 @@ describe('Order model', () => {
     return db.sync({ force: true });
   });
 
-  describe('getterMethods', () => {
+  describe('instanceMethods', () => {
     let newOrder;
     let orderProducts;
 
@@ -23,6 +23,7 @@ describe('Order model', () => {
       await Promise.all([
         Product.create({ name: 'Awesome ball', available: true }),
         Product.create({ name: 'Delicious bone', available: true }),
+        Product.create({ name: 'Strong leash', available: true }),
       ]);
 
       await newOrder.setProducts([1, 2]);
@@ -35,16 +36,22 @@ describe('Order model', () => {
       ]);
     });
 
-    describe('totalPrice', () => {
-      xit('returns the total price of the order', () => {
-        expect(newOrder.totalPrice).to.be.equal(18.95);
+    describe('addOrUpdateCartItem', () => {
+      it('updates the OrderProduct and returns it', async () => {
+        // test the price before updating
+        expect(orderProducts[0].price).to.be.equal(4.99);
+
+        const orderProduct = await newOrder.addOrUpdateCartItem(1, 5.99, 7);
+
+        expect(orderProduct.price).to.be.equal(5.99);
+        expect(orderProduct.quantity).to.be.equal(7);
       });
     });
 
-    describe('totalQuantity', () => {
-      xit('returns the total price of the order', () => {
-        expect(newOrder.totalQuantity).to.be.equal(5);
-      });
-    });
+    // describe('totalQuantity', () => {
+    //   xit('returns the total price of the order', () => {
+    //     expect(newOrder.totalQuantity).to.be.equal(5);
+    //   });
+    // });
   });
 });
