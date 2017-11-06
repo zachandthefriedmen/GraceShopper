@@ -34,6 +34,8 @@ router.post('/', async (req, res, next) => {
   catch (err) { next(err); }
 });
 
+// COMMENT - Make sure this behaves like you think. If you hit an error, it may 
+// still try to send status 204, resulting in another (uncaught!) error
 router.delete('/:id', async (req, res, next) => {
   const id = req.params.id;
 

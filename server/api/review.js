@@ -8,6 +8,8 @@ router.get('/', async (req, res, next) => {
       include:
       [{
         model: User,
+        // COMMENT - This is a great place to apply scopes or hooks, so you don't
+        // have to manually specify these attributes each time
         attributes: ['id', 'email', 'firstName', 'lastName', 'admin']
       },
         Product

@@ -16,6 +16,11 @@ const postOrder = order => ({ type: POST_ORDER, order });
 const deleteOrder = id => ({ type: DELETE_ORDER, id });
 const putOrder = order => ({ type: PUT_ORDER, order });
 
+
+
+// COMMENT - Naming convention is confusing here -
+// These actions relate to your local store, not to network requests,
+// so using names like POST/PUT is misleading
 /* ------------       REDUCERS     ------------------ */
 export default function reducer(orders = [], action) {
   switch (action.type) {
@@ -77,4 +82,3 @@ export const removeOrder = id => async dispatch => {
   try { await axios.delete(`api/order/${id}`); }
   catch (err) { console.error('Deleting order unsuccessful', err); }
 };
-
