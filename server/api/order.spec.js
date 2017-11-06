@@ -36,7 +36,7 @@ describe('Order routes', () => {
         .expect(200)
         .then(res => {
           expect(res.body).to.be.an('object');
-          expect(res.body.email).to.be.equal(order1.email);
+          expect(res.body.order.email).to.be.equal(order1.email);
         });
     });
 
