@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { editOrder, createOrder, fetchProduct, fetchReviewsForProduct, updateCart } from '../store';
+import { editOrder, createOrder, fetchProduct, fetchReviewsForProduct, updateCart, makeNewCart } from '../store';
 
 /**
  * COMPONENT
@@ -71,11 +71,10 @@ const mapDispatch = (dispatch) => {
   return {
     addToCartClick: (cart, product) => {
       let quant = document.getElementById('number').value;
-      const thisOrder = {productId: product.id, price: product.price, quantity: +quant};
-      if (Object.keys(cart).length) {
-        dispatch(updateCart(this.state.order.id, ...thisOrder));
+      if (cart.id) {
+        dispatch(updateCart(cart.id, product.id, product.price, +quant));
       } else {
-        dispatch(createOrder(thisOrder));
+        dispatch(makeNewCart(product.id, product.price, +quant));
       }
     },
     getThisProduct: (id) => {
