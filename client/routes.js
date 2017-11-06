@@ -1,22 +1,22 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {Router} from 'react-router';
-import {Route, Switch} from 'react-router-dom';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Router } from 'react-router';
+import { Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import history from './history';
-import {Main, Login, Signup, UserHome, Products, SingleProduct, LandingPage, Cart, AccountView} from './components';
-import {me} from './store';
+import { Main, Login, Signup, UserHome, Products, SingleProduct, LandingPage, Cart, AccountView } from './components';
+import { me, fetchCart } from './store';
 
 /**
  * COMPONENT
  */
 class Routes extends Component {
-  componentDidMount () {
+  componentDidMount() {
     this.props.loadInitialData();
   }
 
-  render () {
-    const {isLoggedIn} = this.props;
+  render() {
+    const { isLoggedIn } = this.props;
 
     return (
       <Router history={history}>
@@ -30,13 +30,13 @@ class Routes extends Component {
             <Route path="/cart" component={Cart} />
             <Route path="/products/:id" component={SingleProduct} />
             {/* We need to implement the user id into the url for account view */}
-            <Route path="/user/:id" component={AccountView} />
             {
               isLoggedIn &&
-                <Switch>
-                  {/* Routes placed here are only available after logging in */}
-                  <Route path="/home" component={UserHome} />
-                </Switch>
+              <Switch>
+                {/* Routes placed here are only available after logging in */}
+                <Route path="/user/:id" component={AccountView} />
+                <Route path="/home" component={UserHome} />
+              </Switch>
             }
             {/* Displays our Login component as a fallback */}
             <Route component={Login} />
@@ -60,8 +60,9 @@ const mapState = (state) => {
 
 const mapDispatch = (dispatch) => {
   return {
-    loadInitialData () {
+    loadInitialData() {
       dispatch(me());
+      dispatch(fetchCart());
     }
   };
 };
