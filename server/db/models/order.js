@@ -4,12 +4,11 @@ const OrderProduct = require('./order-product');
 
 const Order = db.define('order', {
   status: {
-    type: Sequelize.ENUM('open', 'created', 'processing', 'cancelled', 'completed', 'merged')
+    type: Sequelize.ENUM('open', 'created', 'processing', 'cancelled', 'completed', 'aborted')
   },
   email: {
     type: Sequelize.STRING,
     allowNull: true,
-    unique: true,
     validate: { isEmail: true },
   },
   orderDate: { type: Sequelize.DATE },
