@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { editProduct } from '../store';
 import { Link } from 'react-router-dom';
 
 const AdminProductForm = (props) => {
@@ -41,4 +42,12 @@ const mapState = state => {
   };
 };
 
-export default connect(mapState)(AdminProductForm);
+const mapDispatch = (dispatch) => {
+    return {
+      getAllInfo: (id, product) => {
+        dispatch(editProduct(id, product));
+      }
+    };
+  };
+
+export default connect(mapState, mapDispatch)(AdminProductForm);

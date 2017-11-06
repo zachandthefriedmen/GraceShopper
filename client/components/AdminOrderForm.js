@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { editOrder } from '../store';
 import { Link } from 'react-router-dom';
 
 const AdminOrderForm = (props) => {
@@ -37,4 +38,12 @@ const mapState = state => {
   };
 };
 
-export default connect(mapState)(AdminOrderForm);
+const mapDispatch = (dispatch) => {
+  return {
+    getAllInfo: (id, order) => {
+      dispatch(editOrder(id, order));
+    }
+  };
+};
+
+export default connect(mapState, mapDispatch)(AdminOrderForm);
