@@ -1,53 +1,58 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { editOrder, createOrder, fetchProduct, fetchReviewsForProduct } from '../store';
 
 /**
  * COMPONENT
  */
-export const SingleProduct = (props) => {
+class SingleProduct extends Component {
   // Leftover code from user-home.js (component this was based off of) in case someone else needs it later
   // const {email} = props
+  constructor(props){
+    super(props);
 
-  //Dummy data from Products
-  const allReviews = [{ id: 1, stars: 5, title: 'This bone broke', body: 'This is the coolest leash you have EVER seen! It also will never break.' },
-                      { id: 2, stars: 5, title: 'This bone broke', body: 'This is the coolest leash you have EVER seen! It also will never break.' },
-                      { id: 3, stars: 5, title: 'This bone broke', body: 'This is the coolest leash you have EVER seen! It also will never break.' },
-                      { id: 4, stars: 5, title: 'This bone broke', body: 'This is the coolest leash you have EVER seen! It also will never break.' },
-                      { id: 5, stars: 5, title: 'This bone broke', body: 'This is the coolest leash you have EVER seen! It also will never break.' },
-                    ];
-                      
+  }
 
-  return (
-    <div className="container">
-      <div className="row">
-        <div id="LeftText" className="jumbotron col-md-5">
-          <h1 className="display-3">Product</h1>
-          <p className="lead">Rating</p>
-          <p className="lead">Price</p>
-          <button className="btn btn-primary">Add To Cart</button>
-          <hr className="my-2" />
-          <p>Category</p>
-          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+  componentDidMount() {
+    this.props.getThisProduct(this.props.match.params.id);
+  }
+
+  render() {
+    if (!Object.keys(this.props.product).length) return (<div />);
+
+    return (
+      <div className="container">
+        <div className="row">
+          <div id="LeftText" className="jumbotron col-md-5">
+            <h1 className="display-3">{this.props.product.name}</h1>
+            <p className="lead">{this.props.product.rating}</p>
+            <p className="lead">{this.props.product.price}</p>
+            <input id="number" type="number" min="1" max="50" defaultValue="1" />
+            <button className="btn btn-primary" onClick={() => this.props.addToCartClick(this.props.cart, this.props.product)}>Add To Cart</button>
+            <hr className="my-2" />
+            <p>Category</p>
+            <p>{this.props.product.description}</p>
+          </div>
+          <div className="col-md-7">
+            <img src="http://www.placecage.com/400/600" />
+          </div>
         </div>
-        <div className="col-md-7">
-          <img src="http://www.placecage.com/500/600" />
+        <div className="row">
+          {this.props.reviews.map(review => {
+            return (
+              <div key={review.id} className="col-md-4">
+                <h2>{review.title}</h2>
+                <h5 className="text-warning">{review.stars}</h5>
+                <p>{review.body}</p>
+              </div>
+            );
+          })}
         </div>
       </div>
-      <div className="row">
-        {allReviews.map(review => {
-          return (
-            <div key={review.id} className="col-md-4">
-              <h2>{review.title}</h2>
-              <h5 className="text-warning">{review.stars}</h5>
-              <p>{review.body}</p>
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 /**
  * CONTAINER
@@ -56,10 +61,34 @@ const mapState = (state) => {
   return {
     // Leftover code from boilerplate user-home.js
     // email: state.user.email
-  }
-}
+    cart: state.order,
+    product: state.product,
+    reviews: state.review
+  };
+};
 
-export default connect(mapState)(SingleProduct);
+const mapDispatch = (dispatch) => {
+  return {
+    addToCartClick: (cart, product) => {
+      let quant = document.getElementById('number').value;
+      const thisOrder = {quantity: +quant, price: product.price, productId: product.id};
+      console.log(thisOrder);
+      if (cart.length) {
+        // dispatch(editOrder(state.order.id, thisOrder));
+        //api/cart/orderId
+      } else {
+        dispatch(createOrder());
+      }
+    },
+    getThisProduct: (id) => {
+      dispatch(fetchProduct(id));
+      dispatch(fetchReviewsForProduct(id));
+    }
+  };
+};
+
+
+export default connect(mapState, mapDispatch)(SingleProduct);
 
 /**
  * PROP TYPES

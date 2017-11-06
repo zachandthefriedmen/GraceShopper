@@ -67,7 +67,7 @@ export const fetchReview = id => async dispatch => {
 export const fetchReviewsForProduct = (productId) => async dispatch => {
   try {
     dispatch(getProductReviews(
-      (await axios.get(`/api/review/product/${productId}`)).data
+      (await axios.get(`/api/product/${productId}/reviews`)).data
     ));
   }
   catch (err) { console.error('Fetching reviews unsuccessful', err); }
