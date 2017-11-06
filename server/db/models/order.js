@@ -9,7 +9,6 @@ const Order = db.define('order', {
   email: {
     type: Sequelize.STRING,
     allowNull: true,
-    unique: true,
     validate: { isEmail: true },
   },
   orderDate: { type: Sequelize.DATE },
