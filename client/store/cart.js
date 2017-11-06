@@ -36,7 +36,7 @@ export const fetchCart = () => async dispatch => {
     const res = await axios.get('/api/cart');
     res.status === 200
       ? dispatch(getCart(res.data))
-      : dispatch(getCart());
+      : dispatch(getCart({}));
   }
   catch (err) { console.error('Fetching cart unsuccessful', err); }
 };

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import OrderCell from './OrderCell';
-import { fetchOrdersForUser } from '../store/order';
+import { fetchOrdersForUser } from '../store';
 
 /**
  * COMPONENT
@@ -44,8 +44,7 @@ class AccountView extends Component {
   }
 
   componentDidMount() {
-    console.log("This user id: ", this.props.user);
-    this.props.fetchAccountData(1);
+    this.props.fetchAccountData(this.props.user.id);
   }
 
 
@@ -79,10 +78,12 @@ class AccountView extends Component {
         <div>
           <h4>ORDER HISTORY</h4>
           {
-            this.state.dummyOrders.map(order => {
-              return (
-                <OrderCell key={order.id} order={order} />
-              );
+            this.props.orders.map(order => {
+              if (order.status !== ('open' || 'aborted')) {
+                return (
+                  <OrderCell key={order.id} order={order} />
+                );
+              }
             })
           }
         </div>

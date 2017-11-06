@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User, Order } = require('../db/models');
+const { User, Order, OrderProduct } = require('../db/models');
 module.exports = router;
 
 router.get('/', async (req, res, next) => {
@@ -25,9 +25,22 @@ router.get('/:id', async (req, res, next) => {
 
 router.get('/:id/orders', async (req, res, next) => { // get all orders by user id
   try {
-    res.json(await Order.findAll({
-      where: { userId: req.params.id }
-    }));
+    const orders = await Order.findAll({ where: { userId: req.params.id } });
+
+    const OPPromises = orders.map(order => {
+      return OrderProduct.findAll({
+        where: { orderId: order.id }
+      });
+    });
+
+    const orderProducts = await Promise.all(OPPromises);
+
+    const returnArray = orders.map((order, i) => {
+      order.dataValues.orderProducts = orderProducts[i];
+      return order;
+    });
+
+    res.json(returnArray);
   }
   catch (err) { next(err); }
 });
@@ -49,7 +62,7 @@ router.post('/', async (req, res, next) => {
 router.delete('/:id', async (req, res, next) => {
   const id = req.params.id;
 
-  try { await User.destroy({ where: { id }}); }
+  try { await User.destroy({ where: { id } }); }
   catch (err) { next(err); }
 
   res.sendStatus(204);

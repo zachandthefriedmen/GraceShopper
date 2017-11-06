@@ -61,11 +61,11 @@ export const fetchOrder = id => async dispatch => {
   catch (err) { console.error('Fetching order unsuccessful', err); }
 };
 
-export const fetchOrdersForUser = (id) => async dispatch => {
+export const fetchOrdersForUser = id => async dispatch => {
   try {
-    console.log('user id for thunk: ', id);
-    console.log('order json', await axios.get(`/api/user/${id}/orders`));
-    dispatch(getOrdersForUser((await axios.get(`/api/user/${id}/orders`)).data));
+    const res = await axios.get(`/api/user/${id}/orders`);
+    console.log('fetchOrdersForUser', res.data);
+    dispatch(getOrdersForUser(res.data));
   }
   catch (err) { console.error('Fetching orders unsuccessful', err); }
 };
