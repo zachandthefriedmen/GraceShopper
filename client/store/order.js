@@ -56,6 +56,14 @@ export const fetchOrder = id => async dispatch => {
   catch (err) { console.error('Fetching order unsuccessful', err); }
 };
 
+export const fetchOrderByUser = id => async dispatch => {
+  try {
+    const res = await axios.get(`/api/order/user/${id}`);
+    dispatch(getOrder(res.data));
+  }
+  catch (err) { console.error('Fetching user order unsuccessful', err); }
+};
+
 export const createOrder = order => async dispatch => {
   try {
     dispatch(postOrder((await axios.post('api/order', order)).data));
