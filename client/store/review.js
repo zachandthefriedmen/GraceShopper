@@ -75,14 +75,14 @@ export const fetchReviewsForProduct = (productId) => async dispatch => {
 
 export const createReview = review => async dispatch => {
   try {
-    dispatch(postReview((await axios.post('api/review', review)).data));
+    dispatch(postReview((await axios.post('/api/review', review)).data));
   }
   catch (err) { console.error('Posting review unsuccessful', err); }
 };
 
 export const editReview = (id, review) => async dispatch => {
   try {
-    const res = await axios.put(`api/review/${id}`, review);
+    const res = await axios.put(`/api/review/${id}`, review);
     dispatch(putReview(res.data));
   }
   catch (err) { console.error('Updating review unsuccessful', err); }
@@ -91,6 +91,6 @@ export const editReview = (id, review) => async dispatch => {
 export const removeReview = id => async dispatch => {
   // Optimistic
   dispatch(deleteReview(id));
-  try { await axios.delete(`api/review/${id}`); }
+  try { await axios.delete(`/api/review/${id}`); }
   catch (err) { console.error('Deleting review unsuccessful', err); }
 };

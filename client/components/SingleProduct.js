@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { editOrder, createOrder, fetchProduct, fetchReviewsForProduct } from '../store';
+import { editOrder, createOrder, fetchProduct, fetchReviewsForProduct, updateCart } from '../store';
 
 /**
  * COMPONENT
@@ -61,7 +61,7 @@ const mapState = (state) => {
   return {
     // Leftover code from boilerplate user-home.js
     // email: state.user.email
-    cart: state.order,
+    cart: state.cart,
     product: state.product,
     reviews: state.review
   };
@@ -71,13 +71,11 @@ const mapDispatch = (dispatch) => {
   return {
     addToCartClick: (cart, product) => {
       let quant = document.getElementById('number').value;
-      const thisOrder = {quantity: +quant, price: product.price, productId: product.id};
-      console.log(thisOrder);
-      if (cart.length) {
-        // dispatch(editOrder(state.order.id, thisOrder));
-        //api/cart/orderId
+      const thisOrder = {productId: product.id, price: product.price, quantity: +quant};
+      if (Object.keys(cart).length) {
+        dispatch(updateCart(this.state.order.id, ...thisOrder));
       } else {
-        dispatch(createOrder());
+        dispatch(createOrder(thisOrder));
       }
     },
     getThisProduct: (id) => {

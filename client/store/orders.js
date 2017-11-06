@@ -72,14 +72,14 @@ export const fetchOrdersForUser = id => async dispatch => {
 
 export const createOrder = order => async dispatch => {
   try {
-    dispatch(postOrder((await axios.post('api/order', order)).data));
+    dispatch(postOrder((await axios.post('/api/order', order)).data));
   }
   catch (err) { console.error('Posting order unsuccessful', err); }
 };
 
 export const editOrder = (id, order) => async dispatch => {
   try {
-    const res = await axios.put(`api/order/${id}`, order);
+    const res = await axios.put(`/api/order/${id}`, order);
     dispatch(putOrder(res.data));
   }
   catch (err) { console.error('Updating order unsuccessful', err); }
@@ -88,7 +88,7 @@ export const editOrder = (id, order) => async dispatch => {
 export const removeOrder = id => async dispatch => {
   // Optimistic
   dispatch(deleteOrder(id));
-  try { await axios.delete(`api/order/${id}`); }
+  try { await axios.delete(`/api/order/${id}`); }
   catch (err) { console.error('Deleting order unsuccessful', err); }
 };
 
