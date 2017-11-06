@@ -7,9 +7,10 @@ import product from './product';
 import category from './category';
 import review from './review';
 import order from './order';
+import cart from './cart';
 
 
-const reducer = combineReducers({ user, product, category, review, order });
+const reducer = combineReducers({ user, product, category, review, order, cart });
 
 const middleware = composeWithDevTools(applyMiddleware(
   thunkMiddleware,
