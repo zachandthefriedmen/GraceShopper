@@ -54,7 +54,7 @@ class SingleProduct extends Component {
           <div id="LeftText" className="jumbotron col-md-5">
             <h1 className="display-3">{this.item.name}</h1>
             <p className="lead">Rating: {this.rating} / 5</p>
-            <p className="lead">{this.item.price}</p>
+            <p className="lead">Price: ${this.item.price}</p>
             <form onSubmit={this.addToCartClick}>
               <input id="number" type="number" min="1" max="50" defaultValue="1" />
               <button className="btn btn-primary" type="submit">Add To Cart</button>
