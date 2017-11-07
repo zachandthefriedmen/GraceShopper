@@ -27,7 +27,7 @@ const Main = (props) => {
                 {/* TODO - create /user/:id  */}
                 <Link className="nav-link" to="/products">All Products</Link>
                 <Link className="nav-link" to="/cart">Cart</Link>
-                <Link className="nav-link" to="/user/:id">Account</Link>
+                <Link className="nav-link" to="/user">Account</Link>
                 <a className="btn btn-outline-danger" href="#" onClick={handleClick}>Logout</a>
               </nav>
               : <nav className="nav navbar-nav ml-auto" id="navbarTogglerDemo01">
