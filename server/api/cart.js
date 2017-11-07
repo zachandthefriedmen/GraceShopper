@@ -45,17 +45,14 @@ router.post('/', async (req, res, next) => {
 
 router.delete('/orderProduct', async (req, res, next) => {
   try {
-    const prodId = req.params.productId;
-    const ordId = req.params.orderId;
+    const productId = req.body.productId;
+    const orderId = req.body.orderId;
 
     await OrderProduct.destroy({
-      where: {
-        productId: prodId,
-        orderId: ordId
-      }
+      where: { productId, orderId }
     });
 
+    res.sendStatus(204);
   }
   catch (err) { next(err); }
-  res.sendStatus(204);
 });
