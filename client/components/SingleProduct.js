@@ -74,13 +74,15 @@ class SingleProduct extends Component {
         </div>
         <div className="row">
           {this.props.reviews.map(review => {
+            console.log("REVIEW: ", review);
             return (
               <div key={review.id} className="col-md-4">
                 <h2>{review.title}</h2>
-                <h5 className="text-warning">{review.stars}</h5>
+                <h5 className="text-warning">{review.stars} / 5</h5>
+                <p> A review by <a href={'mailto:' + review.user.email}>{review.user.fullName}</a></p>
                 <p>{review.body}</p>
               </div>
-            );
+                );
           })}
         </div>
       </div>
@@ -93,7 +95,7 @@ class SingleProduct extends Component {
  */
 const mapState = (state) => {
   return {
-    cart: state.cart,
+            cart: state.cart,
     product: state.product,
     reviews: state.review
   };
@@ -101,15 +103,15 @@ const mapState = (state) => {
 
 const mapDispatch = (dispatch) => {
   return {
-    editCart: (cartId, productId, productPrice, quantity) => {
-      dispatch(updateCart(cartId, productId, productPrice, quantity));
-    },
+            editCart: (cartId, productId, productPrice, quantity) => {
+            dispatch(updateCart(cartId, productId, productPrice, quantity));
+          },
     newCart: (productId, productPrice, quantity) => {
-      dispatch(makeNewCart(productId, productPrice, quantity));
-    },
+            dispatch(makeNewCart(productId, productPrice, quantity));
+          },
     getReviews: (id) => {
-      dispatch(fetchReviewsForProduct(id));
-    }
+            dispatch(fetchReviewsForProduct(id));
+          }
   };
 };
 
