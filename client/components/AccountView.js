@@ -69,13 +69,6 @@ class AccountView extends Component {
 /**
  * CONTAINER
  */
-// const mapState = ({user}) => { return user;
-//   // return {
-//   //   // Leftover code from boilerplate user-home.js
-//   //   // email: state.user.email
-//   // };
-// };
-
 
 const mapState = ({ user, orders }) => ({ user, orders });
 
@@ -90,7 +83,3 @@ export default connect(mapState, mapDispatch)(AccountView);
 /**
  * PROP TYPES
  */
-// Leftover code from user-home.js
-// UserHome.propTypes = {
-//   email: PropTypes.string
-// }

@@ -90,7 +90,6 @@ export const removeItem = (cart, productId) => async dispatch => {
 };
 
 export const clearCart = () => dispatch => {
-  console.log('clearCart dispatched');
   dispatch(emptyCart());
   history.push('/');
 };

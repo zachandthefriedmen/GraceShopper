@@ -3,13 +3,12 @@ import { connect } from 'react-redux';
 import { editProduct, createProduct, createCategory } from '../store';
 import { Link } from 'react-router-dom';
 
-
-
 const AdminProductForm = (props) => {
   const { products } = props;
 
   // Creates a new product when form is submitted
-  // TODO: add categories onto form to attatch to item
+  // TO-DO: add categories onto form to attatch to item
+
   let submitCreateProduct = (event) => {
     event.preventDefault();
     let newProduct = {
@@ -48,7 +47,7 @@ const AdminProductForm = (props) => {
   };
 
 
-  //TODO: Add categories for products
+  // TO-DO: Add categories for products
   console.log(products);
   if (!products) return (<div />);
 
