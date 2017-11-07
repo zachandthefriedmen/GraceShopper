@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchUsers, fetchProducts, fetchCategories, fetchOrders } from '../store';
+import { fetchProducts, fetchCategories } from '../store';
 import AdminUserForm from './AdminUserForm';
 import AdminProductForm from './AdminProductForm';
 import AdminCategoryForm from './AdminCategoryForm';
@@ -12,6 +12,10 @@ import AdminOrderForm from './AdminOrderForm';
 export const AdminPage = (props) => {
   // Leftover code from user-home.js (component this was based off of) in case someone else needs it later
   // const {email} = props
+  props.fetchInitialData();
+
+  console.log(props.user);
+  if (!props.user.admin) return (<h1>Sorry! Only admins can see this page.</h1>);
 
   return (
     <div>
@@ -20,10 +24,10 @@ export const AdminPage = (props) => {
       <button>CATEGORIES</button>
       <button>ORDERS</button>
 
-      <AdminUserForm />
+      {/* <AdminUserForm /> */}
       <AdminProductForm />
-      <AdminCategoryForm />
-      <AdminOrderForm />
+      {/* <AdminCategoryForm /> */}
+      {/* <AdminOrderForm /> */}
     </div>
   );
 };
@@ -35,16 +39,15 @@ const mapState = (state) => {
   return {
     // Leftover code from boilerplate user-home.js
     // email: state.user.email
+    user: state.user
   };
 };
 
 const mapDispatch = (dispatch) => {
   return {
-    getAllInfo: () => {
-      dispatch(fetchUsers());
+    fetchInitialData: () => {
       dispatch(fetchProducts());
       dispatch(fetchCategories());
-      dispatch(fetchOrders());
     }
   };
 };
