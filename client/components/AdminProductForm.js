@@ -7,9 +7,9 @@ import { Link } from 'react-router-dom';
 
 const AdminProductForm = (props) => {
   const { products } = props;
-  console.log(props);
 
   // Creates a new product when form is submitted
+  // TODO: add categories onto form to attatch to item
   let submitCreateProduct = (event) => {
     event.preventDefault();
     let newProduct = {
@@ -31,8 +31,6 @@ const AdminProductForm = (props) => {
       name: event.target.productName.value,
       price: +event.target.productPrice.value
     };
-    console.log("PC", productChanges);
-    console.log("ID", event.target.productSelect.value);
     props.editProductInfo(event.target.productSelect.value, productChanges);
   };
 
@@ -96,7 +94,7 @@ const AdminProductForm = (props) => {
             <label>Select a product to edit:</label>
             <select name="productSelect" form="editProductForm">
               {/* Creates an option in the select for each individual product */}
-              {products.map(product => (<option key={product.key} value={product.id}>{product.name}</option>))}
+              {products.map(product => (<option key={product.id} value={product.id}>{product.name}</option>))}
             </select>
             <input name="productName" className="form-control" type="text" placeholder="New Name" />
             <input name="productPrice" className="form-control" type="number" step=".01" placeholder="New Price" />

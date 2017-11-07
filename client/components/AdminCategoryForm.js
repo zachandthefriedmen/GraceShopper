@@ -32,7 +32,7 @@ const AdminCategoryForm = (props) => {
 
 const mapState = state => {
   return {
-    categories: state.categories
+    categories: state.category
   };
 };
 

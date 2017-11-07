@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchProducts, fetchCategories } from '../store';
+import { fetchProducts, fetchCategories, fetchOrders } from '../store';
 import AdminUserForm from './AdminUserForm';
 import AdminProductForm from './AdminProductForm';
 import AdminCategoryForm from './AdminCategoryForm';
@@ -19,15 +19,20 @@ export const AdminPage = (props) => {
 
   return (
     <div>
+      {/* 
+      Very basic code for tabs in case we choose to explore later
       <button>USERS</button>
       <button>PRODUCTS</button>
       <button>CATEGORIES</button>
-      <button>ORDERS</button>
+      <button>ORDERS</button> */}
 
       {/* <AdminUserForm /> */}
+      <h1>Products</h1>
       <AdminProductForm />
-      {/* <AdminCategoryForm /> */}
-      {/* <AdminOrderForm /> */}
+      <h1>Categories</h1>
+      {/* {<AdminCategoryForm />} */}
+      <h1>Orders</h1>
+      {<AdminOrderForm />}
     </div>
   );
 };
@@ -48,6 +53,7 @@ const mapDispatch = (dispatch) => {
     fetchInitialData: () => {
       dispatch(fetchProducts());
       dispatch(fetchCategories());
+      dispatch(fetchOrders());
     }
   };
 };
