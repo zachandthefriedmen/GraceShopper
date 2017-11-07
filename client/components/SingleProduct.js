@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchReviewsForProduct, createReview } from '../store';
+import { fetchReviewsForProduct, updateCart, makeNewCart, createReview } from '../store';
+
 /**
  * COMPONENT
  */
 class SingleProduct extends Component {
-  // Leftover code from user-home.js (component this was based off of) in case someone else needs it later
-  // const {email} = props
   constructor(props) {
     super(props);
     this.addToCartClick = this.addToCartClick.bind(this);
@@ -15,7 +14,7 @@ class SingleProduct extends Component {
     this.rating = 0; //if we want to calculate rating locally when we hit this component
   }
 
-  componentWillReceiveProps() {
+  componentDidMount() {
     this.props.getReviews(this.props.match.params.id);
   }
 
@@ -30,21 +29,22 @@ class SingleProduct extends Component {
     }
   }
 
-  submitReview = (event) => {
+  createNewReview = (event) => {
     event.preventDefault();
-    let newReview = {
-      stars: +event.target.stars.value,
+
+    let review = {
       title: event.target.title.value,
       body: event.target.body.value,
+      stars: +event.target.stars.value,
       userId: this.props.user.id,
-      user: this.props.user
+      productId: +this.props.match.params.id
     };
-
-    this.props.createNewReview(newReview);
+    
+    this.props.createNewReview(review);
   }
 
   render() {
-    if (!this.props.product.length && !this.props.reviews.length) return (<div />);
+    if (!this.props.product.length) return (<div />);
     let thisItem = this.props.product.filter(item => item.id === +this.props.match.params.id);
     this.item = thisItem[0];
 
@@ -95,17 +95,19 @@ class SingleProduct extends Component {
               </div>
             );
           })}
+          <div>
+            <h3>Leave a Review:</h3>
+            <form onSubmit={this.createNewReview}>
+              <label>Stars</label>
+              <input type="number" name="stars" placeholder={5} />
+              <label>Title</label>
+              <input type="text" name="title" placeholder="title" />
+              <label>Body</label>
+              <input type="text" name="body" placeholder="body" />
+              <input type="submit" name="submit" />
+            </form>
+          </div>
         </div>
-        <form onSubmit={this.submitReview}>
-          <h3>Leave a Review</h3>
-          <label>Stars</label>
-          <input name="stars" type="number" min="1" max="5" defaultValue="5" />
-          <label>Title</label>
-          <input name="title" type="text" />
-          <label>Body</label>
-          <input name="body" type="text" />
-          <input name="submit" type="submit" />
-        </form>
       </div>
     );
   }
@@ -134,9 +136,9 @@ const mapDispatch = (dispatch) => {
     getReviews: (id) => {
       dispatch(fetchReviewsForProduct(id));
     },
-    createNewReview: (review) => {
-      dispatch(createReview(review));
-    },
+    createNewReview: (review, userId, productId) => {
+      dispatch(createReview(review, userId, productId));
+    }
   };
 };
 
