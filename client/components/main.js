@@ -14,6 +14,7 @@ import Footer from './Footer';
 const Main = (props) => {
   const { children, handleClick, isLoggedIn } = props;
 
+
   return (
     <div>
       <div className="navbar navbar-expand-lg navbar-light bg-light">
@@ -27,7 +28,7 @@ const Main = (props) => {
               {/* TODO - create /user/:id  */}
               <Link className="nav-link" to="/products">All Products</Link>
               <Link className="nav-link" to="/cart">Cart</Link>
-              <Link className="nav-link" to="/user/:id">Account</Link>
+              <Link className="nav-link" to="/user">Account</Link>
               <a className="btn btn-outline-danger" href="#" onClick={handleClick}>Logout</a>
             </nav>
             : <nav className="nav navbar-nav ml-auto" id="navbarTogglerDemo01">
@@ -38,12 +39,12 @@ const Main = (props) => {
               <Link className="btn btn-outline-info" to="/signup">Sign Up</Link>
             </nav>
         }
+        </div>
+        <hr />
+        {children}
+        <Footer />
       </div>
-      <hr />
-      {children}
-      <Footer />
-    </div>
-  );
+    );
 };
 
 /**
@@ -51,7 +52,7 @@ const Main = (props) => {
  */
 const mapState = (state) => {
   return {
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
   };
 };
 

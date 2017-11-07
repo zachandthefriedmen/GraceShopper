@@ -4,6 +4,7 @@ import axios from 'axios';
 
 const GET_ORDERS = 'GET_ORDERS';
 const GET_ORDER = 'GET_ORDER';
+const GET_ORDERS_FOR_USER = 'GET_ORDER_FOR_USER';
 const POST_ORDER = 'POST_ORDER';
 const DELETE_ORDER = 'DELETE_ORDER';
 const PUT_ORDER = 'PUT_ORDER';
@@ -12,6 +13,7 @@ const PUT_ORDER = 'PUT_ORDER';
 
 const getOrders = orders => ({ type: GET_ORDERS, orders });
 const getOrder = order => ({ type: GET_ORDER, order });
+const getOrdersForUser = orders => ({ type: GET_ORDERS_FOR_USER, orders });
 const postOrder = order => ({ type: POST_ORDER, order });
 const deleteOrder = id => ({ type: DELETE_ORDER, id });
 const putOrder = order => ({ type: PUT_ORDER, order });
@@ -25,6 +27,9 @@ export default function reducer(orders = [], action) {
 
     case GET_ORDER:
       return action.order;
+
+    case GET_ORDERS_FOR_USER:
+      return action.orders;
 
     case POST_ORDER:
       return [...orders, action.order];
@@ -56,16 +61,25 @@ export const fetchOrder = id => async dispatch => {
   catch (err) { console.error('Fetching order unsuccessful', err); }
 };
 
+export const fetchOrdersForUser = id => async dispatch => {
+  try {
+    const res = await axios.get(`/api/user/${id}/orders`);
+    console.log('fetchOrdersForUser', res.data);
+    dispatch(getOrdersForUser(res.data));
+  }
+  catch (err) { console.error('Fetching orders unsuccessful', err); }
+};
+
 export const createOrder = order => async dispatch => {
   try {
-    dispatch(postOrder((await axios.post('api/order', order)).data));
+    dispatch(postOrder((await axios.post('/api/order', order)).data));
   }
   catch (err) { console.error('Posting order unsuccessful', err); }
 };
 
 export const editOrder = (id, order) => async dispatch => {
   try {
-    const res = await axios.put(`api/order/${id}`, order);
+    const res = await axios.put(`/api/order/${id}`, order);
     dispatch(putOrder(res.data));
   }
   catch (err) { console.error('Updating order unsuccessful', err); }
@@ -74,7 +88,7 @@ export const editOrder = (id, order) => async dispatch => {
 export const removeOrder = id => async dispatch => {
   // Optimistic
   dispatch(deleteOrder(id));
-  try { await axios.delete(`api/order/${id}`); }
+  try { await axios.delete(`/api/order/${id}`); }
   catch (err) { console.error('Deleting order unsuccessful', err); }
 };
 

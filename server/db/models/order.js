@@ -4,12 +4,11 @@ const OrderProduct = require('./order-product');
 
 const Order = db.define('order', {
   status: {
-    type: Sequelize.ENUM('open', 'created', 'processing', 'cancelled', 'completed', 'merged')
+    type: Sequelize.ENUM('open', 'created', 'processing', 'cancelled', 'completed', 'aborted')
   },
   email: {
     type: Sequelize.STRING,
     allowNull: true,
-    unique: true,
     validate: { isEmail: true },
   },
   orderDate: { type: Sequelize.DATE },
@@ -50,7 +49,8 @@ Order.prototype.addOrUpdateCartItem = async function (productId, price, quantity
 
   // findOrCreate returns a boolean that says whether or not a new instance was created. If that boolean is false (meaning the item already existed in that order), we will update the orderProduct accordingly.
   if (!created) {
-    await op.update({ price, quantity });
+    const newQty = op.quantity + quantity;
+    await op.update({ price, quantity: newQty });
   }
 
   return newOp;

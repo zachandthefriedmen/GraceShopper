@@ -51,9 +51,11 @@ class Products extends Component {
             this.state.categoryFilter ?
               this.props.category
                 .filter(item => item.id === this.state.categoryFilter)[0].products
+                .filter(item => item.available === true)
                 .filter(item => item.name.toLowerCase().includes(this.state.nameFilter.toLowerCase()))
                 .map(product => (<ProductCell key={product.id} product={product} />))
-              : this.props.product
+                : this.props.product
+                .filter(item => item.available === true)
                 .filter(item => item.name.toLowerCase().includes(this.state.nameFilter.toLowerCase()))
                 .map(product => (
                   <ProductCell key={product.id} product={product} />

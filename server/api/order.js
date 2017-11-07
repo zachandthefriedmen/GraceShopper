@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Order, User, OrderProduct, Product } = require('../db/models');
+const { Order, User } = require('../db/models');
 module.exports = router;
 
 router.get('/', async (req, res, next) => {
@@ -17,14 +17,14 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
   try {
-    let order = await Order.findById(req.params.id, {
+    const order = await Order.findById(req.params.id, {
       include: [{
         model: User,
         attributes: ['id', 'email', 'firstName', 'lastName', 'admin']
       }]
     });
 
-    let orderProducts = await order.getProducts();
+    const orderProducts = await order.getProducts();
 
     // THE PROBLEM HERE IS ASYNC ISSUES. NOT MODIFYING orderProducts before sending response!!
     // let orderProducts = await OrderProduct.findAll({ where: { orderId: req.params.id }});
@@ -54,14 +54,6 @@ router.put('/:id', async (req, res, next) => {
   catch (err) { next(err); }
 });
 
-router.get('/user/:id', async (req, res, next) => {
-  try {
-    res.json(await Order.findAll({
-      where: { userId: req.params.id }
-    }));
-  }
-  catch (err) { next(err); }
-});
 
 router.post('/', async (req, res, next) => {
   try {
