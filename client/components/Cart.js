@@ -10,6 +10,8 @@ export const Cart = (props) => {
   // Leftover code from user-home.js (component this was based off of) in case someone else needs it later
   // const {email} = props
 
+  console.log()
+
   //Dummy data from Products
   const allProducts = [{ id: 1, name: 'Leash', price: 4.95, description: 'This is the coolest leash you have EVER seen! It also will never break.', image: 'https://www.placecage.com/200/300' },
   { id: 2, name: 'Bone', price: 0.95, description: 'This is a bone.', image: 'https://www.placecage.com/g/200/300' },
@@ -57,12 +59,7 @@ export const Cart = (props) => {
 /**
  * CONTAINER
  */
-const mapState = (state) => {
-  return {
-    // Leftover code from user-home.js (component this was based off of) in case someone else needs it later
-    // email: state.user.email
-  }
-}
+const mapState = ({ cart }) => ({ cart });
 
 export default connect(mapState)(Cart);
 
