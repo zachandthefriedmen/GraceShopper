@@ -62,6 +62,14 @@ export const updateCart = (orderId, productId, price, quantity) => async dispatc
   catch (err) { console.error('Updating cart item unsuccessful', err); }
 };
 
+export const checkoutCart = order => async dispatch => {
+  try {
+    const res = await axios.put(`/api/order/${order.id}`, order);
+    dispatch(updateCartItem(res.data));
+  }
+  catch (err) { console.error('Checkout unsuccessful'); }
+};
+
 export const removeItem = (cart, productId) => async dispatch => {
   try {
     // const cart = await axios.get('/api/cart/');
