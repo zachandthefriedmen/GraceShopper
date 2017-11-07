@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { editOrder, createOrder, fetchProduct, fetchReviewsForProduct, updateCart, makeNewCart } from '../store';
+import { fetchReviewsForProduct, updateCart, makeNewCart } from '../store';
 
 /**
  * COMPONENT
@@ -15,7 +15,7 @@ class SingleProduct extends Component {
   }
 
   componentDidMount() {
-    this.props.getThisProduct(this.props.match.params.id);
+    this.props.getReviews(this.props.match.params.id);
   }
 
   addToCartClick (event) {
@@ -30,22 +30,24 @@ class SingleProduct extends Component {
   }
 
   render() {
-    if (!Object.keys(this.props.product).length) return (<div />);
+    if (!this.props.product.length) return (<div />);
+    let thisItem = this.props.product.filter(item => item.id === +this.props.match.params.id);
+    thisItem = thisItem[0];
 
     return (
       <div className="container">
         <div className="row">
           <div id="LeftText" className="jumbotron col-md-5">
-            <h1 className="display-3">{this.props.product.name}</h1>
-            <p className="lead">{this.props.product.rating}</p>
-            <p className="lead">{this.props.product.price}</p>
+            <h1 className="display-3">{thisItem.name}</h1>
+            <p className="lead">{thisItem.rating}</p>
+            <p className="lead">{thisItem.price}</p>
             <form onSubmit={this.addToCartClick}>
               <input id="number" type="number" min="1" max="50" defaultValue="1" />
               <button className="btn btn-primary" type="submit">Add To Cart</button>
             </form>
             <hr className="my-2" />
             <p>Category</p>
-            <p>{this.props.product.description}</p>
+            <p>{thisItem.description}</p>
           </div>
           <div className="col-md-7">
             <img src="http://www.placecage.com/400/600" />
@@ -72,32 +74,11 @@ class SingleProduct extends Component {
  */
 const mapState = (state) => {
   return {
-    // Leftover code from boilerplate user-home.js
-    // email: state.user.email
     cart: state.cart,
     product: state.product,
     reviews: state.review
   };
 };
-
-// const mapDispatch = (dispatch) => {
-//   return {
-//     addToCartClick: (event, cart, product) => {
-//       event.preventDefault();
-//       let quant = event.target.value;
-//       console.log(event.target);
-//       if (cart.id) {
-//         dispatch(updateCart(cart.id, product.id, product.price, +quant));
-//       } else {
-//         dispatch(makeNewCart(product.id, product.price, +quant));
-//       }
-//     },
-//     getThisProduct: (id) => {
-//       dispatch(fetchProduct(id));
-//       dispatch(fetchReviewsForProduct(id));
-//     }
-//   };
-// };
 
 const mapDispatch = (dispatch) => {
   return {
@@ -107,8 +88,7 @@ const mapDispatch = (dispatch) => {
     newCart: (productId, productPrice, quantity) => {
       dispatch(makeNewCart(productId, productPrice, quantity));
     },
-    getThisProduct: (id) => {
-      dispatch(fetchProduct(id));
+    getReviews: (id) => {
       dispatch(fetchReviewsForProduct(id));
     }
   };
@@ -116,11 +96,3 @@ const mapDispatch = (dispatch) => {
 
 
 export default connect(mapState, mapDispatch)(SingleProduct);
-
-/**
- * PROP TYPES
- */
-// Leftover code from user-home.js
-// UserHome.propTypes = {
-//   email: PropTypes.string
-// }
