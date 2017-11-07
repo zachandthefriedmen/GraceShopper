@@ -7,7 +7,7 @@ router.get('/', async (req, res, next) => {
     if (req.session.cookie.orderId) {
       const order = await Order.findById(req.session.cookie.orderId);
       const orderProducts = await order.getProducts();
-      res.json({order, orderProducts});
+      res.json({ order, orderProducts });
     }
     else { res.sendStatus(204); }
   }
@@ -16,30 +16,44 @@ router.get('/', async (req, res, next) => {
 
 router.put('/:id', async (req, res, next) => {
   try {
-    const cart = await Order.findById(req.params.id);
+    const order = await Order.findById(req.params.id);
     const productId = req.body.productId;
     const price = req.body.price;
     const quantity = req.body.quantity;
-    await cart.addOrUpdateCartItem(productId, price, quantity);
+    await order.addOrUpdateCartItem(productId, price, quantity);
 
-    res.status(202).json(cart);
+    const orderProducts = await OrderProduct.findAll({
+      where: {
+        orderId: order.id,
+        productId
+      }
+    });
+
+    res.status(202).json({ order, orderProducts });
   }
   catch (err) { next(err); }
 });
 
 router.post('/', async (req, res, next) => {
   try {
-    const cart = await Order.create({ status: 'open' });
+    const order = await Order.create({ status: 'open' });
 
     const productId = req.body.productId;
     const price = req.body.price;
     const quantity = req.body.quantity;
 
-    await cart.addOrUpdateCartItem(productId, price, quantity);
+    await order.addOrUpdateCartItem(productId, price, quantity);
 
-    req.session.cookie.orderId = cart.id;
+    const orderProducts = await OrderProduct.findAll({
+      where: {
+        orderId: order.id,
+        productId
+      }
+    });
 
-    res.json(cart);
+    req.session.cookie.orderId = order.id;
+
+    res.json({ order, orderProducts });
   }
   catch (err) { next(err); }
 });
