@@ -1,10 +1,3 @@
-/*
-
-NEEDS TO BE MERGED INTO account.js REDUCER FILE
-
-*/
-
-
 import axios from 'axios';
 
 /* -----------------    ACTION TYPES ------------------ */
@@ -43,24 +36,24 @@ export default function reducer(accounts = [], action) {
 }
 
 /* ------------   THUNK CREATORS     ------------------ */
-export const fetchAccounts = async dispatch => {
+export const fetchAccounts = () => async dispatch => {
   try { dispatch(getAccounts(await axios.get('/api/user/'))); }
   catch (err) { console.error('Fetching accounts unsuccessful', err); }
 };
 
-export const createAccount = async (account, dispatch) => {
+export const createAccount = account => async dispatch => {
   try { dispatch(postAccount(await axios.post('api/user/', account))); }
   catch (err) { console.error('Posting account unsuccessful', err); }
 };
 
-export const removeAccount = async (id, dispatch) => {
+export const removeAccount = id => async dispatch => {
   // Optimistic
   dispatch(deleteAccount(id));
   try { await axios.delete(`api/user/${id}`); }
   catch (err) { console.error('Deleting account unsuccessful', err); }
 };
 
-export const editAccount = async (id, account, dispatch) => {
+export const editAccount = (id, account) => async dispatch => {
   try { dispatch(putAccount(await axios.put(`api/user/${id}`, account))); }
   catch (err) { console.error('Updating student unsuccessful', err); }
 };
