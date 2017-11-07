@@ -22,8 +22,6 @@ class AccountView extends Component {
 
 
   render() {
-    console.log('USER DATA: ', this.props.user);
-    console.log('ORDERS: ', this.props.orders);
     return (
       <div className="container">
         <h2>{this.props.user.fullName}</h2>
