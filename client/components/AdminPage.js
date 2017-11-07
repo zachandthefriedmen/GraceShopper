@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchProducts, fetchCategories, fetchOrders } from '../store';
+import { fetchProducts, fetchCategories, fetchOrders, fetchAccounts } from '../store';
 import AdminUserForm from './AdminUserForm';
 import AdminProductForm from './AdminProductForm';
 import AdminCategoryForm from './AdminCategoryForm';
@@ -49,6 +49,7 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => {
   return {
     fetchInitialData: () => {
+      dispatch(fetchAccounts());
       dispatch(fetchProducts());
       dispatch(fetchCategories());
       dispatch(fetchOrders());
