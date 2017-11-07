@@ -17,14 +17,14 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
   try {
-    let order = await Order.findById(req.params.id, {
+    const order = await Order.findById(req.params.id, {
       include: [{
         model: User,
         attributes: ['id', 'email', 'firstName', 'lastName', 'admin']
       }]
     });
 
-    let orderProducts = await order.getProducts();
+    const orderProducts = await order.getProducts();
 
     // THE PROBLEM HERE IS ASYNC ISSUES. NOT MODIFYING orderProducts before sending response!!
     // let orderProducts = await OrderProduct.findAll({ where: { orderId: req.params.id }});

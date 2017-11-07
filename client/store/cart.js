@@ -62,12 +62,12 @@ export const updateCart = (orderId, productId, price, quantity) => async dispatc
   catch (err) { console.error('Updating cart item unsuccessful', err); }
 };
 
-export const removeItem = (orderId, productId) => async dispatch => {
+export const removeItem = (cart, productId) => async dispatch => {
   try {
-    const cart = await axios.get('/api/cart/');
+    // const cart = await axios.get('/api/cart/');
 
     cart.orderProducts.filter(op => op.id !== productId); //optimisitic
-    const res = await axios.delete(`/api/cart/orderProduct`, { orderId, productId });
+    const res = await axios.delete(`/api/cart/orderProduct`, { orderId: cart.id, productId });
 
     if (res.status === 204) dispatch(removeCartItem(cart));
   }

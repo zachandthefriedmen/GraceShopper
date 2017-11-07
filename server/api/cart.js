@@ -4,9 +4,12 @@ module.exports = router;
 
 router.get('/', async (req, res, next) => {
   try {
-    req.session.cookie.orderId
-      ? res.json(await Order.findById(req.session.cookie.orderId))
-      : res.sendStatus(204);
+    if (req.session.cookie.orderId) {
+      const order = await Order.findById(req.session.cookie.orderId);
+      const orderProducts = await order.getProducts();
+      res.json({order, orderProducts});
+    }
+    else { res.sendStatus(204); }
   }
   catch (err) { next(err); }
 });
