@@ -20,7 +20,7 @@ export const LandingPage = (props) => {
         </div>
 
         <div id="rightImage" className="col-md-7">
-          <img src="http://www.placecage.com/c/600/400" />
+          <img src="http://www.noahsnaturalpetmarket.com/wp-content/uploads/2011/06/all.jpg" />
         </div>
       </div>
     </div>

@@ -59,9 +59,9 @@ class AccountView extends Component {
           <label>Change Email:</label>
           <input type="text" name="email" placeholder="New email" />
           <label>Change Password:</label>
-          <input type="text" name="old-password" placeholder="Old password" />
-          <input type="text" name="new-password" placeholder="New password" />
-          <input type="text" name="new-password-verify" placeholder="Confirm new password" />
+          <input type="password" name="old-password" placeholder="Old password" />
+          <input type="password" name="new-password" placeholder="New password" />
+          <input type="password" name="new-password-verify" placeholder="Confirm new password" />
 
           <input type="submit" value="UPDATE" className="btn btn-primary" />
         </form>
