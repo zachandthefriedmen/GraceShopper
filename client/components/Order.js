@@ -8,7 +8,6 @@ import { editOrder, clearCart } from '../store';
  * COMPONENT
  */
 const Order = (props) => {
-  console.log('order page props', props);
 
   let totalQuantity = 0;
   let totalPrice = 0;

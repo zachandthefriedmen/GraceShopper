@@ -6,9 +6,6 @@ import { connect } from 'react-redux';
  * COMPONENT
  */
 export const LandingPage = (props) => {
-  // Leftover code from user-home.js (component this was based off of) in case someone else needs it later
-  // const {email} = props
-
   return (
     <div className="container">
       <div className="row">
@@ -32,8 +29,7 @@ export const LandingPage = (props) => {
  */
 const mapState = (state) => {
   return {
-    // Leftover code from user-home.js (component this was based off of) in case someone else needs it later
-    // email: state.user.email
+
   };
 };
 
@@ -42,7 +38,3 @@ export default connect(mapState)(LandingPage);
 /**
  * PROP TYPES
  */
-// Leftover code from user-home.js (component this was based off of) in case someone else needs it later
-// UserHome.propTypes = {
-//   email: PropTypes.string
-// }
