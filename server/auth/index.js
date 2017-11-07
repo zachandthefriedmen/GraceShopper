@@ -35,17 +35,11 @@ router.post('/logout', (req, res) => {
   res.redirect('/');
 });
 
-<<<<<<< HEAD
 router.get('/me', async (req, res) => {
   const me = await req.user.get({ plain: true });
   delete me.password;
   delete me.salt;
   res.json(me);
 })
-=======
-router.get('/me', (req, res) => {
-  res.json(req.user);
-});
->>>>>>> master
 
 router.use('/google', require('./google'));
