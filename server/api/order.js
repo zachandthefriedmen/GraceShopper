@@ -54,8 +54,9 @@ router.post('/', async (req, res, next) => {
 router.delete('/:id', async (req, res, next) => {
   const id = req.params.id;
 
-  try { await Order.destroy({ where: { id } }); }
+  try {
+    await Order.destroy({ where: { id } });
+    res.sendStatus(204);
+  }
   catch (err) { next(err); }
-
-  res.sendStatus(204);
 });
