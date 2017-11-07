@@ -17,7 +17,7 @@ const Main = (props) => {
     return (
       <div>
         <div className="navbar navbar-expand-lg navbar-light bg-light">
-          <a href="/" className="navbar-brand">BENTO'S BAZAAR</a>
+          <Link to="/" className="navbar-brand">BENTO'S BAZAAR</Link>
           {/* Can probably be refactored later on, menu doesn't collapse when window.width < 990 */}
           {
             isLoggedIn
