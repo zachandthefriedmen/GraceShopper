@@ -8,47 +8,78 @@ import { editOrder, createOrder, fetchProduct, fetchReviewsForProduct, createRev
 class SingleProduct extends Component {
   // Leftover code from user-home.js (component this was based off of) in case someone else needs it later
   // const {email} = props
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.submitReview = this.submitReview.bind(this);
-  }
-  componentDidMount() {
-    this.props.getThisProduct(this.props.match.params.id);
+    this.addToCartClick = this.addToCartClick.bind(this);
+    this.item = {};
+    this.rating = 0; //if we want to calculate rating locally when we hit this component
   }
 
-  submitReview(event) {
+  componentDidMount() {
+    this.props.getReviews(this.props.match.params.id);
+  }
+
+  addToCartClick(event) {
     event.preventDefault();
-    console.log(typeof event.target.stars.value);
-    let reviewObject = {
+    let quant = event.target.number.value;
+
+    if (this.props.cart.order) {
+      this.props.editCart(this.props.cart.order.id, this.item.id, this.item.price, +quant);
+    } else {
+      this.props.newCart(this.item.id, this.item.price, +quant);
+    }
+  }
+
+  submitReview = (event) => {
+    event.preventDefault();
+    let newReview = {
       stars: +event.target.stars.value,
       title: event.target.title.value,
       body: event.target.body.value,
-      userId: +this.props.user.id,
-      productId: +this.props.match.params.id,
+      email: event.target.email.value,
     };
-    this.props.createNewReview(reviewObject);
-    event.target.stars.value = 5;
-    event.target.title.value = '';
-    event.target.body.value = '';
+    this.props.createNewReview(newReview);
   }
 
   render() {
-    if (!Object.keys(this.props.product).length) return (<div />);
+    if (!this.props.product.length) return (<div />);
+    let thisItem = this.props.product.filter(item => item.id === +this.props.match.params.id);
+    this.item = thisItem[0];
+
+    //if we want to calculate rating locally when we hit this component
+    this.rating = 0;
+    let nbrOfReviews = 0;
+    this.props.reviews.forEach(review => {
+      if (review.productId === this.item.id) {
+        this.rating += review.stars;
+        nbrOfReviews++;
+      }
+    });
+    this.rating = this.rating / nbrOfReviews;
+    //if we want to calculate rating locally when we hit this component
+
     return (
       <div className="container">
         <div className="row">
           <div id="LeftText" className="jumbotron col-md-5">
-            <h1 className="display-3">{this.props.product.name}</h1>
-            <p className="lead">{this.props.product.rating}</p>
-            <p className="lead">{this.props.product.price}</p>
-            <input id="number" type="number" min="1" max="50" defaultValue="1" />
-            <button className="btn btn-primary" onClick={() => this.props.addToCartClick(this.props.cart, this.props.product)}>Add To Cart</button>
+            <h1 className="display-3">{this.item.name}</h1>
+            <p className="lead">Rating: {this.rating} / 5</p>
+            <p className="lead">Price: ${this.item.price}</p>
+            <form onSubmit={this.addToCartClick}>
+              <input id="number" type="number" min="1" max="50" defaultValue="1" />
+              <button className="btn btn-primary" type="submit">Add To Cart</button>
+            </form>
             <hr className="my-2" />
-            <p>Category</p>
-            <p>{this.props.product.description}</p>
+            <p>{this.item.description}</p>
+            <p>Categories:</p>
+            {this.item.categories.map(category => {
+              return (<p key={category.id}>{category.name}</p>
+              );
+            })}
+            <p>{this.item.category}</p>
           </div>
           <div className="col-md-7">
-            <img src="http://www.placecage.com/400/600" />
+            <img className="img-fluid product-image" src={this.item.images[0]} />
           </div>
         </div>
         <div className="row">
@@ -56,7 +87,8 @@ class SingleProduct extends Component {
             return (
               <div key={review.id} className="col-md-4">
                 <h2>{review.title}</h2>
-                <h5 className="text-warning">{review.stars}</h5>
+                <h5 className="text-warning">{review.stars} / 5</h5>
+                <p> A review by <a href={'mailto:' + review.user.email}>{review.user.fullName}</a></p>
                 <p>{review.body}</p>
               </div>
             );
@@ -65,45 +97,40 @@ class SingleProduct extends Component {
         <form onSubmit={this.submitReview}>
           <h3>Leave a Review</h3>
           <label>Stars</label>
-          <input id="stars" type="number" min="1" max="5" defaultValue="5" />
+          <input name="stars" type="number" min="1" max="5" defaultValue="5" />
+          <label>Email</label>
+          <input name="email" type="text" />
           <label>Title</label>
-          <input id="title" type="text" />
+          <input name="title" type="text" />
           <label>Body</label>
-          <input id="body" type="text" />
-          <input id="submit" type="submit" />
+          <input name="body" type="text" />
+          <input name="submit" type="submit" />
         </form>
       </div>
     );
   }
 }
+
 /**
  * CONTAINER
  */
 const mapState = (state) => {
   return {
-    // Leftover code from boilerplate user-home.js
-    // email: state.user.email
-    cart: state.order,
+    cart: state.cart,
     product: state.product,
-    reviews: state.review,
-    user: state.user
+    reviews: state.review
   };
 };
+
 const mapDispatch = (dispatch) => {
   return {
-    addToCartClick: (cart, product) => {
-      let quant = document.getElementById('number').value;
-      const thisOrder = {quantity: +quant, price: product.price, productId: product.id};
-      console.log(thisOrder);
-      if (cart.length) {
-        // dispatch(editOrder(state.order.id, thisOrder));
-        //api/cart/orderId
-      } else {
-        dispatch(createOrder());
-      }
+    editCart: (cartId, productId, productPrice, quantity) => {
+      dispatch(updateCart(cartId, productId, productPrice, quantity));
     },
-    getThisProduct: (id) => {
-      dispatch(fetchProduct(id));
+    newCart: (productId, productPrice, quantity) => {
+      dispatch(makeNewCart(productId, productPrice, quantity));
+    },
+    getReviews: (id) => {
       dispatch(fetchReviewsForProduct(id));
     },
     createNewReview: (review) => {
@@ -111,11 +138,6 @@ const mapDispatch = (dispatch) => {
     },
   };
 };
+
+
 export default connect(mapState, mapDispatch)(SingleProduct);
-/**
- * PROP TYPES
- */
-// Leftover code from user-home.js
-// UserHome.propTypes = {
-//   email: PropTypes.string
-// }

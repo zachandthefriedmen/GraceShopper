@@ -67,7 +67,7 @@ export const fetchReview = id => async dispatch => {
 export const fetchReviewsForProduct = (productId) => async dispatch => {
   try {
     dispatch(getProductReviews(
-      (await axios.get(`/api/review/product/${productId}`)).data
+      (await axios.get(`/api/product/${productId}/reviews`)).data
     ));
   }
   catch (err) { console.error('Fetching reviews unsuccessful', err); }
@@ -82,7 +82,7 @@ export const createReview = review => async dispatch => {
 
 export const editReview = (id, review) => async dispatch => {
   try {
-    const res = await axios.put(`api/review/${id}`, review);
+    const res = await axios.put(`/api/review/${id}`, review);
     dispatch(putReview(res.data));
   }
   catch (err) { console.error('Updating review unsuccessful', err); }
@@ -91,6 +91,6 @@ export const editReview = (id, review) => async dispatch => {
 export const removeReview = id => async dispatch => {
   // Optimistic
   dispatch(deleteReview(id));
-  try { await axios.delete(`api/review/${id}`); }
+  try { await axios.delete(`/api/review/${id}`); }
   catch (err) { console.error('Deleting review unsuccessful', err); }
 };
