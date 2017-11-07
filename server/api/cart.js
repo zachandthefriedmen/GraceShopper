@@ -13,12 +13,10 @@ router.get('/', async (req, res, next) => {
 
 router.put('/:id', async (req, res, next) => {
   try {
-    const cart = await Order.findById(req.params.orderId);
-
+    const cart = await Order.findById(req.params.id);
     const productId = req.body.productId;
     const price = req.body.price;
     const quantity = req.body.quantity;
-
     await cart.addOrUpdateCartItem(productId, price, quantity);
 
     res.status(202).json(cart);
