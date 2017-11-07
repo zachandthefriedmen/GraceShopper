@@ -52,7 +52,7 @@ const AdminProductForm = (props) => {
             <thead className="thead-dark">
               <tr>
                 <th>ID</th>
-                <th>AVAILABLE</th>
+                <th>CATEGORIES</th>
                 <th>NAME</th>
                 <th>PRICE</th>
                 <th>RATING</th>
@@ -65,7 +65,7 @@ const AdminProductForm = (props) => {
                   return (
                     <tr key={product.id}>
                       <td>{product.id}</td>
-                      <td>{product.available}</td>
+                      <td>{product.categories.map(category => category.name + ', ')}</td>
                       <td>{product.name}</td>
                       <td>{product.price}</td>
                       <td>{product.rating}</td>

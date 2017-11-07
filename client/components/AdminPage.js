@@ -29,8 +29,6 @@ export const AdminPage = (props) => {
       {/* <AdminUserForm /> */}
       <h1>Products</h1>
       <AdminProductForm />
-      <h1>Categories</h1>
-      {/* {<AdminCategoryForm />} */}
       <h1>Orders</h1>
       {<AdminOrderForm />}
     </div>
