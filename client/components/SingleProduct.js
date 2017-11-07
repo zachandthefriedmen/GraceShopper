@@ -11,11 +11,22 @@ class SingleProduct extends Component {
   // const {email} = props
   constructor(props){
     super(props);
-
+    this.addToCartClick = this.addToCartClick.bind(this);
   }
 
   componentDidMount() {
     this.props.getThisProduct(this.props.match.params.id);
+  }
+
+  addToCartClick (event) {
+    event.preventDefault();
+    let quant = event.target.number.value;
+
+    if (this.props.cart.id) {
+      this.props.editCart(this.props.cart.id, this.props.product.id, this.props.product.price, +quant);
+    } else {
+      this.props.newCart(this.props.product.id, this.props.product.price, +quant);
+    }
   }
 
   render() {
@@ -28,8 +39,10 @@ class SingleProduct extends Component {
             <h1 className="display-3">{this.props.product.name}</h1>
             <p className="lead">{this.props.product.rating}</p>
             <p className="lead">{this.props.product.price}</p>
-            <input id="number" type="number" min="1" max="50" defaultValue="1" />
-            <button className="btn btn-primary" onClick={() => this.props.addToCartClick(this.props.cart, this.props.product)}>Add To Cart</button>
+            <form onSubmit={this.addToCartClick}>
+              <input id="number" type="number" min="1" max="50" defaultValue="1" />
+              <button className="btn btn-primary" type="submit">Add To Cart</button>
+            </form>
             <hr className="my-2" />
             <p>Category</p>
             <p>{this.props.product.description}</p>
@@ -67,15 +80,32 @@ const mapState = (state) => {
   };
 };
 
+// const mapDispatch = (dispatch) => {
+//   return {
+//     addToCartClick: (event, cart, product) => {
+//       event.preventDefault();
+//       let quant = event.target.value;
+//       console.log(event.target);
+//       if (cart.id) {
+//         dispatch(updateCart(cart.id, product.id, product.price, +quant));
+//       } else {
+//         dispatch(makeNewCart(product.id, product.price, +quant));
+//       }
+//     },
+//     getThisProduct: (id) => {
+//       dispatch(fetchProduct(id));
+//       dispatch(fetchReviewsForProduct(id));
+//     }
+//   };
+// };
+
 const mapDispatch = (dispatch) => {
   return {
-    addToCartClick: (cart, product) => {
-      let quant = document.getElementById('number').value;
-      if (cart.id) {
-        dispatch(updateCart(cart.id, product.id, product.price, +quant));
-      } else {
-        dispatch(makeNewCart(product.id, product.price, +quant));
-      }
+    editCart: (cartId, productId, productPrice, quantity) => {
+      dispatch(updateCart(cartId, productId, productPrice, quantity));
+    },
+    newCart: (productId, productPrice, quantity) => {
+      dispatch(makeNewCart(productId, productPrice, quantity));
     },
     getThisProduct: (id) => {
       dispatch(fetchProduct(id));
