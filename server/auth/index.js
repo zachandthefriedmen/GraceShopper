@@ -35,8 +35,11 @@ router.post('/logout', (req, res) => {
   res.redirect('/')
 })
 
-router.get('/me', (req, res) => {
-  res.json(req.user)
+router.get('/me', async (req, res) => {
+  const me = await req.user.get({ plain: true });
+  delete me.password;
+  delete me.salt;
+  res.json(me);
 })
 
 router.use('/google', require('./google'))
