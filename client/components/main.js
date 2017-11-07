@@ -39,6 +39,10 @@ const Main = (props) => {
               <Link className="btn btn-outline-info" to="/signup">Sign Up</Link>
             </nav>
         }
+        </div>
+        <hr />
+        {children}
+        <Footer />
       </div>
     );
 };
