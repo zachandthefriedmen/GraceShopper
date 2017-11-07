@@ -124,10 +124,11 @@ async function seed() {
   console.log(`seeded ${orders.length} orders`);
 
   const categories = await Promise.all([
-    Category.create({ name: 'Leashes' }),
+    Category.create({ name: 'Leashes/Collars' }),
     Category.create({ name: 'Treats' }),
     Category.create({ name: 'Costumes' }),
     Category.create({ name: 'Paw Wax' }),
+    Category.create({ name: 'Furniture' }),
   ]);
   console.log(`seeded ${categories.length} categories`);
 
@@ -180,6 +181,94 @@ async function seed() {
       rating: 5,
       available: true,
     }),
+    Product.create({
+      name: 'Enchanted Home Pet Rockwell Pet Sofa',
+      price: 169.98,
+      images: ['https://images-na.ssl-images-amazon.com/images/I/61XiIHpk0QL._SX425_.jpg'],
+      description: "Jewel, a 45 pound Labrador-mix, can be found on the Rockwell sofa, a high quality faux-leather pet bed with a soft and plush embossed micro velvet seat cushion, featuring a back storage pocket for toys and bones. The high-loft, milled foam cushion features a removable/washable cover. The 2\" feet lift the bed off the ground, keeping your pet comfortable and draft free. Rockwell boasts our fine, fully upholstered, durable furniture grade construction.",
+      rating: 5,
+      available: true,
+    }),
+    Product.create({
+      name: 'KOPEKS Deluxe Orthopedic Memory Foam Lounge Dog Bed',
+      price: 99.99,
+      images: ['https://i.ebayimg.com/images/g/qPMAAOSwJoNZw7or/s-l500.jpg', 'http://cdn.shopify.com/s/files/1/0897/4536/products/61mZF-XEGuL._SL1500_1024x1024.jpg?v=1495642235'],
+      description: "This memory foam bed is orthopedic grade for increased support and ultimate comfort. It will not flatten overtime. Similar to therapeutic foam found in high end mattress stores. The KOPEKS Orthopedic Memory Foam Round Sofa Lounge Dog Bed can relieve your pet’s aches and pains. It is great for pets with arthritis, hip dysplasia, joint and muscle stiffness or simply to pamper your pooch that so much deserves the Best Sleep Quality. The KOPEKS Orthopedic Memory Foam Round Sofa Lounge Dog Bed has two covers that are zippered and easily removable for washing.",
+      rating: 5,
+      available: true,
+    }),
+    Product.create({
+      name: 'FurHaven Orthopedic Dog Couch',
+      price: 42.29,
+      images: ['https://images-na.ssl-images-amazon.com/images/I/81u3CbyMsvL.jpg'],
+      description: "Perfect for pets young and old, the Deluxe Plush and Suede Sofa-Style Orthopedic Pet Bed is designed to provide your loved one with maximum comfort for a good night’s rest.",
+      rating: 5,
+      available: true,
+    }),
+    Product.create({
+      name: 'Paw Nectar',
+      price: 14.97,
+      images: ['https://images-na.ssl-images-amazon.com/images/I/81ljFvQ7rRL._SX522_.jpg'],
+      description: "QualityPet is proud to introduce Paw Nectar, a holistic, natural, and organic paw wax that protects and heals chapped, cracked, and damaged paws. Paw Nectar is 100% ORGANIC and made with NATURAL INGREDIENTS that soothe and heal your dog's paws. Nozzle Nectar's proprietary formula is proven to quickly and painlessly cure a range of issues with dog paws and skin including dry, cracked, chaffed, chapped, and damaged paws. Other formulations don't contain the most important ingredients for preventing curing paw problems, so don't be fooled, Nozzle Nectar is the REAL DEAL! So don't wait, buy Nozzle Nectar today! Our 100% satisfaction guaranteed policy means that you have nothing to lose and everything to gain! We'll refund you 100% of the cost if you aren't 100% satisfied!",
+      rating: 5,
+      available: true,
+    }),
+    Product.create({
+      name: 'Top Performance Paw Defense and Paw Protection Wax',
+      price: 13.99,
+      images: ['https://img.chewy.com/is/image/catalog/124990_MAIN._AC_SL1500_V1495546552_.jpg'],
+      description: "Specially formulated to act as an invisible barrier to help prevent potential paw damage Top Performance Paw Defense Paw Protection Wax contains vitamin E to moisturize, help soothe wounds and keep paws healthy. Made in the U.S.A. When applied, Top Performance Paw Defense Paw Protection Wax protects paws from damage caused by abrasive surfaces hot or cold pavement, ice, and salt. Packaged in a 60g container.",
+      rating: 5,
+      available: true,
+    }),
+    Product.create({
+      name: 'Pet Soft & Comfy Bowtie Dog Collar',
+      price: 16.99,
+      images: ['https://images-na.ssl-images-amazon.com/images/I/41I9NPFjXgL._SL500_AC_SS350_.jpg'],
+      description: "What make us unique? Fabric: each collar is made with 100% cotton designer fabric. Spreading: the fabric is sewn on high quality cotton spreading. Hardware: all hardware is heavy duty. D-rings are welded for strength and durability. They are all handmade, adjustable for a perfect fit. Unlike most bowties made for dogs, these are traditional double bowties. Each bowtie is hand sewn and attached to collar using elastic strap. The bowtie can be attached to any collar without any alterations to the collar itself.",
+      rating: 5,
+      available: true,
+    }),
+    Product.create({
+      name: 'Beirui Sharp Spiked Studded Dog Collar',
+      price: 13.99,
+      images: ['https://images-na.ssl-images-amazon.com/images/I/41vPJ0%2BYYJL._SS500_.jpg', 'https://images-na.ssl-images-amazon.com/images/I/51Gqd9k7lwL._SL500_AC_SS350_.jpg'],
+      description: "As you know, it's hard to hold a macho badass dog. The most bothersome situation is your pet get out of your control and attacked by others. The sharp spikes will make he or she get all jacked up before you can do anything.",
+      rating: 5,
+      available: true,
+    }),
+    Product.create({
+      name: 'Gnawtlers - Premium Elk Antlers For Dogs',
+      price: 19.99,
+      images: ['https://images-na.ssl-images-amazon.com/images/I/41lTi%2BUdmlL._SL500_AC_SS350_.jpg', 'http://cdn.shopify.com/s/files/1/1355/5443/products/61wGbbJKn0L._SL1077_grande.jpg?v=1484547493'],
+      description: "USA ELK ANTLERS FOR DOGS LARGE is sized for Dogs 40+lbs, such as a Labrador, German Shepherd, and Golden Retriever. The length of the Large Gnawtler elk antlers is 6\" - 7\". The large dog bone is a good choice for dog toys for aggressive chewers & natural dog bones for the large guys that need something to gnaw on besides your furniture, shoes or house. Large Gnawtlers are also great for large size dogs when they are teething puppies!",
+      rating: 5,
+      available: true,
+    }),
+    Product.create({
+      name: 'Country Butcher 50pk Knee Caps',
+      price: 49.99,
+      images: ['https://www.petflow.com/images/default/products/maximal/35364-1452125483.jpg', 'https://images-na.ssl-images-amazon.com/images/I/91vIv3a41FL._SL1500_.jpg'],
+      description: "Because the purpose of the kneecap is to protect and cover, Country Butcher Knee Caps are some of the strongest and thickest bones available. The beef knee joints are surrounded with meat and have a hint of liquid smoke for hours of gnawing pleasure. Country Butcher Bones are prepared by professionally trained butchers & expertly baked in smokehouses. All Country Butcher Bones have a tasty meat cover for the dog's ultimate enjoyment. The raw products are all USDA inspected \"human consumption\". No formaldehyde or acetone is allowed on premises and all products carry sell-by dates. Made in USA and 100% Guaranteed!",
+      rating: 5,
+      available: true,
+    }),
+    Product.create({
+      name: 'Fleece Dog Hoodies with Pocket',
+      price: 11.99,
+      images: ['https://images-na.ssl-images-amazon.com/images/I/61RtXxczpnL._SY355_.jpg'],
+      description: "Caution: this particular outfit does not cater to USA sizes, please measure accordingly before checking out.",
+      rating: 5,
+      available: true,
+    }),
+    Product.create({
+      name: 'Petacc Dog Boots Water Resistant Dog Shoes',
+      price: 21.99,
+      images: ['https://images-na.ssl-images-amazon.com/images/I/61W4CroJ7eL._SY355_.jpg', 'https://images-na.ssl-images-amazon.com/images/I/51C4AKQVsLL._SX522_.jpg'],
+      description: "Made of tough, water resistant material, flexible, skid-resistant and waterproof sturdy soles, capable to keep debris out, not only bring more comfort and keep your love dog clean when they running outside but also keep their paws warm and walking on snow safty in winter.",
+      rating: 5,
+      available: true,
+    }),
   ]);
   await products[0].addCategory(1);
   await products[1].addCategory(2);
@@ -187,6 +276,17 @@ async function seed() {
   await products[3].addCategory(2);
   await products[4].addCategory(3);
   await products[5].addCategory(3);
+  await products[6].addCategory(5);
+  await products[7].addCategory(5);
+  await products[8].addCategory(5);
+  await products[9].addCategory(4);
+  await products[10].addCategory(4);
+  await products[11].addCategory(1);
+  await products[12].addCategory(1);
+  await products[13].addCategory(2);
+  await products[14].addCategory(2);
+  await products[15].addCategory(3);
+  await products[16].addCategory(3);
 
   console.log(`seeded ${products.length} products`);
 
@@ -236,6 +336,66 @@ async function seed() {
       title: 'meh',
       body: "Frankly, too much yak for my taste.",
     }),
+    Review.create({
+      stars: 1,
+      title: 'These shoes don\'t fit',
+      body: "Also, there\'s four of them.",
+    }),
+    Review.create({
+      stars: 5,
+      title: 'Knees.',
+      body: "Seriously. Knees. WTF.",
+    }),
+    Review.create({
+      stars: 5,
+      title: 'A little tight.',
+      body: "I don't own a dog. This is for me.",
+    }),
+    Review.create({
+      stars: 2,
+      title: 'Paw Nectar is better',
+      body: "Everyone knows that.",
+    }),
+    Review.create({
+      stars: 2,
+      title: 'Boo Paw Nectar',
+      body: "You might as well wax your paws with a candle.",
+    }),
+    Review.create({
+      stars: 5,
+      title: 'Hilarious',
+      body: "A bow tie for dogs. What will they think of next?",
+    }),
+    Review.create({
+      stars: 5,
+      title: 'Delicious',
+      body: "The knee bone is connected to the stomach bone!",
+    }),
+    Review.create({
+      stars: 1,
+      title: 'Defective',
+      body: "The pocket\'s on the back! How is my dog supposed to use it?",
+    }),
+    Review.create({
+      stars: 5,
+      title: 'It\'s what the pros use',
+      body: "If you need wax, you need Musher\'s secret.",
+    }),
+    Review.create({
+      stars: 3,
+      title: '$170!',
+      body: "That\'s a $170 dog couch. What dog has $170 to spend on a couch. They probably don\'t have any money. \'Cause they're a dog.",
+    }),
+    Review.create({
+      stars: 4,
+      title: 'Probably very comfortable',
+      body: "But it\'s not for me, so I\'ll never know.",
+    }),
+    Review.create({
+      stars: 2,
+      title: 'Kind of gross',
+      body: "But not as bad as those knees.",
+    }),
   ]);
   await reviews[0].setUser(4);
   await reviews[0].setProduct(6);
@@ -255,6 +415,31 @@ async function seed() {
   await reviews[7].setProduct(2);
   await reviews[8].setUser(6);
   await reviews[8].setProduct(2);
+  await reviews[9].setUser(6);
+  await reviews[9].setProduct(17);
+  await reviews[10].setUser(4);
+  await reviews[10].setProduct(15);
+  await reviews[11].setUser(2);
+  await reviews[11].setProduct(13);
+  await reviews[12].setUser(5);
+  await reviews[12].setProduct(11);
+  await reviews[13].setUser(9);
+  await reviews[13].setProduct(10);
+  await reviews[14].setUser(4);
+  await reviews[14].setProduct(12);
+  await reviews[15].setUser(3);
+  await reviews[15].setProduct(15);
+  await reviews[16].setUser(3);
+  await reviews[16].setProduct(16);
+  await reviews[17].setUser(1);
+  await reviews[17].setProduct(3);
+  await reviews[18].setUser(7);
+  await reviews[18].setProduct(7);
+  await reviews[19].setUser(4);
+  await reviews[19].setProduct(7);
+  await reviews[20].setUser(8);
+  await reviews[20].setProduct(14);
+
   console.log(`seeded ${reviews.length} reviews`);
 
   const orderProducts = await Promise.all([
