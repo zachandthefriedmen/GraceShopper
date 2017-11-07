@@ -1,4 +1,5 @@
 import axios from 'axios';
+import history from '../history';
 
 /* -----------------    ACTION TYPES ------------------ */
 
@@ -6,6 +7,7 @@ const GET_CART = 'GET_CART';
 const CREATE_NEW_CART = 'CREATE_NEW_CART';
 const ADD_OR_UPDATE_CART_ITEM = 'ADD_OR_UPDATE_CART_ITEM';
 const REMOVE_CART_ITEM = 'REMOVE_CART_ITEM';
+const CLEAR_CART = 'CLEAR_CART';
 
 /* ------------   ACTION CREATORS     ------------------ */
 
@@ -13,6 +15,7 @@ const getCart = cart => ({ type: GET_CART, cart });
 const createNewCart = cart => ({ type: CREATE_NEW_CART, cart });
 const updateCartItem = cart => ({ type: ADD_OR_UPDATE_CART_ITEM, cart });
 const removeCartItem = cart => ({ type: REMOVE_CART_ITEM, cart });
+const emptyCart = () => ({ type: CLEAR_CART });
 
 /* ------------       REDUCERS     ------------------ */
 export default function reducer(cart = {}, action) {
@@ -29,6 +32,9 @@ export default function reducer(cart = {}, action) {
 
     case REMOVE_CART_ITEM:
       return action.cart;
+
+    case CLEAR_CART:
+      return {};
 
     default:
       return cart;
@@ -62,6 +68,15 @@ export const updateCart = (orderId, productId, price, quantity) => async dispatc
   catch (err) { console.error('Updating cart item unsuccessful', err); }
 };
 
+export const checkoutCart = order => async dispatch => {
+  try {
+    const res = await axios.put(`/api/order/${order.id}`, order);
+    dispatch(updateCartItem(res.data));
+    history.push('/checkout');
+  }
+  catch (err) { console.error('Checkout unsuccessful'); }
+};
+
 export const removeItem = (cart, productId) => async dispatch => {
   try {
     // const cart = await axios.get('/api/cart/');
@@ -72,4 +87,10 @@ export const removeItem = (cart, productId) => async dispatch => {
     if (res.status === 204) dispatch(removeCartItem(cart));
   }
   catch (err) { console.error('Removing order product unsuccessful', err); }
+};
+
+export const clearCart = () => dispatch => {
+  console.log('clearCart dispatched');
+  dispatch(emptyCart());
+  history.push('/');
 };

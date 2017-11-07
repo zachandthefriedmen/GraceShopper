@@ -2,19 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import CartCell from './CartCell';
+import { checkoutCart } from '../store';
 
 /**
  * COMPONENT
  */
 export const Cart = (props) => {
-  // Leftover code from user-home.js (component this was based off of) in case someone else needs it later
-  // const {email} = props
-
-  //Dummy data from Products
-  // const allProducts = [{ id: 1, name: 'Leash', price: 4.95, description: 'This is the coolest leash you have EVER seen! It also will never break.', image: 'https://www.placecage.com/200/300' },
-  // { id: 2, name: 'Bone', price: 0.95, description: 'This is a bone.', image: 'https://www.placecage.com/g/200/300' },
-  // { id: 3, name: 'Leash', price: 4.95, description: 'This is the coolest leash you have EVER seen! It also will never break.', image: 'https://www.placecage.com/200/300' },
-  // { id: 4, name: 'Bone', price: 0.95, description: 'This is a bone.', image: 'https://www.placecage.com/g/200/300' }];
   let totalQuantity = 0;
   let totalPrice = 0;
 
@@ -25,6 +18,31 @@ export const Cart = (props) => {
     });
   }
 
+  const handleSubmit = event => {
+    event.preventDefault();
+
+    const id = props.user
+      ? props.user.id
+      : null;
+    const name = props.user
+      ? props.user.fullName
+      : event.target.name.value;
+    const email = props.user
+      ? props.user.email
+      : event.target.email.value;
+    const address = name + ', '
+      + event.target.address.value + ', '
+      + event.target.city.value + ', '
+      + event.target.state.value + ', '
+      + event.target.zip.value;
+
+    const newOrder = props.cart.order;
+    newOrder.address = address;
+    newOrder.email = email;
+    newOrder.userId = id;
+    props.goToCheckout(newOrder);
+  };
+
   return (
     <div className="container" >
       <div id="cart-header" className="row">
@@ -34,26 +52,30 @@ export const Cart = (props) => {
       </div>
       <div id="cart-body" className="row">
         <div id="cart-body-left" className="col-md-3">
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <label>Name:</label>
-              <input placeholder="name" title="name" type="text" className="form-control" />
-              <label>Email:</label>
-              <input placeholder="email" title="email" type="email" className="form-control" />
+              {!props.user &&
+                <div>
+                  <label>Name:</label>
+                  <input placeholder="name" name="name" type="text" className="form-control" />
+                  <label>Email:</label>
+                  <input placeholder="email" name="email" type="email" className="form-control" />
+                </div>
+              }
               <label>Address:</label>
-              <input placeholder="address" title="address" type="text" className="form-control" />
+              <input placeholder="address" name="address" type="text" className="form-control" />
               <label>City:</label>
-              <input placeholder="city" title="city" type="text" className="form-control" />
+              <input placeholder="city" name="city" type="text" className="form-control" />
               <label>State:</label>
-              <input placeholder="state" title="state" type="text" className="form-control" />
+              <input placeholder="state" name="state" type="text" className="form-control" />
               <label>Zip:</label>
-              <input placeholder="zip" title="zip" type="text" className="form-control" />
-              <button title="buy" type="submit" className="btn btn-primary">Place Order</button>
+              <input placeholder="zip" name="zip" type="text" className="form-control" />
+              <button title="Checkout" type="submit" className="btn btn-primary">Checkout</button>
             </div>
           </form>
         </div>
         <div id="cart-body-right" className="col-md-9 card-deck">
-          {/* Itterating through an array of products, using a CartCell component for each one. */}
+          {/* Iterating through an array of products, using a CartCell component for each one. */}
           {props.cart.order
             ? props.cart.orderProducts.map(product =>
               <CartCell key={product.id} product={product} />)
@@ -68,14 +90,18 @@ export const Cart = (props) => {
 /**
  * CONTAINER
  */
-const mapState = ({ cart }) => ({ cart });
+const mapState = ({ cart, user }) => ({ cart, user });
 
-export default connect(mapState)(Cart);
+const mapDispatch = dispatch => {
+  return {
+    goToCheckout(order) {
+      dispatch(checkoutCart(order));
+    }
+  };
+};
+
+export default connect(mapState, mapDispatch)(Cart);
 
 /**
  * PROP TYPES
  */
-// Leftover code from user-home.js (component this was based off of) in case someone else needs it later
-// UserHome.propTypes = {
-//   email: PropTypes.string
-// }

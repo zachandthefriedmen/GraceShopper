@@ -4,7 +4,7 @@ import { Router } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import history from './history';
-import { Main, Login, Signup, UserHome, Products, SingleProduct, LandingPage, Cart, AccountView, AdminPage } from './components';
+import { Main, Login, Signup, UserHome, Products, SingleProduct, LandingPage, Cart, AccountView, AdminPage, Checkout } from './components';
 import { me, fetchCart } from './store';
 
 /**
@@ -29,10 +29,10 @@ class Routes extends Component {
             <Route exact path="/products" component={Products} />
             <Route path="/cart" component={Cart} />
             <Route path="/products/:id" component={SingleProduct} />
-
+            <Route path="/checkout" component={Checkout} />
             {/*Here for testing, will be moved to be inaccessable to users later*/}
             <Route path="/admin" component={AdminPage} />
-            
+
             {/* We need to implement the user id into the url for account view */}
             {
               isLoggedIn &&

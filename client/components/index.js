@@ -13,3 +13,4 @@ export {default as Cart} from './Cart';
 export {default as LandingPage} from './LandingPage';
 export {default as AccountView} from './AccountView';
 export {default as AdminPage} from './AdminPage';
+export { OrderDetails, Checkout, Confirm } from './Order';
