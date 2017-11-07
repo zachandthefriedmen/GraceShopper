@@ -60,7 +60,6 @@ class SingleProduct extends Component {
               <button className="btn btn-primary" type="submit">Add To Cart</button>
             </form>
             <hr className="my-2" />
-            <p>RATING: </p>
             <p>{this.item.description}</p>
             <p>Categories:</p>
             {this.item.categories.map(category => {
