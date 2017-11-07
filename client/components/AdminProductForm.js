@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { editProduct, createProduct } from '../store';
+import { editProduct, createProduct, createCategory } from '../store';
 import { Link } from 'react-router-dom';
 
 
@@ -21,6 +21,14 @@ const AdminProductForm = (props) => {
       rating: 5.0,
     };
     props.createNewProduct(newProduct);
+  };
+
+  let submitCreateCategory = (event) => {
+    event.preventDefault();
+    let newCategory = {
+      name: event.target.categoryName.value,
+    };
+    props.createNewCategory(newCategory);
   };
 
   // Edits product corresponding to editProductForm.select when form is submitted, changing fields with new values.
@@ -89,6 +97,13 @@ const AdminProductForm = (props) => {
             <input name="submitNewProduct" type="submit" />
           </form>
 
+          <h4>Create Category Form</h4>
+          <form id="createProductForm" className="form-group" onSubmit={submitCreateCategory}>
+            <label>Name your Category:</label>
+            <input name="categoryName" className="form-control" type="text" placeholder="Name" />
+            <input name="submitNewCategory" type="submit" />
+          </form>
+
           <h4>Edit Products Form</h4>
           <form id="editProductForm" className="form-group" onSubmit={submitEditProduct}>
             <label>Select a product to edit:</label>
@@ -119,6 +134,9 @@ const mapDispatch = (dispatch) => {
     },
     editProductInfo: (id, product) => {
       dispatch(editProduct(id, product));
+    },
+    createNewCategory: (category) => {
+      dispatch(createCategory(category));
     }
   };
 };
