@@ -22,8 +22,8 @@ class SingleProduct extends Component {
     event.preventDefault();
     let quant = event.target.number.value;
 
-    if (this.props.cart.id) {
-      this.props.editCart(this.props.cart.id, this.props.product.id, this.props.product.price, +quant);
+    if (this.props.cart.order) {
+      this.props.editCart(this.props.cart.order.id, this.props.product.id, this.props.product.price, +quant);
     } else {
       this.props.newCart(this.props.product.id, this.props.product.price, +quant);
     }
