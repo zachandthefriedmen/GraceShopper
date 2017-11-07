@@ -6,9 +6,6 @@ import { connect } from 'react-redux';
  * COMPONENT
  */
 export const Footer = (props) => {
-  // Leftover code from user-home.js (component this was based off of) in case someone else needs it later
-  // const {email} = props;
-
   return (
     <footer>
       <a href="/">
@@ -30,10 +27,7 @@ export const Footer = (props) => {
  * CONTAINER
  */
 const mapState = (state) => {
-  // Leftover code from user-home.js (component this was based off of) in case someone else needs it later
-  // return {
-  //   email: state.user.email,
-  // };
+
 };
 
 export default connect(mapState)(Footer);
@@ -41,7 +35,3 @@ export default connect(mapState)(Footer);
 /**
  * PROP TYPES
  */
-// Leftover code from user-home.js (component this was based off of) in case someone else needs it later
-// UserHome.propTypes = {
-//   email: PropTypes.string,
-// };

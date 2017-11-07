@@ -10,16 +10,13 @@ import AdminOrderForm from './AdminOrderForm';
  * COMPONENT
  */
 export const AdminPage = (props) => {
-  // Leftover code from user-home.js (component this was based off of) in case someone else needs it later
-  // const {email} = props
   props.fetchInitialData();
 
-  console.log(props.user);
   if (!props.user.admin) return (<h1>Sorry! Only admins can see this page.</h1>);
 
   return (
     <div>
-      {/* 
+      {/*
       Very basic code for tabs in case we choose to explore later
       <button>USERS</button>
       <button>PRODUCTS</button>
@@ -41,8 +38,6 @@ export const AdminPage = (props) => {
  */
 const mapState = (state) => {
   return {
-    // Leftover code from boilerplate user-home.js
-    // email: state.user.email
     user: state.user
   };
 };
