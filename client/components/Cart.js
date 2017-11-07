@@ -10,8 +10,6 @@ export const Cart = (props) => {
   // Leftover code from user-home.js (component this was based off of) in case someone else needs it later
   // const {email} = props
 
-  console.log('cart info: ', props.cart);
-
   //Dummy data from Products
   // const allProducts = [{ id: 1, name: 'Leash', price: 4.95, description: 'This is the coolest leash you have EVER seen! It also will never break.', image: 'https://www.placecage.com/200/300' },
   // { id: 2, name: 'Bone', price: 0.95, description: 'This is a bone.', image: 'https://www.placecage.com/g/200/300' },
@@ -32,7 +30,7 @@ export const Cart = (props) => {
       <div id="cart-header" className="row">
         <h2 className="col-md-3 offset-md-3">Cart</h2>
         <h3 className="col-md-3">Quantity: {totalQuantity}</h3>
-        <h3 className="col-md-3">Total Price: {totalPrice}</h3>
+        <h3 className="col-md-3">Total Price: {totalPrice.toFixed(2)}</h3>
       </div>
       <div id="cart-body" className="row">
         <div id="cart-body-left" className="col-md-3">
