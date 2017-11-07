@@ -21,6 +21,9 @@ export const Cart = (props) => {
   const handleSubmit = event => {
     event.preventDefault();
 
+    const id = props.user
+      ? props.user.id
+      : null;
     const name = props.user
       ? props.user.fullName
       : event.target.name.value;
@@ -36,6 +39,7 @@ export const Cart = (props) => {
     const newOrder = props.cart.order;
     newOrder.address = address;
     newOrder.email = email;
+    newOrder.userId = id;
     props.goToCheckout(newOrder);
   };
 
@@ -66,7 +70,7 @@ export const Cart = (props) => {
               <input placeholder="state" name="state" type="text" className="form-control" />
               <label>Zip:</label>
               <input placeholder="zip" name="zip" type="text" className="form-control" />
-              <button title="buy" type="submit" className="btn btn-primary">Place Order</button>
+              <button title="Checkout" type="submit" className="btn btn-primary">Checkout</button>
             </div>
           </form>
         </div>

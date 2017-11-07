@@ -49,7 +49,8 @@ router.put('/:id', async (req, res, next) => {
   try {
     const order = await Order.findById(req.params.id);
     await order.update(req.body);
-    res.status(202).json(order);
+    const orderProducts = await order.getProducts();
+    res.status(202).json({order, orderProducts});
   }
   catch (err) { next(err); }
 });

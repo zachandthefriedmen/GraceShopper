@@ -2,12 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import CartCell from './CartCell';
-import { editOrder } from '../store';
+import { editOrder, clearCart } from '../store';
 
 /**
  * COMPONENT
  */
 const Order = (props) => {
+  console.log('order page props', props);
+
   let totalQuantity = 0;
   let totalPrice = 0;
 
@@ -57,10 +59,10 @@ const Order = (props) => {
         }
       </div>
       <button
-      title="buy"
-      type="submit"
-      className="btn btn-primary"
-      onClick={handleSubmit}>Confirm Order</button>
+        title="buy"
+        type="submit"
+        className="btn btn-primary"
+        onClick={handleSubmit}>Confirm Order</button>
     </div>
   );
 };
@@ -76,6 +78,7 @@ const mapDispatch = dispatch => {
   return {
     submitOrder(id, order) {
       dispatch(editOrder(id, order));
+      dispatch(clearCart());
     }
   };
 };
