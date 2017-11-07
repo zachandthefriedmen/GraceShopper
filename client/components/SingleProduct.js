@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { editOrder, createOrder, fetchProduct, fetchReviewsForProduct, createReview } from '../store';
+import { fetchReviewsForProduct, createReview } from '../store';
 /**
  * COMPONENT
  */
@@ -15,7 +15,7 @@ class SingleProduct extends Component {
     this.rating = 0; //if we want to calculate rating locally when we hit this component
   }
 
-  componentDidMount() {
+  componentWillReceiveProps() {
     this.props.getReviews(this.props.match.params.id);
   }
 
@@ -36,13 +36,15 @@ class SingleProduct extends Component {
       stars: +event.target.stars.value,
       title: event.target.title.value,
       body: event.target.body.value,
-      email: event.target.email.value,
+      userId: this.props.user.id,
+      user: this.props.user
     };
+
     this.props.createNewReview(newReview);
   }
 
   render() {
-    if (!this.props.product.length) return (<div />);
+    if (!this.props.product.length && !this.props.reviews.length) return (<div />);
     let thisItem = this.props.product.filter(item => item.id === +this.props.match.params.id);
     this.item = thisItem[0];
 
@@ -98,8 +100,6 @@ class SingleProduct extends Component {
           <h3>Leave a Review</h3>
           <label>Stars</label>
           <input name="stars" type="number" min="1" max="5" defaultValue="5" />
-          <label>Email</label>
-          <input name="email" type="text" />
           <label>Title</label>
           <input name="title" type="text" />
           <label>Body</label>
@@ -118,7 +118,8 @@ const mapState = (state) => {
   return {
     cart: state.cart,
     product: state.product,
-    reviews: state.review
+    reviews: state.review,
+    user: state.user
   };
 };
 
