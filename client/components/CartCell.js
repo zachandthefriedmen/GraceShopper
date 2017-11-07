@@ -14,7 +14,7 @@ const CartCell = ({ product }) => {
           <p className="card-text">
             Quantity: {product['order-product'].quantity} <br />
             Unit Cost: {product['order-product'].price} <br />
-            Total Cost: {product['order-product'].price * product['order-product'].quantity} <br />
+            Total Cost: {(product['order-product'].price * product['order-product'].quantity).toFixed(2)} <br />
           </p>
         </div>
       </div>

@@ -30,7 +30,7 @@ export const Cart = (props) => {
       <div id="cart-header" className="row">
         <h2 className="col-md-3 offset-md-3">Cart</h2>
         <h3 className="col-md-3">Quantity: {totalQuantity}</h3>
-        <h3 className="col-md-3">Total Price: {totalPrice}</h3>
+        <h3 className="col-md-3">Total Price: {totalPrice.toFixed(2)}</h3>
       </div>
       <div id="cart-body" className="row">
         <div id="cart-body-left" className="col-md-3">
