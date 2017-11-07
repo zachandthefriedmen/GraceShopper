@@ -30,7 +30,7 @@ export const AdminPage = (props) => {
       <h1>Products</h1>
       <AdminProductForm />
       <h1>Orders</h1>
-      {<AdminOrderForm />}
+      <AdminOrderForm />
     </div>
   );
 };
