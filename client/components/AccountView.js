@@ -33,13 +33,6 @@ class AccountView extends Component {
         sessionId: 'new session',
         address: 'Chili Thor, 123 Bark Boulevard, Chicago, IL 60607'
       }],
-
-      dummyReviews: [{ id: 1, stars: 5, title: 'This bone broke', body: 'This is the coolest leash you have EVER seen! It also will never break.' },
-      { id: 2, stars: 5, title: 'This bone broke', body: 'This is the coolest leash you have EVER seen! It also will never break.' },
-      { id: 3, stars: 5, title: 'This bone broke', body: 'This is the coolest leash you have EVER seen! It also will never break.' },
-      { id: 4, stars: 5, title: 'This bone broke', body: 'This is the coolest leash you have EVER seen! It also will never break.' },
-      { id: 5, stars: 5, title: 'This bone broke', body: 'This is the coolest leash you have EVER seen! It also will never break.' },
-      ]
     };
   }
 
@@ -68,11 +61,15 @@ class AccountView extends Component {
 
         <div>
           <h5>GOOGLE</h5>
-          <button type="button" name="login-google">LOG IN</button>
-          <p>User has integrated google</p>
+          {this.props.user.googleId === null
+            ? <p>User has integrated google</p>
+            : <button type="button" name="login-google">LOG IN</button>
+          }
           <h5>FACEBOOK</h5>
-          <button type="button" name="login-facebook">LOG IN</button>
-          <p>User has not integrated facebook</p>
+          {this.props.user.googleId === null
+            ? <button type="button" name="login-facebook">LOG IN</button>
+            : <p>User has integrated facebook</p>
+          }
         </div>
 
         <div>
@@ -81,23 +78,11 @@ class AccountView extends Component {
             this.props.orders.map(order => {
               if (order.status !== ('open' || 'aborted')) {
                 return (
-                    <OrderCell key={order.id} order={order} />
+                  <OrderCell key={order.id} order={order} />
                 );
               }
             })
           }
-        </div>
-
-        <div className="row">
-          {this.state.dummyReviews.map(review => {
-            return (
-              <div key={review.id} className="col-md-4">
-                <h2>{review.title}</h2>
-                <h5 className="text-warning">{review.stars}</h5>
-                <p>{review.body}</p>
-              </div>
-            );
-          })}
         </div>
       </div>
     );
