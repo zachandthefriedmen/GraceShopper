@@ -14,7 +14,7 @@ const PUT_REVIEW = 'PUT_REVIEW';
 const getReviews = reviews => ({ type: GET_REVIEWS, reviews });
 const getReview = review => ({ type: GET_REVIEW, review });
 const getProductReviews = reviews => ({ type: GET_PRODUCT_REVIEWS, reviews });
-const postReview = review => ({ type: POST_REVIEW, review });
+const postReview = (review, userId, productId) => ({ type: POST_REVIEW, review });
 const deleteReview = id => ({ type: DELETE_REVIEW, id });
 const putReview = review => ({ type: PUT_REVIEW, review });
 
@@ -73,9 +73,9 @@ export const fetchReviewsForProduct = (productId) => async dispatch => {
   catch (err) { console.error('Fetching reviews unsuccessful', err); }
 };
 
-export const createReview = review => async dispatch => {
+export const createReview = (review, userId, productId) => async dispatch => {
   try {
-    dispatch(postReview((await axios.post('/api/review', review)).data));
+    dispatch(postReview((await axios.post('/api/review', review, userId, productId)).data));
   }
   catch (err) { console.error('Posting review unsuccessful', err); }
 };
