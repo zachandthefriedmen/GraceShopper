@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Link } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import OrderCell from './OrderCell';
@@ -81,7 +81,7 @@ class AccountView extends Component {
             this.props.orders.map(order => {
               if (order.status !== ('open' || 'aborted')) {
                 return (
-                  <OrderCell key={order.id} order={order} />
+                    <OrderCell key={order.id} order={order} />
                 );
               }
             })
