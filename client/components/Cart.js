@@ -11,17 +11,26 @@ export const Cart = (props) => {
   // const {email} = props
 
   //Dummy data from Products
-  const allProducts = [{ id: 1, name: 'Leash', price: 4.95, description: 'This is the coolest leash you have EVER seen! It also will never break.', image: 'https://www.placecage.com/200/300' },
-  { id: 2, name: 'Bone', price: 0.95, description: 'This is a bone.', image: 'https://www.placecage.com/g/200/300' },
-  { id: 3, name: 'Leash', price: 4.95, description: 'This is the coolest leash you have EVER seen! It also will never break.', image: 'https://www.placecage.com/200/300' },
-  { id: 4, name: 'Bone', price: 0.95, description: 'This is a bone.', image: 'https://www.placecage.com/g/200/300' }];
+  // const allProducts = [{ id: 1, name: 'Leash', price: 4.95, description: 'This is the coolest leash you have EVER seen! It also will never break.', image: 'https://www.placecage.com/200/300' },
+  // { id: 2, name: 'Bone', price: 0.95, description: 'This is a bone.', image: 'https://www.placecage.com/g/200/300' },
+  // { id: 3, name: 'Leash', price: 4.95, description: 'This is the coolest leash you have EVER seen! It also will never break.', image: 'https://www.placecage.com/200/300' },
+  // { id: 4, name: 'Bone', price: 0.95, description: 'This is a bone.', image: 'https://www.placecage.com/g/200/300' }];
+  let totalQuantity = 0;
+  let totalPrice = 0;
+
+  if (props.cart.order) {
+    props.cart.orderProducts.forEach(op => {
+      totalQuantity += op['order-product'].quantity;
+      totalPrice += (op['order-product'].quantity * op['order-product'].price);
+    });
+  }
 
   return (
     <div className="container" >
       <div id="cart-header" className="row">
         <h2 className="col-md-3 offset-md-3">Cart</h2>
-        <h3 className="col-md-3">Quantity: ##</h3>
-        <h3 className="col-md-3">Total Price: ##</h3>
+        <h3 className="col-md-3">Quantity: {totalQuantity}</h3>
+        <h3 className="col-md-3">Total Price: {totalPrice}</h3>
       </div>
       <div id="cart-body" className="row">
         <div id="cart-body-left" className="col-md-3">
@@ -45,9 +54,11 @@ export const Cart = (props) => {
         </div>
         <div id="cart-body-right" className="col-md-9 card-deck">
           {/* Itterating through an array of products, using a CartCell component for each one. */}
-          {allProducts.map(product =>
-            <CartCell key={product.id} product={product} />
-          )}
+          {props.cart.order
+            ? props.cart.orderProducts.map(product =>
+              <CartCell key={product.id} product={product} />)
+            : <h1>Add some things to your cart!</h1>
+          }
         </div>
       </div>
     </div>
@@ -57,12 +68,7 @@ export const Cart = (props) => {
 /**
  * CONTAINER
  */
-const mapState = (state) => {
-  return {
-    // Leftover code from user-home.js (component this was based off of) in case someone else needs it later
-    // email: state.user.email
-  }
-}
+const mapState = ({ cart }) => ({ cart });
 
 export default connect(mapState)(Cart);
 
