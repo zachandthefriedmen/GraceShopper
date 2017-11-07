@@ -26,7 +26,8 @@ export const AdminPage = (props) => {
       <button>CATEGORIES</button>
       <button>ORDERS</button> */}
 
-      {/* <AdminUserForm /> */}
+      <h1>Users</h1>
+      <AdminUserForm />
       <h1>Products</h1>
       <AdminProductForm />
       <h1>Orders</h1>

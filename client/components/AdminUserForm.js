@@ -4,37 +4,58 @@ import { editUser } from '../store';
 import { Link } from 'react-router-dom';
 
 const AdminUserForm = (props) => {
-  const { users } = props;
+  const { accounts } = props;
+
+  if (!accounts) return <div />;
 
   return (
-    <div>
-      <table>
-        <tr>
-          <th>ID</th>
-          <th>NAME</th>
-          <th>EMAIL</th>
-          <th>OPTIONS</th>
-        </tr>
-        {
-          props.users.map(user => {
-            return (
-              <tr key={user.id}>
-                <td>{user.id}</td>
-                <td>{user.name}</td>
-                <td>{user.email}</td>
-                <td>OPTIONS</td>
+    <div className="container">
+      <div className="row">
+        <div className="col-md-9">
+          <table className="table table-striped" id="productsTable">
+            <thead className="thead-dark">
+              <tr>
+                <th>ID</th>
+                <th>NAME</th>
+                <th>E-MAIL</th>
+                <th>ADMIN</th>
+                <th>OPTIONS</th>
               </tr>
-            );
-          })
-        }
-      </table>
+            </thead>
+            <tbody>
+              {
+                accounts.map(account => {
+                  return (
+                    <tr key={account.id}>
+                      <td>{account.id}</td>
+                      <td>{account.fullName}</td>
+                      <td>{account.email}</td>
+                      <td>{account.admin.toString()}</td>
+                      <td>
+                        {/* Code to create buttons that trigger promote and delete */}
+                        <button onClick={() => disableProductClick(product.id)}><i className="fa fa-times" /></button>
+                        <button onClick={() => disableProductClick(product.id)}><i className="fa fa-arrow-up" /></button>
+                      </td>
+                    </tr>
+                  );
+                })
+              }
+            </tbody>
+          </table>
+        </div>
+        <div className="col-md-3">
+
+          <h4>Create Products Form</h4>
+
+        </div>
+      </div>
     </div>
   );
 };
 
 const mapState = state => {
   return {
-    users: state.users
+    accounts: state.accounts.data,
   };
 };
 
