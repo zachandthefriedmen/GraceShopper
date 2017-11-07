@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Order } = require('../db/models');
+const { Order, OrderProduct } = require('../db/models');
 module.exports = router;
 
 router.get('/', async (req, res, next) => {
@@ -41,4 +41,21 @@ router.post('/', async (req, res, next) => {
     res.json(cart);
   }
   catch (err) { next(err); }
+});
+
+router.delete('/orderProduct', async (req, res, next) => {
+  try {
+    const prodId = req.params.productId;
+    const ordId = req.params.orderId;
+
+    await OrderProduct.destroy({
+      where: {
+        productId: prodId,
+        orderId: ordId
+      }
+    });
+
+  }
+  catch (err) { next(err); }
+  res.sendStatus(204);
 });

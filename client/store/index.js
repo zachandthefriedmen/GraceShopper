@@ -8,9 +8,10 @@ import category from './category';
 import review from './review';
 import orders from './orders';
 import cart from './cart';
+import accounts from './accounts';
 
 
-const reducer = combineReducers({ user, product, category, review, orders, cart });
+const reducer = combineReducers({ user, product, category, review, orders, cart, accounts });
 
 const middleware = composeWithDevTools(applyMiddleware(
   thunkMiddleware,
