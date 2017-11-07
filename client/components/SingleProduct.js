@@ -74,7 +74,6 @@ class SingleProduct extends Component {
         </div>
         <div className="row">
           {this.props.reviews.map(review => {
-            console.log("REVIEW: ", review);
             return (
               <div key={review.id} className="col-md-4">
                 <h2>{review.title}</h2>
