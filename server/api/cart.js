@@ -22,12 +22,7 @@ router.put('/:id', async (req, res, next) => {
     const quantity = req.body.quantity;
     await order.addOrUpdateCartItem(productId, price, quantity);
 
-    const orderProducts = await OrderProduct.findAll({
-      where: {
-        orderId: order.id,
-        productId
-      }
-    });
+    const orderProducts = await order.getProducts();
 
     res.status(202).json({ order, orderProducts });
   }
@@ -44,12 +39,7 @@ router.post('/', async (req, res, next) => {
 
     await order.addOrUpdateCartItem(productId, price, quantity);
 
-    const orderProducts = await OrderProduct.findAll({
-      where: {
-        orderId: order.id,
-        productId
-      }
-    });
+    const orderProducts = await order.getProducts();
 
     req.session.cookie.orderId = order.id;
 
