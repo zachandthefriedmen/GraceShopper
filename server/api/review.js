@@ -42,7 +42,11 @@ router.put('/:id', async (req, res, next) => {
 });
 
 router.post('/', async (req, res, next) => {
-  try { res.json(await Review.create(req.body)); }
+  try {
+    let review = await Review.create(req.body.review);
+    review.setUser(req.body.userId);
+    review.setProduct(req.body.productId);
+    res.json(review); }
   catch (err) { next(err); }
 });
 
