@@ -1,7 +1,7 @@
 /* global describe beforeEach afterEach it */
 
 import { expect } from 'chai';
-import { removeItem } from './cart';
+import { removeCartItem } from './cart';
 import { mockAxios } from './index.spec';
 import configureMockStore from 'redux-mock-store';
 import thunkMiddleware from 'redux-thunk';
@@ -25,13 +25,13 @@ describe('Cart thunk creators', () => {
   });
 
   describe('removeItem', () => {
-    xit('eventually dispatches the REMOVE_CART_ITEM action', () => {
-      const fakeOP = { id: 1, name: 'category1' };
-      mockAxios.onDelete(`/api/category/${fakeCategory.id}`).replyOnce(204);
-      return store.dispatch(removeCategory(fakeCategory.id))
+    it('eventually dispatches the REMOVE_CART_ITEM action', () => {
+      const fakeCart = { id: 1, name: 'category1', orderProducts: [{id: 1}] };
+      mockAxios.onDelete(`/api/cart`).replyOnce(204);
+      return store.dispatch(removeCartItem(fakeCart.id, fakeCart.orderProducts[0].id))
         .then(() => {
           const actions = store.getActions();
-          expect(actions[0].type).to.be.equal('DELETE_CATEGORY');
+          expect(actions[0].type).to.be.equal('REMOVE_CART_ITEM');
         });
     });
   });
