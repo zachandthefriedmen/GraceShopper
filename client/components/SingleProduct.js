@@ -12,6 +12,7 @@ class SingleProduct extends Component {
   constructor(props){
     super(props);
     this.addToCartClick = this.addToCartClick.bind(this);
+    this.item = {};
   }
 
   componentDidMount() {
@@ -23,31 +24,31 @@ class SingleProduct extends Component {
     let quant = event.target.number.value;
 
     if (this.props.cart.order) {
-      this.props.editCart(this.props.cart.order.id, this.props.product.id, this.props.product.price, +quant);
+      this.props.editCart(this.props.cart.order.id, this.item.id, this.item.price, +quant);
     } else {
-      this.props.newCart(this.props.product.id, this.props.product.price, +quant);
+      this.props.newCart(this.item.id, this.item.price, +quant);
     }
   }
 
   render() {
     if (!this.props.product.length) return (<div />);
     let thisItem = this.props.product.filter(item => item.id === +this.props.match.params.id);
-    thisItem = thisItem[0];
+    this.item = thisItem[0];
 
     return (
       <div className="container">
         <div className="row">
           <div id="LeftText" className="jumbotron col-md-5">
-            <h1 className="display-3">{thisItem.name}</h1>
-            <p className="lead">{thisItem.rating}</p>
-            <p className="lead">{thisItem.price}</p>
+            <h1 className="display-3">{this.item.name}</h1>
+            <p className="lead">{this.item.rating}</p>
+            <p className="lead">{this.item.price}</p>
             <form onSubmit={this.addToCartClick}>
               <input id="number" type="number" min="1" max="50" defaultValue="1" />
               <button className="btn btn-primary" type="submit">Add To Cart</button>
             </form>
             <hr className="my-2" />
             <p>Category</p>
-            <p>{thisItem.description}</p>
+            <p>{this.item.description}</p>
           </div>
           <div className="col-md-7">
             <img src="http://www.placecage.com/400/600" />
