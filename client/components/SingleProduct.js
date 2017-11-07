@@ -39,7 +39,7 @@ class SingleProduct extends Component {
       userId: this.props.user.id,
       productId: +this.props.match.params.id
     };
-    
+
     this.props.createNewReview(review);
   }
 
@@ -95,18 +95,22 @@ class SingleProduct extends Component {
               </div>
             );
           })}
-          <div>
-            <h3>Leave a Review:</h3>
-            <form onSubmit={this.createNewReview}>
-              <label>Stars</label>
-              <input type="number" name="stars" placeholder={5} />
-              <label>Title</label>
-              <input type="text" name="title" placeholder="title" />
-              <label>Body</label>
-              <input type="text" name="body" placeholder="body" />
-              <input type="submit" name="submit" />
-            </form>
-          </div>
+
+          {Object.keys(this.props.user).length ? (
+            <div>
+              <h3>Leave a Review:</h3>
+              <form onSubmit={this.createNewReview}>
+                <label>Stars</label>
+                <input type="number" name="stars" placeholder={5} />
+                <label>Title</label>
+                <input type="text" name="title" placeholder="title" />
+                <label>Body</label>
+                <input type="text" name="body" placeholder="body" />
+                <input type="submit" name="submit" />
+              </form>
+          </div> ) : <div />
+          }
+
         </div>
       </div>
     );
