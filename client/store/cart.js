@@ -64,8 +64,12 @@ export const updateCart = (orderId, productId, price, quantity) => async dispatc
 
 export const removeItem = (orderId, productId) => async dispatch => {
   try {
+    const cart = await axios.get('/api/cart/');
+
+    cart.orderProducts.filter(op => op['order-product'].productId !== productId); //optimisitic
     const res = await axios.delete(`/api/cart/orderProduct`, { orderId, productId });
-    dispatch(removeCartItem(res.data));
+
+    if (res.status === 200) dispatch(removeCartItem(cart));
   }
   catch (err) { console.error('Removing order product unsuccessful', err); }
 };
