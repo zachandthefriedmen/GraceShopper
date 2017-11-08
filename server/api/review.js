@@ -43,10 +43,9 @@ router.put('/:id', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    let review = await Review.create(req.body.review);
-    review.setUser(req.body.userId);
-    review.setProduct(req.body.productId);
-    res.json(review); }
+    let review = await Review.create(req.body);
+    let loadedReview = await Review.findById(review.id, {include: [User]});
+    res.json(loadedReview); }
   catch (err) { next(err); }
 });
 

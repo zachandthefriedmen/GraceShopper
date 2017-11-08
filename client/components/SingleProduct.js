@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchReviewsForProduct, updateCart, makeNewCart } from '../store';
+import { fetchReviewsForProduct, updateCart, makeNewCart, createReview } from '../store';
 
 /**
  * COMPONENT
  */
 class SingleProduct extends Component {
-  // Leftover code from user-home.js (component this was based off of) in case someone else needs it later
-  // const {email} = props
   constructor(props) {
     super(props);
     this.addToCartClick = this.addToCartClick.bind(this);
@@ -29,6 +27,20 @@ class SingleProduct extends Component {
     } else {
       this.props.newCart(this.item.id, this.item.price, +quant);
     }
+  }
+
+  createNewReview = (event) => {
+    event.preventDefault();
+
+    let review = {
+      title: event.target.title.value,
+      body: event.target.body.value,
+      stars: +event.target.stars.value,
+      userId: this.props.user.id,
+      productId: +this.props.match.params.id
+    };
+
+    this.props.createNewReview(review);
   }
 
   render() {
@@ -81,8 +93,24 @@ class SingleProduct extends Component {
                 <p> A review by <a href={'mailto:' + review.user.email}>{review.user.fullName}</a></p>
                 <p>{review.body}</p>
               </div>
-                );
+            );
           })}
+
+          {Object.keys(this.props.user).length ? (
+            <div>
+              <h3>Leave a Review:</h3>
+              <form onSubmit={this.createNewReview}>
+                <label>Stars</label>
+                <input type="number" name="stars" placeholder={5} />
+                <label>Title</label>
+                <input type="text" name="title" placeholder="title" />
+                <label>Body</label>
+                <input type="text" name="body" placeholder="body" />
+                <input type="submit" name="submit" />
+              </form>
+          </div> ) : <div />
+          }
+
         </div>
       </div>
     );
@@ -94,23 +122,27 @@ class SingleProduct extends Component {
  */
 const mapState = (state) => {
   return {
-            cart: state.cart,
+    cart: state.cart,
     product: state.product,
-    reviews: state.review
+    reviews: state.review,
+    user: state.user
   };
 };
 
 const mapDispatch = (dispatch) => {
   return {
-            editCart: (cartId, productId, productPrice, quantity) => {
-            dispatch(updateCart(cartId, productId, productPrice, quantity));
-          },
+    editCart: (cartId, productId, productPrice, quantity) => {
+      dispatch(updateCart(cartId, productId, productPrice, quantity));
+    },
     newCart: (productId, productPrice, quantity) => {
-            dispatch(makeNewCart(productId, productPrice, quantity));
-          },
+      dispatch(makeNewCart(productId, productPrice, quantity));
+    },
     getReviews: (id) => {
-            dispatch(fetchReviewsForProduct(id));
-          }
+      dispatch(fetchReviewsForProduct(id));
+    },
+    createNewReview: (review, userId, productId) => {
+      dispatch(createReview(review, userId, productId));
+    }
   };
 };
 
