@@ -11,9 +11,8 @@ export const LandingPage = (props) => {
       <div className="row">
         <div id="leftWell" className="jumbotron col-md-5">
           <h1 className="display-3">Welcome to the Bazaar.</h1>
-          <p className="lead">Bento says, 'make yourself at home.'</p>
           <hr className="my-2" />
-          <p>Placeholder text.</p>
+          <p className="lead">Bento says, 'make yourself at home.'</p>
         </div>
 
         <div id="rightImage" className="col-md-7">
